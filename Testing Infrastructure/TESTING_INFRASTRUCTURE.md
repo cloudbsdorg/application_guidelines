@@ -238,7 +238,25 @@ sudo pkg -c /zroot/jail/base install -y git cmake python3 py39-pytest curl
 sudo zfs snapshot zroot/jail/base@golden
 ```
 
-#### 4.2.2 Jail Lifecycle Script
+#### 4.2.2 Jail Host Verification
+
+Before creating jails, verify that the host environment is actually FreeBSD. AI agents and orchestration scripts may run on containerized or remote hosts that do not match the target jail platform.
+
+```sh
+# Verify actual host OS — do not trust language runtime or container reports
+uname -s
+# Expected output: FreeBSD
+
+# Verify jail support is available
+sysctl security.jail.jailed
+# Expected: security.jail.jailed: 0 (host is not itself jailed)
+```
+
+**Mandatory checks:**
+- **Always run `uname -s`** to confirm the host OS before executing platform-specific commands.
+- **Never assume the environment** reported by Python `platform.system()`, Node `os.platform()`, or similar abstractions is accurate.
+
+#### 4.2.3 Jail Lifecycle Script
 
 ```sh
 #!/bin/sh
@@ -278,7 +296,7 @@ sudo jail -r "${JAIL_NAME}"
 sudo zfs destroy "zroot/jail/${JAIL_NAME}"
 ```
 
-#### 4.2.3 Jail Output Collection
+#### 4.2.4 Jail Output Collection
 
 | Output Type | Collection Method | Purpose |
 |-------------|------------------|---------|
