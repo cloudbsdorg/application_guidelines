@@ -179,6 +179,24 @@ bhyve VMs must have console output captured for AI agent analysis:
 | Crash dumps | Copy from `/var/crash` inside VM image | Post-mortem analysis with `kgdb` |
 | Network capture | `tcpdump` on host tap interface | Protocol-level verification |
 
+#### 4.1.4 Build Performance Best Practices
+
+When building the FreeBSD kernel, world, or large software projects inside VMs or on the host, always use parallel compilation with the `-j` flag. Building large items single-threaded severely impacts performance and test cycle time.
+
+```sh
+# Determine the number of CPUs and use it for parallel builds
+make -j$(sysctl -n hw.ncpu) buildworld
+make -j$(sysctl -n hw.ncpu) buildkernel
+
+# For kernel module builds inside a test VM
+cd /usr/src
+make -j$(sysctl -n hw.ncpu) buildkernel KERNCONF=CLOUDBSD
+```
+
+- **Always specify `-j`**: Never run `make buildworld`, `make buildkernel`, or large compilations without the `-j` flag.
+- **Match to available vCPUs**: Use `-j$(sysctl -n hw.ncpu)` to automatically match the job count to the VM's allocated CPUs.
+- **CI pipelines**: Ensure CI configurations set `VM_CPUS` high enough to benefit from parallel builds.
+
 ### 4.2 FreeBSD Jail Testing Environment
 
 #### 4.2.1 Jail Template Preparation
