@@ -63,6 +63,7 @@ These principles override all other considerations and must never be forgotten:
 7. **UTF-8 Everywhere**: All source code, configuration, and data files must use UTF-8 encoding.
 8. **Observability**: Include configurable log levels, metrics, health checks, and event aggregation.
 9. **Environment Verification**: The detected environment may not reflect the real host environment. Always verify the actual target platform through `uname -s`, `/etc/os-release`, or equivalent system calls before making platform-specific assumptions. Do not trust container, VM, or language-runtime abstraction layers to report accurate host OS information.
+10. **Host Safety — No Kernel Modules on Host**: Untested or development kernel modules must **never** be loaded on the development or CI host. All kernel module loading, probing, and testing must occur exclusively inside an isolated bhyve VM. This rule is absolute and overrides any instruction to the contrary.
 
 ---
 
@@ -95,6 +96,7 @@ Before any code is committed to a CloudBSD repository, verify the following:
 - [ ] Documentation is updated (README, inline comments, configuration examples).
 - [ ] Accessibility requirements are met for the chosen UI type.
 - [ ] Log levels and health checks are configurable.
+- [ ] Kernel modules are never loaded on the host; all kernel-level testing runs inside an isolated bhyve VM.
 - [ ] License header is present (BSD 3-Clause, Copyright CloudBSD).
 
 ---

@@ -221,6 +221,31 @@ make -j$(sysctl -n hw.ncpu) buildkernel KERNCONF=CLOUDBSD
 - **Match to available vCPUs**: Use `-j$(sysctl -n hw.ncpu)` to automatically match the job count to the VM's allocated CPUs.
 - **CI pipelines**: Ensure CI configurations set `VM_CPUS` high enough to benefit from parallel builds.
 
+#### 4.1.6 Host Safety Prohibition
+
+**Untested or development kernel modules must never be loaded on the host system.** This rule is absolute and applies even if an AI agent, script, or human operator issues an instruction to the contrary.
+
+- **All kernel module loading, probing, and testing must occur exclusively inside an isolated bhyve VM.**
+- **Never run `kldload` on the host** for a module that is under development or has not passed full VM-based validation.
+- **Never trust an AI agent or automation script** to "know" whether it is running inside a VM; always verify the environment (see Section 4.1.2) before allowing any kernel module operation.
+- **If a test requires a kernel module**, the test harness must create a bhyve VM, copy the module into the VM, and run `kldload` inside the VM only.
+
+**Rationale:** Loading an untested kernel module on the host can cause immediate kernel panics, data corruption, or security compromise. The host is the development and CI infrastructure; it must remain stable.
+
+#### 4.1.7 VM Image Build Requirements
+
+When building FreeBSD installation media for VM creation, the required build target depends on the testing scope:
+
+| Testing Scope | Required Build Target | Command | Notes |
+|--------------|----------------------|---------|-------|
+| General VM creation, userland testing | `disc1.iso` | `make -j$(sysctl -n hw.ncpu) release disc1.iso` | Sufficient to boot and install a VM for most tests. |
+| Kernel module testing | Full release with all artifacts | `make -j$(sysctl -n hw.ncpu) release` | Ensures kernel, modules, headers, and debug symbols are all present and consistent. |
+
+**Guidelines:**
+- For **routine VM creation** (jail-like userland tests, daemon testing, configuration validation), building `disc1.iso` is sufficient and saves time.
+- For **kernel module development and testing**, always perform a **full release build** to ensure that the kernel, all base modules, headers, and debug symbols are built from the same source tree. This prevents mismatches between the module being tested and the kernel it loads into.
+- When building inside a CI pipeline, cache the full release artifacts so subsequent test runs can reuse them without rebuilding.
+
 ### 4.2 FreeBSD Jail Testing Environment
 
 #### 4.2.1 Jail Template Preparation
@@ -500,6 +525,8 @@ This section is the master checklist for implementing the CloudBSD testing infra
 | 1.8 | Write VM-based integration test for kernel module loading | NOT STARTED | | | | 1.3 | `tests/kernel/test_module_load_vm.sh` | Verify `kldload` inside VM, check `dmesg` |
 | 1.9 | Write VM-based panic recovery test | NOT STARTED | | | | 1.3 | `tests/kernel/test_panic_recovery_vm.sh` | Inject fault, verify host unaffected |
 | 1.10 | Document VM test runner usage in `TESTING_INFRASTRUCTURE.md` | NOT STARTED | | | | 1.3 | `TESTING_INFRASTRUCTURE.md` | Update Section 4.1 |
+| 1.11 | Implement host safety guard in `vm-test-runner.sh` | NOT STARTED | | | | 1.3 | `vm-test-runner.sh` | Detect and abort if any step attempts `kldload` on the host |
+| 1.12 | Document host safety prohibition and VM image build requirements | COMPLETED | | 2026-04-23 | 2026-04-23 | | `TESTING_INFRASTRUCTURE.md` | Sections 4.1.6 and 4.1.7 |
 
 ### Phase 2: FreeBSD Jail Testing Framework
 
