@@ -41,6 +41,13 @@ If you are new to CloudBSD development, follow these steps:
 3.  **Plan your UI**: Choose between [TUI](TUI/TUI.md) and [Web UI](Web%20User%20Interfaces/WEBUI.md) based on your application's needs.
 4.  **Implement Testing**: Ensure your project follows the [Unit Testing Standards](Unit%20Testing/UNITTESTS.md) from the start.
 
+## 🤖 AI-Assisted Development
+
+When using AI tools (e.g., GitHub Copilot, Claude, ChatGPT) to generate code for CloudBSD projects, always start by loading the initialization prompt:
+
+- [**INIT_PROMPT.md**](INIT_PROMPT.md)
+  - The mandatory system prompt to inject into any AI session. It ensures the AI remembers the CloudBSD standards, the mandatory git author, and the target platform (FreeBSD).
+
 ## 🎯 Purpose
 
 The goal of these guidelines is to provide a clear roadmap for developers, ensuring that every application—whether it's a low-level system tool or a complex web service—follows the same core principles of CloudBSD development.
