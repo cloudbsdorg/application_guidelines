@@ -108,7 +108,31 @@ sudo pkg -c /zroot/vm/base install -y git cmake python3 py39-pytest
 sudo zfs snapshot zroot/vm/base@golden
 ```
 
-#### 4.1.2 VM Lifecycle Script
+#### 4.1.2 Host Environment Verification
+
+Before creating or starting bhyve VMs, verify that the host environment is actually FreeBSD and that VMM support is available. AI agents and automated scripts may incorrectly detect the host OS when running inside containers, jails, or over SSH sessions.
+
+```sh
+# Verify actual host OS — do not trust language runtime or container reports
+uname -s
+# Expected output: FreeBSD
+
+# Verify VMM kernel module is loaded
+kldstat | grep vmm
+# If empty, load it:
+sudo kldload vmm
+
+# Verify hardware virtualization support
+sysctl hw.vmm
+# Expected: hw.vmm: 1
+```
+
+**Mandatory checks:**
+- **Always run `uname -s`** to confirm the host OS before executing platform-specific commands.
+- **Always verify `vmm` is loaded** with `kldstat | grep vmm` before invoking `bhyve` or `vm-bhyve`.
+- **Never assume the environment** reported by Python `platform.system()`, Node `os.platform()`, or similar abstractions is accurate.
+
+#### 4.1.3 VM Lifecycle Script
 
 ```sh
 #!/bin/sh

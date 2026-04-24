@@ -62,6 +62,7 @@ These principles override all other considerations and must never be forgotten:
 6. **Accessibility**: All interfaces must be keyboard-navigable and meet WCAG 2.1 Level AA (for Web UI) or equivalent TUI accessibility.
 7. **UTF-8 Everywhere**: All source code, configuration, and data files must use UTF-8 encoding.
 8. **Observability**: Include configurable log levels, metrics, health checks, and event aggregation.
+9. **Environment Verification**: The detected environment may not reflect the real host environment. Always verify the actual target platform through `uname -s`, `/etc/os-release`, or equivalent system calls before making platform-specific assumptions. Do not trust container, VM, or language-runtime abstraction layers to report accurate host OS information.
 
 ---
 
