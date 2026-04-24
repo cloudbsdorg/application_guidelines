@@ -21,6 +21,8 @@ The fundamental building blocks of every CloudBSD application.
   - Ensuring global accessibility and localizability for all users.
 - [**Unit Testing**](Unit%20Testing/UNITTESTS.md)
   - Standards for code reliability, testing practices, and CI integration.
+- [**Testing Infrastructure**](Testing%20Infrastructure/TESTING_INFRASTRUCTURE.md)
+  - VMM/bhyve VMs and FreeBSD jails for safe, isolated kernel and userland testing.
 
 ### 🖼️ User Interfaces
 Guidelines for building interfaces that follow the CloudBSD aesthetic and usability standards.

@@ -54,6 +54,23 @@ else
 fi
 echo ""
 
+# Check 4: Testing Infrastructure/TESTING_INFRASTRUCTURE.md starts with a Level 1 header
+echo "[Check 4] TESTING_INFRASTRUCTURE.md Level 1 header..."
+if [ -f "Testing Infrastructure/TESTING_INFRASTRUCTURE.md" ]; then
+    FIRST_LINE=$(head -n 1 "Testing Infrastructure/TESTING_INFRASTRUCTURE.md")
+    if echo "$FIRST_LINE" | grep -qE '^# .+'; then
+        echo "  PASS: TESTING_INFRASTRUCTURE.md starts with a Level 1 header."
+    else
+        echo "  FAIL: TESTING_INFRASTRUCTURE.md does not start with a Level 1 header."
+        echo "    First line: $FIRST_LINE"
+        ERRORS=$((ERRORS + 1))
+    fi
+else
+    echo "  FAIL: TESTING_INFRASTRUCTURE.md not found."
+    ERRORS=$((ERRORS + 1))
+fi
+echo ""
+
 # Summary
 echo "======================================="
 if [ "$ERRORS" -eq 0 ]; then

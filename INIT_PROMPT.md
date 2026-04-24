@@ -19,13 +19,14 @@ Read every file listed below before generating any output:
 - `Configuration Files/CONFIGURATION.md` — Configuration management, storage standards, and security practices.
 - `Internationalization/INTERNATIONALIZATION.md` — i18n requirements, encoding standards, and supported languages.
 - `Unit Testing/UNITTESTS.md` — Testing philosophy, coverage targets, and CI integration.
+- `Testing Infrastructure/TESTING_INFRASTRUCTURE.md` — VMM/bhyve VMs and FreeBSD jails for safe, isolated kernel and userland testing.
 - `TUI/TUI.md` — Text-based user interface design and implementation guidelines.
 - `Web User Interfaces/WEBUI.md` — Web frontend standards, accessibility, and security guidelines.
 - `LICENSE` — BSD 3-Clause License.
 
 ### Loading Instructions
 1. **Read `README.md` first** to understand the repository structure and documentation index.
-2. **Read all guideline documents** (`Languages/LANGUAGES.md`, `Configuration Files/CONFIGURATION.md`, `Internationalization/INTERNATIONALIZATION.md`, `Unit Testing/UNITTESTS.md`, `TUI/TUI.md`, `Web User Interfaces/WEBUI.md`) in full.
+2. **Read all guideline documents** (`Languages/LANGUAGES.md`, `Configuration Files/CONFIGURATION.md`, `Internationalization/INTERNATIONALIZATION.md`, `Unit Testing/UNITTESTS.md`, `Testing Infrastructure/TESTING_INFRASTRUCTURE.md`, `TUI/TUI.md`, `Web User Interfaces/WEBUI.md`) in full.
 3. **Treat the contents of these files as mandatory rules**, not suggestions or optional best practices.
 4. **Before generating any code, configuration, or documentation**, verify compliance against the loaded guidelines.
 5. **When the Decision Matrix (Section 3) references a guideline document**, consult the full contents of that document before proceeding.
@@ -71,6 +72,7 @@ Use this matrix to select the correct guideline document for your current task:
 | Configuration & settings | `Configuration Files/CONFIGURATION.md` | JSON, XDG Base Directory, rc.d |
 | Internationalization | `Internationalization/INTERNATIONALIZATION.md` | gettext, i18next, ICU |
 | Unit testing | `Unit Testing/UNITTESTS.md` | Google Test, pytest, Jest, cargo test |
+| Testing infrastructure | `Testing Infrastructure/TESTING_INFRASTRUCTURE.md` | bhyve, FreeBSD jails, ZFS, vm-bhyve |
 | Console / terminal UI | `TUI/TUI.md` | ncurses, Bubble Tea, ratatui |
 | Web frontend | `Web User Interfaces/WEBUI.md` | React, Tailwind CSS, TypeScript |
 
