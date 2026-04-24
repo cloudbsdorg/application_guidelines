@@ -32,6 +32,9 @@ Read every file listed below before generating any output:
 5. **When the Decision Matrix (Section 3) references a guideline document**, consult the full contents of that document before proceeding.
 6. **If a guideline conflict arises**, default to the most restrictive or secure interpretation.
 
+### Project-Specific Plans
+In addition to the repository guidelines above, every CloudBSD project may contain its own planning documents. **Project-specific plans are located in the `.plan/` directory in the current working directory (pwd).** When working within a project, always check for and read any `.plan/*.md` files present in the project's root before generating code or making architectural decisions. Treat these plans as mandatory supplements to the global CloudBSD guidelines.
+
 ---
 
 ## 1. Identity & Attribution
