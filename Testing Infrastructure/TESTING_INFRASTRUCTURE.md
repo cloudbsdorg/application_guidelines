@@ -191,7 +191,7 @@ sudo zfs destroy "zroot/vm/${VM_NAME}"
 exit ${TEST_EXIT}
 ```
 
-#### 4.1.3 Console Output Collection
+#### 4.1.4 Console Output Collection
 
 bhyve VMs must have console output captured for AI agent analysis:
 
@@ -203,7 +203,7 @@ bhyve VMs must have console output captured for AI agent analysis:
 | Crash dumps | Copy from `/var/crash` inside VM image | Post-mortem analysis with `kgdb` |
 | Network capture | `tcpdump` on host tap interface | Protocol-level verification |
 
-#### 4.1.4 Build Performance Best Practices
+#### 4.1.5 Build Performance Best Practices
 
 When building the FreeBSD kernel, world, or large software projects inside VMs or on the host, always use parallel compilation with the `-j` flag. Building large items single-threaded severely impacts performance and test cycle time.
 
