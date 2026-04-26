@@ -71,6 +71,23 @@ else
 fi
 echo ""
 
+# Check 5: Planning/PLANNING.md starts with a Level 1 header
+echo "[Check 5] PLANNING.md Level 1 header..."
+if [ -f "Planning/PLANNING.md" ]; then
+    FIRST_LINE=$(head -n 1 "Planning/PLANNING.md")
+    if echo "$FIRST_LINE" | grep -qE '^# .+'; then
+        echo "  PASS: PLANNING.md starts with a Level 1 header."
+    else
+        echo "  FAIL: PLANNING.md does not start with a Level 1 header."
+        echo "    First line: $FIRST_LINE"
+        ERRORS=$((ERRORS + 1))
+    fi
+else
+    echo "  FAIL: PLANNING.md not found."
+    ERRORS=$((ERRORS + 1))
+fi
+echo ""
+
 # Summary
 echo "======================================="
 if [ "$ERRORS" -eq 0 ]; then

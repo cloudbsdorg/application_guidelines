@@ -23,6 +23,8 @@ The fundamental building blocks of every CloudBSD application.
   - Standards for code reliability, testing practices, and CI integration.
 - [**Testing Infrastructure**](Testing%20Infrastructure/TESTING_INFRASTRUCTURE.md)
   - VMM/bhyve VMs and FreeBSD jails for safe, isolated kernel and userland testing.
+- [**Planning**](Planning/PLANNING.md)
+  - Standards for `.plan/` directories, task tracking, and multi-agent coordination in all CloudBSD projects.
 
 ### 🖼️ User Interfaces
 Guidelines for building interfaces that follow the CloudBSD aesthetic and usability standards.
@@ -40,8 +42,9 @@ If you are new to CloudBSD development, follow these steps:
 
 1.  **Read the Core Standards**: Start with [Programming Languages](Languages/LANGUAGES.md) to choose the right tool for your project.
 2.  **Understand Configuration**: Review the [Configuration Guidelines](Configuration%20Files/CONFIGURATION.md) to ensure your app integrates well with the system.
-3.  **Plan your UI**: Choose between [TUI](TUI/TUI.md) and [Web UI](Web%20User%20Interfaces/WEBUI.md) based on your application's needs.
-4.  **Implement Testing**: Ensure your project follows the [Unit Testing Standards](Unit%20Testing/UNITTESTS.md) from the start.
+3.  **Plan your Project**: Follow the [Planning Guidelines](Planning/PLANNING.md) to set up your `.plan/` directory and task tracking before writing code.
+4.  **Plan your UI**: Choose between [TUI](TUI/TUI.md) and [Web UI](Web%20User%20Interfaces/WEBUI.md) based on your application's needs.
+5.  **Implement Testing**: Ensure your project follows the [Unit Testing Standards](Unit%20Testing/UNITTESTS.md) from the start.
 
 ## 🤖 AI-Assisted Development
 
