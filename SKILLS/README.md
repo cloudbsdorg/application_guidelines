@@ -23,6 +23,9 @@ This directory contains AI skills for CloudBSD project development.
 | [reverse-engineer-for-port](reverse-engineer-for-port.md) | Analyze source code to understand actual behavior | When porting applications |
 | [feature-task-generator](feature-task-generator.md) | Generate tasks from feature analysis | After reverse-engineering analysis |
 | [code-quality-analyzer](code-quality-analyzer.md) | Find duplication and plan refactoring | When reviewing ported code quality |
+| [ui-ux-analyzer](ui-ux-analyzer.md) | Document UI objects, states, actions, and data flow | When analyzing interfaces for implementation |
+| [api-analyzer](api-analyzer.md) | Document REST endpoints, HTTP protocols, request/response formats | When analyzing APIs for implementation |
+| [message-queue-analyzer](message-queue-analyzer.md) | Document message brokers, queues, pub/sub patterns, event streaming | When analyzing queue systems (RabbitMQ, Kafka, MQTT, etc.) |
 
 ## Skill Invocation Format
 
@@ -82,6 +85,12 @@ reverse-engineer-for-port
      └──► feature-task-generator
                │
                └──► code-quality-analyzer (optional - for refactoring backlog)
+
+ui-ux-analyzer (standalone - analyzes UI for implementation)
+
+api-analyzer (standalone - analyzes REST APIs and HTTP protocols)
+
+message-queue-analyzer (standalone - analyzes message brokers and queues)
 ```
 
 ## Skill Categories
@@ -116,6 +125,9 @@ These skills analyze and port applications from one language/framework to anothe
 - `reverse-engineer-for-port` — Analyze actual code behavior (entry points, features, dead code)
 - `feature-task-generator` — Generate porting tasks from feature analysis
 - `code-quality-analyzer` — Identify duplication and plan refactoring after porting
+- `ui-ux-analyzer` — Document UI objects, states, actions, and data flow
+- `api-analyzer` — Document REST endpoints, HTTP protocols, request/response formats
+- `message-queue-analyzer` — Document message brokers, queues, pub/sub patterns, event streaming
 
 ## Skill Conventions
 
@@ -209,6 +221,9 @@ quick-reference-generator
 reverse-engineer-for-port
 feature-task-generator
 code-quality-analyzer
+ui-ux-analyzer
+api-analyzer
+message-queue-analyzer
 ===END SKILL===
 ```
 
