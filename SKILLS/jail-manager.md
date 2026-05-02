@@ -1,6 +1,6 @@
 # Skill: jail-manager
 
-**Purpose:** Create, configure, start, stop, and manage FreeBSD jails using common tools like `jail(8)`, `ezjail`, `iocage`, and ` bastille`.
+**Purpose:** Create, configure, start, stop, and manage FreeBSD jails using common tools like `jail(8)`, `ezjail`, `iocage`, `bastille`, and `pot` (Prison on Trust).
 
 **Triggers:** When setting up FreeBSD jails, managing isolated environments, or documenting jail configurations.
 
@@ -28,7 +28,7 @@ Load this skill when the user asks you to:
 | Isolation | Separate filesystem, process, network space |
 | Overhead | Very low (kernel-level) |
 | Guest OS | FreeBSD only |
-| Tools | jail(8), ezjail, iocage, bastille |
+| Tools | jail(8), ezjail, iocage, bastille, pot |
 
 ## Jail vs Other Virtualization
 
@@ -338,9 +338,108 @@ sudo bastille template jail1 /path/to/template
 
 ---
 
-## 6. Jail Networking
+## 6. pot (Prison on Trust)
 
-### 6.1 Virtual Networking (epair)
+### 6.1 Overview
+
+```markdown
+## pot (Prison on Trust)
+
+| Aspect | Description |
+|--------|-------------|
+| Type | Jail management framework |
+| Style | Simple, chef-like recipes |
+| ZFS | Native ZFS support |
+| Unique | Uses "flavors" for customization |
+
+## pot vs Other Jail Managers
+
+| Feature | pot | iocage | bastille |
+|---------|-----|--------|----------|
+| ZFS integration | Native | Yes | Optional |
+| Flavors | Yes | Templates | Templates |
+| Learning curve | Low | Medium | Medium |
+| Native ZFS snapshots | Yes | Yes | Via rc.d |
+
+### 6.2 Installation and Setup
+
+```bash
+# Install pot
+sudo pkg install pot
+
+# Initialize pot
+sudo pot init
+
+# Configure pot
+# Edit /usr/local/etc/pot.conf
+```
+
+### 6.3 Managing Jails with pot
+
+```bash
+# Create jail
+sudo pot create -p myjail -t 14.0-RELEASE -N public
+
+# Start jail
+sudo pot start myjail
+
+# Stop jail
+sudo pot stop myjail
+
+# List jails
+sudo pot list
+
+# Console access
+sudo pot console myjail
+
+# Delete jail
+sudo pot destroy myjail
+```
+
+### 6.4 pot Flavors
+
+```bash
+# Flavors are customization scripts
+# Create flavor: /usr/local/etc/pot/flavors/myflavor.sh
+#!/bin/sh
+pkg install -y nginx
+sysrc nginx_enable="YES"
+
+# Apply flavor to jail
+sudo pot create -p webjail -t 14.0-RELEASE -f myflavor -N public
+
+# List available flavors
+ls /usr/local/etc/pot/flavors/
+```
+
+### 6.5 pot Commands Reference
+
+```bash
+# Jail lifecycle
+pot create -p <name> -t <release> [options]
+pot start <jail>
+pot stop <jail>
+pot restart <jail>
+pot destroy <jail>
+
+# Information
+pot list
+pot info <jail>
+pot console <jail>
+
+# Snapshots (ZFS)
+pot snapshot -p <jail> -s <snap>
+pot rollback -p <jail> -s <snap>
+
+# Networking
+pot networking <jail>  # Show IP config
+```
+
+---
+
+## 7. Jail Networking
+
+### 7.1 Virtual Networking (epair)
 
 ```bash
 # Create epair interface pair
@@ -362,7 +461,7 @@ ezjail-admin create -c epair jail1 'epair0b|10.0.0.1/24'
 sudo iocage create -n jail1 ip4_addr="epair0b|10.0.0.1/24"
 ```
 
-### 6.2 NAT for Jails
+### 7.2 NAT for Jails
 
 ```bash
 # /etc/pf.conf for NAT
@@ -379,9 +478,9 @@ sudo pfctl -e
 
 ---
 
-## 7. Jail Management Task Template
+## 8. Jail Management Task Template
 
-### 7.1 Create Production Jail
+### 8.1 Create Production Jail
 
 ```markdown
 ## Task: Create Production Jail

@@ -32,6 +32,12 @@ This directory contains AI skills for CloudBSD project development.
 | [file-system-analyzer](file-system-analyzer.md) | Document paths, permissions, locking, extended attributes | When analyzing file system dependencies |
 | [privilege-analyzer](privilege-analyzer.md) | Document UID/GID, capabilities, ACLs, chroot, securelevel | When analyzing privilege requirements |
 | [source-analysis-orchestrator](source-analysis-orchestrator.md) | Coordinate all analysis skills for pre-planning | When starting a new project or porting |
+| [bhyve-manager](bhyve-manager.md) | Create and manage bhyve VMs with vm-bhyve | When setting up FreeBSD VMs |
+| [jail-manager](jail-manager.md) | Manage FreeBSD jails with iocage, bastille, pot | When creating jail environments |
+| [zfs-manager](zfs-manager.md) | ZFS pool management, snapshots, safety rules | When managing ZFS storage |
+| [linuxulator-runner](linuxulator-runner.md) | Run Linux binaries on FreeBSD with Linuxulator | When running Linux binaries on FreeBSD |
+| [rc-script-writer](rc-script-writer.md) | Write FreeBSD rc.d startup scripts | When creating new services |
+| [service-manager](service-manager.md) | Manage FreeBSD services with rc.d and sysrc | When managing running services |
 
 ## Skill Invocation Format
 
@@ -168,6 +174,16 @@ These skills analyze OS-level dependencies for cross-platform porting:
 
 ### Analysis Orchestration
 - `source-analysis-orchestrator` — Coordinate all analysis skills for pre-planning
+
+### FreeBSD System Administration
+These skills manage FreeBSD-specific virtualization and service management:
+
+- `bhyve-manager` — Create and manage bhyve VMs with vm-bhyve framework
+- `jail-manager` — Manage FreeBSD jails with iocage, bastille, pot
+- `zfs-manager` — ZFS pool management, snapshots, and safety rules
+- `linuxulator-runner` — Run Linux binaries on FreeBSD using Linux compatibility layer
+- `rc-script-writer` — Write FreeBSD rc.d startup scripts following conventions
+- `service-manager` — Manage FreeBSD services with service command and sysrc
 
 ## Pre-Planning Analysis Workflow
 
