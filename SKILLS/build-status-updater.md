@@ -14,12 +14,12 @@ Load this skill when the user asks you to:
 
 ## File Location
 
-The `build-status.md` file lives in the `.plan/` directory:
+The `0002-<Project>-Build-Status.md` file lives in the `.plan/` directory:
 
 ```
 <project-root>/
 ├── .plan/
-│   ├── build-status.md    <-- This file
+│   ├── 0002-<Project>-Build-Status.md    <-- This file
 │   └── ...
 ```
 
@@ -117,7 +117,7 @@ When status changes:
 1. Update the relevant component row
 2. Add entry to Recent Activity table
 3. Update "Last Updated" timestamp
-4. Commit: `git add .plan/build-status.md && git commit -m "Update build status: <component> <status>" && git push`
+4. Commit: `git add .plan/0002-<Project>-Build-Status.md && git commit -m "Update build status: <component> <status>" && git push`
 
 ## Artifact Registry
 

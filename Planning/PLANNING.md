@@ -1,7 +1,7 @@
 # Planning Guidelines for CloudBSD Projects
 
 **Document ID:** PLANNING-001
-**Version:** 2.1
+**Version:** 3.0
 **Last Updated:** 2026-05-02
 **Maintainer:** CloudBSD Architecture Team
 **Status:** ACTIVE
@@ -15,44 +15,51 @@ This document defines the standard for project planning in all CloudBSD reposito
 The `.plan/` directory serves as the single source of truth for:
 
 - **Project scope and architecture** — What is being built and why
+- **Security (MANDATORY)** — Threat models, access control, and architectural decisions
 - **Implementation roadmap** — Phased approach to delivery
 - **Task tracking** — Claimable, trackable work items with dependencies
-- **Security and design rationale** — Threat models, access control, and architectural decisions
 - **Multi-agent coordination** — Protocols for concurrent work on shared branches
 - **Risk management** — Identified risks with mitigations and contingencies
 - **Validation and testing** — Comprehensive test strategies and validation reports
 - **Operational guidance** — Tooling, examples, and troubleshooting resources
 
-### 1.2 Location
+### 1.2 Directory Layout
 
 Every CloudBSD project must have:
 
 ```
 <project-root>/
 ├── .plan/
-│   ├── 000-<Project>-TOC.md
-│   ├── 001-<Project>-Workflow.md
-│   ├── 100-<Project>-Overview.md
-│   ├── 101-<Project>-Current-Architecture.md
-│   ├── 200-<Project>-Architecture-Design.md
-│   ├── 300-<Project>-Implementation-Tasks.md
-│   ├── 301-<Project>-Component-Impl.md
-│   ├── 400-<Project>-Testing.md
-│   ├── 401-<Project>-Unit-Tests.md
-│   ├── 402-<Project>-Integration-Tests.md
-│   ├── 403-<Project>-Code-Validation.md
-│   ├── 500-<Project>-Governance.md
-│   ├── 501-<Project>-Sysctl-Interface.md
-│   ├── 600-<Project>-Alternative-Approaches.md
-│   ├── 601-<Project>-Tooling.md
-│   ├── 602-<Project>-Examples.md
-│   ├── 700-<Project>-Risks.md
-│   ├── 800-<Project>-Future-Enhancements.md
-│   ├── 900-<Project>-Validation.md
+│   ├── 0000-<Project>-TOC.md
+│   ├── 0001-<Project>-Workflow.md
+│   ├── 0100-<Project>-Security-Overview.md
+│   ├── 0101-<Project>-Security-ThreatModel.md
+│   ├── 0102-<Project>-Security-AccessControl.md
+│   ├── 0103-<Project>-Security-Emulator.md
+│   ├── 0104-<Project>-Security-Runtime.md
+│   ├── 0105-<Project>-Security-Additional.md
+│   ├── 0106-<Project>-Security-Implementation.md
+│   ├── 0200-<Project>-Overview.md
+│   ├── 0201-<Project>-Current-Architecture.md
+│   ├── 0210-<Project>-Architecture-Design.md
+│   ├── 0300-<Project>-Implementation-Tasks.md
+│   ├── 0301-<Project>-Kernel-Module.md
+│   ├── 0302-<Project>-Userland-Tools.md
+│   ├── 0400-<Project>-Testing.md
+│   ├── 0401-<Project>-Unit-Tests.md
+│   ├── 0402-<Project>-Integration-Tests.md
+│   ├── 0403-<Project>-Code-Validation.md
+│   ├── 0500-<Project>-Governance.md
+│   ├── 0501-<Project>-Sysctl-Interface.md
+│   ├── 0510-<Project>-Tooling.md
+│   ├── 0511-<Project>-Examples.md
+│   ├── 0600-<Project>-Alternative-Approaches.md
+│   ├── 0700-<Project>-Risks.md
+│   ├── 0800-<Project>-Future-Enhancements.md
+│   ├── 0900-<Project>-Validation.md
 │   ├── 1000-<Project>-Testing-Framework.md
 │   ├── 1100-<Project>-Documentation.md
 │   ├── 1101-<Project>-Testing-Scope.md
-│   ├── build-status.md
 │   └── AGENTS_START_HERE.md (optional)
 ├── README.md
 └── ...
@@ -60,69 +67,108 @@ Every CloudBSD project must have:
 
 The `.plan/` directory must be committed to version control and kept up to date.
 
-### 1.3 Mandatory Files
-
-| File | Purpose |
-|------|---------|
-| `000-<Project>-TOC.md` | Master table of contents linking all plan documents |
-| `001-<Project>-Workflow.md` | Task claiming, completion protocol, and multi-agent coordination |
-| `100-<Project>-Overview.md` | High-level architecture, implementation phases, and design principles |
-| `101-<Project>-Current-Architecture.md` | Current state analysis, bottleneck identification, and migration path |
-| `200-<Project>-Architecture-Design.md` | Detailed solution architecture with ASCII diagrams |
-| `300-<Project>-Implementation-Tasks.md` | Phase-by-phase implementation roadmap with task tables |
-| `400-<Project>-Testing.md` | Master testing strategy overview |
-| `401-<Project>-Unit-Tests.md` | Unit testing plan and coverage for core components |
-| `402-<Project>-Integration-Tests.md` | Integration and system-wide test scenarios |
-| `403-<Project>-Code-Validation.md` | Security audits, static analysis, and code quality checks |
-| `500-<Project>-Governance.md` | Auto-scaling, resource governance, and operational policies |
-| `501-<Project>-Sysctl-Interface.md` | Complete sysctl MIB hierarchy for configuration |
-| `600-<Project>-Alternative-Approaches.md` | Alternatives considered with trade-off analysis |
-| `601-<Project>-Tooling.md` | Management tools, CLI commands, and operational scripts |
-| `602-<Project>-Examples.md` | Example configurations for common scenarios |
-| `700-<Project>-Risks.md` | Risk register with probability, impact, and mitigations |
-| `800-<Project>-Future-Enhancements.md` | Planned enhancements and roadmap beyond current phase |
-| `900-<Project>-Validation.md` | Validation report and compliance verification |
-| `1000-<Project>-Testing-Framework.md` | Comprehensive test framework (e.g., C++ test harness) |
-| `1100-<Project>-Documentation.md` | Documentation plan for technical and user guides |
-| `1101-<Project>-Testing-Scope.md` | Detailed test case inventory with coverage matrix |
-
-## 2. Document Naming Convention
+### 1.3 Document Numbering
 
 Plan documents follow the `<Number>-<Project>-<Topic>.md` pattern:
 
-- **`<Number>`** — A multi-digit sequential number where the first digit(s) indicate the category:
-  - `0xx` — Meta documents (TOC, workflow, entry points)
-  - `1xx` — Overview and current architecture analysis
-  - `2xx` — Architecture and design
-  - `3xx` — Implementation details and component specifications
-  - `4xx` — Testing and validation (master and specific test plans)
-  - `5xx` — Governance, policy, and configuration interfaces (sysctl)
-  - `6xx` — Alternative approaches, tooling, and examples
-  - `7xx` — Risk management and mitigations
-  - `8xx` — Future enhancements and roadmap
-  - `9xx` — Validation reports and compliance
-  - `10xx` — Testing framework and test harness
-  - `11xx` — Documentation planning
-- **Numbering Rules**:
-  - Use 3 digits minimum for each section (e.g., `000`, `101`, `210`).
-  - Sub-sections use decimal notation within documents (e.g., `1.0.1`, `2.3.4`).
-  - If a section exceeds 999 documents, extend to 4 digits (e.g., `1000`, `1001`).
-- **`<Project>`** — Short project identifier (e.g., `Emulation`, `Guidelines`, `WebUI`, `PPPoE`)
-- **`<Topic>`** — Descriptive topic name using Title-Case with hyphens
+| Prefix | Category | Description |
+|--------|----------|-------------|
+| `0xxx` | Meta | TOC, workflow, entry points |
+| `1xxx` | **Security (MANDATORY)** | Threat model, access control, emulator security, runtime safety |
+| `2xxx` | Overview & Architecture | High-level architecture, current state, design |
+| `3xxx` | Implementation | Tasks, component specs |
+| `4xxx` | Testing | Unit, integration, validation |
+| `5xxx` | Operations | Governance, sysctls, tooling, examples |
+| `6xxx` | Alternatives | Alternatives considered, trade-offs |
+| `7xxx` | Risks | Risk register and mitigations |
+| `8xxx` | Future | Roadmap, enhancements |
+| `9xxx` | Validation | Validation reports |
+| `10xx` | Testing Framework | Test harness documentation |
+| `11xx` | Documentation | Documentation planning |
+
+**Numbering Rules:**
+- Use 4 digits for all document numbers (e.g., `0000`, `0100`, `0210`)
+- Sub-sections use decimal notation within documents (e.g., `1.0.1`, `2.3.4`)
+- The first digit indicates the major category, remaining digits for sequence
+
+### 1.4 Mandatory Files
+
+All projects must include these documents:
+
+#### Meta (Required)
+| File | Purpose |
+|------|---------|
+| `0000-<Project>-TOC.md` | Master table of contents |
+| `0001-<Project>-Workflow.md` | Task claiming and completion protocol |
+| `0002-<Project>-Build-Status.md` | CI/CD build and test status |
+
+#### Security (MANDATORY)
+| File | Purpose |
+|------|---------|
+| `0100-<Project>-Security-Overview.md` | Security strategy summary |
+| `0101-<Project>-Security-ThreatModel.md` | Threat model and isolation architecture |
+| `0102-<Project>-Security-AccessControl.md` | Access control and authorization |
+| `0103-<Project>-Security-Emulator.md` | Custom emulator security (memory, ELF, decoder) |
+| `0104-<Project>-Security-Runtime.md` | Runtime safety (filesystem, devices, crash containment) |
+| `0105-<Project>-Security-Additional.md` | Additional analysis (audit, MAC, hardening) |
+| `0106-<Project>-Security-Implementation.md` | Security implementation tasks |
+
+#### Architecture (Required)
+| File | Purpose |
+|------|---------|
+| `0200-<Project>-Overview.md` | High-level architecture and phases |
+| `0201-<Project>-Current-Architecture.md` | Current state analysis |
+| `0210-<Project>-Architecture-Design.md` | Detailed architecture with diagrams |
+
+#### Implementation (Required)
+| File | Purpose |
+|------|---------|
+| `0300-<Project>-Implementation-Tasks.md` | Implementation roadmap with task tables |
+| `0301-<Project>-Kernel-Module.md` | Kernel-level implementation |
+| `0302-<Project>-Userland-Tools.md` | Userland tools implementation |
+
+#### Testing (Required)
+| File | Purpose |
+|------|---------|
+| `0400-<Project>-Testing.md` | Master testing strategy |
+| `0401-<Project>-Unit-Tests.md` | Unit testing plan |
+| `0402-<Project>-Integration-Tests.md` | Integration testing plan |
+| `0403-<Project>-Code-Validation.md` | Code quality and security audits |
+
+#### Operations (Required)
+| File | Purpose |
+|------|---------|
+| `0500-<Project>-Governance.md` | Operational policies |
+| `0501-<Project>-Sysctl-Interface.md` | Sysctl MIB hierarchy |
+
+#### Optional but Recommended
+| File | Purpose |
+|------|---------|
+| `0510-<Project>-Tooling.md` | Management tools and CLI |
+| `0511-<Project>-Examples.md` | Example configurations |
+| `0600-<Project>-Alternative-Approaches.md` | Alternatives considered |
+| `0700-<Project>-Risks.md` | Risk register |
+| `0800-<Project>-Future-Enhancements.md` | Roadmap beyond current phase |
+| `0900-<Project>-Validation.md` | Validation reports |
+| `1000-<Project>-Testing-Framework.md` | Test framework (e.g., C++ harness) |
+| `1100-<Project>-Documentation.md` | Documentation plan |
+| `1101-<Project>-Testing-Scope.md` | Detailed test case inventory |
+| `AGENTS_START_HERE.md` | Agent entry point (project root) |
+
+## 2. Document Naming Convention
+
+- **`<Number>`** — Four-digit prefix indicating category (see Section 1.3)
+- **`<Project>`** — Short identifier (e.g., `Emulation`, `PPPoE`)
+- **`<Topic>`** — Title-Case with hyphens (e.g., `ThreatModel`, `AccessControl`)
 
 Examples:
-- `000-Emulation-TOC.md`
-- `100-Emulation-Overview.md`
-- `101-Emulation-Current-Architecture.md`
-- `200-Emulation-Architecture-Design.md`
-- `300-Emulation-Implementation-Tasks.md`
-- `301-Emulation-Kernel-Module.md`
-- `302-Emulation-Userland-Tools.md`
-- `500-Emulation-Governance.md`
-- `501-Emulation-Sysctl-Interface.md`
-- `600-Emulation-Alternative-Approaches.md`
-- `700-Emulation-Risks.md`
-- `build-status.md`
+- `0000-Emulation-TOC.md`
+- `0101-Emulation-Security-ThreatModel.md`
+- `0106-Emulation-Security-Implementation.md`
+- `0200-Emulation-Overview.md`
+- `0210-Emulation-Architecture-Design.md`
+- `0300-Emulation-Implementation-Tasks.md`
+- `0501-Emulation-Sysctl-Interface.md`
 
 ## 3. Document Structure
 
@@ -175,7 +221,7 @@ The TOC must include:
 - A dependency graph showing relationships between documents
 - A recommended reading order for new contributors
 - A cross-reference index for topics that span multiple documents
-- Build status summary (linking to `build-status.md`)
+- Build status summary (linking to `0002-<Project>-Build-Status.md`)
 
 ### 3.2 Workflow (`001`)
 
@@ -189,9 +235,9 @@ The workflow document must define:
 - Agent identity and hostname conventions
 - Communication protocols for multi-agent coordination
 
-### 3.3 Overview (`100`)
+### 3.3 Overview (`200`)
 
-The overview document must cover:
+The overview document (200) must cover:
 
 - Executive summary and motivation
 - Problem statement and target use cases
@@ -201,9 +247,9 @@ The overview document must cover:
 - Risk assessment summary
 - Success criteria and Definition of Done
 
-### 3.4 Current Architecture Analysis (`101`)
+### 3.4 Current Architecture Analysis (`201`)
 
-This document analyzes the existing system (if applicable):
+This document (201) analyzes the existing system (if applicable):
 
 - Current component inventory
 - Bottleneck identification
@@ -211,9 +257,9 @@ This document analyzes the existing system (if applicable):
 - Technical debt assessment
 - Constraints and assumptions
 
-### 3.5 Architecture Design (`200`)
+### 3.5 Architecture Design (`210`)
 
-The architecture document provides detailed solution design:
+The architecture document (210) provides detailed solution design:
 
 - ASCII architecture diagrams with box-drawing characters
 - Component interactions and data flow
@@ -222,26 +268,169 @@ The architecture document provides detailed solution design:
 - Resource governance design
 - Failure modes and recovery strategies
 
-### 3.6 Implementation Tasks (`300`)
+### 3.6 Security Documents (`100` - `106`)
 
-The implementation document contains the phased task breakdown:
+Security is a **MANDATORY** first-class concern in all CloudBSD projects. The security documentation series provides comprehensive coverage:
+
+#### 3.6.1 Security Overview (`100`)
+
+Summary document linking all security documents:
+
+```markdown
+# <Project> — Security Overview
+
+**Topics:**
+- Security strategy summary
+- Links to all security documents (101-106)
+- Key security principles
+```
+
+#### 3.6.2 Threat Model & Isolation (`101`)
+
+```markdown
+# <Project> — Security Threat Model
+
+**Topics:**
+- Executive summary of security approach
+- Assets to protect (host kernel memory, userspace, filesystem, network)
+- Threat categories (escape, injection, corruption, exhaustion)
+- Trust model (trust levels T0-T4)
+- Isolation architecture comparison (bhyve vs custom emulator)
+- Process-level and multi-instance isolation
+```
+
+#### 3.6.3 Access Control & Authorization (`102`)
+
+```markdown
+# <Project> — Security Access Control
+
+**Topics:**
+- Group configuration (GID_EMU) delegation
+- Ownership model (per-instance ucred)
+- Granular permissions (macro and micro levels)
+- Privilege definitions (PRIV_EMU_*)
+- Permission matrix (who can do what)
+- Sysctl interface for access control
+- Jail integration with emulation flags
+- Resource limits per user/group
+```
+
+#### 3.6.4 Custom Emulator Security (`103`)
+
+```markdown
+# <Project> — Security Emulator
+
+**Topics:**
+- Attack surface analysis
+- Instruction decoder safety (bounds checking, length limits)
+- Memory safety (bounds-checked access, overflow detection)
+- ELF loader validation (magic, endianness, segment bounds)
+- Capsicum sandboxing architecture
+- Timing side-channel mitigations
+- Resource accounting and rctl integration
+```
+
+#### 3.6.5 Filesystem, Devices & Crash Safety (`104`)
+
+```markdown
+# <Project> — Security Runtime
+
+**Topics:**
+- Filesystem security (path validation, symlink escape prevention, TOCTOU)
+- Device attack surface (MMIO, UART, virtio-*)
+- Network isolation modes (host-only, NAT, bridge)
+- Crash containment (detection, state capture, graceful termination)
+- Core dump prevention
+```
+
+#### 3.6.6 Additional Security Analysis (`105`)
+
+```markdown
+# <Project> — Security Additional Analysis
+
+**Topics:**
+- Audit logging (syslog + file, event definitions)
+- MAC framework integration (label propagation)
+- Securelevel integration
+- Memory scrubbing on instance destroy
+- ptrace attack prevention
+- TOCTOU race condition prevention
+- Signal handling security
+- OOM killer interaction
+- Entropy/RNG (virtio-rng)
+- Supply chain security
+- Firmware verification
+```
+
+#### 3.6.7 Security Implementation Tasks (`106`)
+
+```markdown
+# <Project> — Security Implementation Tasks
+
+**Topics:**
+- Security recommendations summary
+- Implementation phases (S0-Sn) with task tables
+- Each task: ID, description, owner, status, files, verification
+- Detailed implementation checklist
+```
+
+### 3.7 Implementation Tasks (`300`)
+
+The implementation document (300) contains the phased task breakdown:
 
 - Phase structure (e.g., Phase 1: Kernel, Phase 1.5: Auto-scaling, Phase 2: Userland)
 - Task tables with dependencies, status, and file assignments
 - Milestone definitions
 - Integration checkpoints
 
-### 3.7 Component Implementation (`301+`)
+### 3.8 Component Implementation (`301-302`)
 
 Detailed implementation specs for individual components:
 
 - `301-<Project>-Kernel-Module.md` — Kernel-level implementation
 - `302-<Project>-Userland-Tools.md` — Userland tools and utilities
-- `303-<Project>-CLI-Commands.md` — Command-line interface design
 
-### 3.8 Governance and Configuration Interface (`500-501`)
+### 3.9 Testing (`400-403`)
 
-#### 3.8.1 Governance (`500`)
+#### 3.9.1 Testing Overview (`400`)
+
+Overview of complete testing approach:
+
+- Testing philosophy and principles
+- Test pyramid (unit, integration, system, stress)
+- Test environment requirements
+- Test automation strategy
+- Quality gates and exit criteria
+
+#### 3.9.2 Unit Tests (`401`)
+
+Defines the isolation testing strategy for core logic:
+
+- **Testing Scope**: Core logic identification, boundary analysis
+- **Mocking Strategy**: Dependency isolation, stub implementation
+- **Validation Metrics**: Coverage targets (85%+), regression testing
+- **Environment**: Runner requirements (atf, pytest, etc.)
+
+#### 3.9.3 Integration Tests (`402`)
+
+Defines how components work together:
+
+- **End-to-End Scenarios**: Full lifecycle, inter-component workflows
+- **Performance and Stress**: Load testing, resource consumption, longevity
+- **Network and Environment**: Topology, external dependencies
+
+#### 3.9.4 Code Validation (`403`)
+
+Defines the final quality gate and security posture:
+
+- **Static Analysis**: Linting rules, security scanning
+- **Dynamic Analysis**: Memory safety (ASAN/MSAN), concurrency (TSAN)
+- **Security Audit**: Attack surface mapping, fuzzing strategy
+- **Compliance**: CloudBSD standards, license compliance
+
+### 3.10 Operations (`500-501`)
+
+#### 3.10.1 Governance (`500`)
 
 Defines operational policies:
 
@@ -251,7 +440,7 @@ Defines operational policies:
 - Health check and failover policies
 - Audit logging requirements
 
-#### 3.8.2 Sysctl Interface (`501`)
+#### 3.10.2 Sysctl Interface (`501`)
 
 Documents the complete sysctl MIB hierarchy:
 
@@ -320,12 +509,88 @@ Roadmap beyond current phase:
 
 ### 3.13 Validation (`900`)
 
-Validation and compliance documentation:
+The Validation document (or set of documents) provides comprehensive validation of all implemented tasks:
 
-- Verification against requirements
-- Compliance checklist
-- Sign-off criteria
-- Known limitations
+#### 3.13.1 Validation Report Format
+
+The validation report follows this structure:
+
+**Header:**
+```markdown
+# <Project> Validation Report
+
+> **Purpose:** Independent validation of all implemented tasks
+> **Validation Method:** Code review, compilation verification, and implementation accuracy check
+> **Generated:** YYYY-MM-DD
+```
+
+**Validation Status Legend:**
+```markdown
+| Status | Meaning |
+|--------|---------|
+| ✅ Valid | Implementation is correct, complete, and matches task description |
+| ❌ Invalid | Implementation has errors, is incomplete, or doesn't match task description |
+| ⚠️ Partial | Implementation is partially complete or has minor issues |
+| ⏳ Not Started | Task not yet implemented or not yet validated |
+```
+
+**Per-Phase Task Tables:**
+```markdown
+## Phase S0: <Phase Name>
+
+| # | Task | Status | Assigned To | Validation Status | Validated By | Validation Date | Validation Comments |
+|---|------|--------|------------|-------------------|--------------|-----------------|---------------------|
+| S0.1 | Implement module entry point | ✅ DONE | freedev002 | ✅ Valid | freedev003 | 2026-04-27 | Verified... |
+```
+
+**Validation Summary Table:**
+```markdown
+## Validation Summary
+
+| Phase | Total Tasks | Valid | Invalid | Partial | Not Started | % Valid (Completed) | % Valid (Overall) |
+|-------|-------------|-------|---------|---------|-------------|---------------------|-------------------|
+| S0 | 8 | 8 | 0 | 0 | 0 | 100.0% | 100.0% |
+| **Total** | **94** | **77** | **0** | **0** | **17** | **100.0%** | **81.9%** |
+```
+
+**Calculating the Summary Table:**
+
+1. **Per-phase row:**
+   - Count tasks by validation status within each phase
+   - `% Valid (Completed)` = Valid / (Valid + Invalid + Partial) × 100
+   - `% Valid (Overall)` = Valid / Total × 100
+
+2. **Totals row:**
+   - Sum all columns across phases
+   - Calculate overall percentages
+
+#### 3.13.2 Validation Corrections Report Format
+
+If discrepancies are found between implementation and validation:
+
+```markdown
+# <Project> — Validation Corrections Report
+
+> **Purpose:** Document discrepancies between implementation plan and validation report
+> **Generated:** YYYY-MM-DD
+> **Updated:** YYYY-MM-DD HH:MM
+
+## Executive Summary
+
+| Metric | Value |
+|--------|-------|
+| Total Tasks in Implementation Plan | 188 |
+| Tasks Validated as Complete | 188 |
+| Tasks NOT STARTED | 0 |
+| Implementation Completion Rate | 100% |
+```
+
+#### 3.13.3 Validation Document Naming
+
+| Document | Naming Convention | Purpose |
+|----------|------------------|---------|
+| Initial Report | `9XX-<Project>-Validation-Report-YYYY-MM-DD.md` | Phase-by-phase validation |
+| Corrections | `9XX.1-<Project>-Validation-Corrections-YYYY-MM-DD.md` | Discrepancy resolution |
 
 ### 3.14 Testing Framework (`1000`)
 
@@ -431,10 +696,51 @@ Defines the final quality gate and security posture. Mandatory sections:
 Plan documents that contain implementation tasks must use a standardized task table:
 
 ```markdown
-| ID | Task | Priority | Status | Assigned To | Owner | Phase | Start | End | Dependencies | Files | Notes |
-|----|------|----------|--------|-------------|-------|-------|-------|-----|--------------|-------|-------|
-| 300.1 | Create module entry point | P0 | ⬜ PENDING | | | Phase 1 | | | | `sys/foo/foo_mod.c` | |
+| ID | Task | Priority | Status | Assigned To | Owner | Phase | Start | End | Dependencies | Files | Spec | Notes |
+|----|------|----------|--------|-------------|-------|-------|-------|-----|--------------|-------|------|-------|
+| 300.1 | Create module entry point | P0 | ⬜ PENDING | | | Phase 1 | | | | `sys/foo/foo_mod.c` | [Spec](#3001) | |
 ```
+
+### 4.1 Spec Column — Linking to Detailed Specifications
+
+The `Spec` column provides a link to the detailed specification for that task in the companion implementation document (e.g., `300-<Project>-Implementation-Tasks.md`).
+
+**Format:**
+- `[Spec](#<task-id>)` — Anchor link to section within same document
+- `[Spec](300-Impl.md#<task-id>)` — Link to section in external document
+
+**Example task with specification:**
+
+In the task table:
+```
+| 300.1 | Create module entry point | P0 | ⬜ PENDING | | | Phase 1 | | | | `sys/foo/foo_mod.c` | [Spec](#3001) | |
+```
+
+In the detailed spec section (same or companion document):
+```markdown
+### 300.1 Create module entry point {#3001}
+
+**Detailed Specification:**
+
+- Create `sys/foo/foo_mod.c` with module metadata
+- Register module with `MODULE_DEPEND`
+- Initialize sysctl tree under `net.graph.foo`
+
+**Acceptance Criteria:**
+- [ ] Module loads without panic
+- [ ] `kldstat` shows module loaded
+- [ ] Sysctl `net.graph.foo.enable` exists
+
+**Test Steps:**
+1. `sudo kldload foo`
+2. `sysctl net.graph.foo.enable`
+3. Verify output is `0` (disabled by default)
+```
+
+**Task ID Anchor Convention:**
+- Task ID `300.1` → Anchor `#3001` (dots removed)
+- Task ID `700.12` → Anchor `#70012`
+- Task ID `301.3` → Anchor `#3013`
 
 ### 4.1 Priority Values
 
@@ -486,7 +792,7 @@ Implementation is organized into phases:
 
 ### 4.6 Build Status Integration
 
-Each project must maintain a `build-status.md` file:
+Each project must maintain a `0002-<Project>-Build-Status.md` file:
 
 ```markdown
 # Build Status

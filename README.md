@@ -53,6 +53,27 @@ When using AI tools (e.g., GitHub Copilot, Claude, ChatGPT) to generate code for
 - [**INIT_PROMPT.md**](INIT_PROMPT.md)
   - The mandatory system prompt to inject into any AI session. It ensures the AI remembers the CloudBSD standards, the mandatory git author, and the target platform (FreeBSD).
 
+### AI Skills
+
+AI agents can load specialized skills from the `SKILLS/` directory for common development tasks:
+
+| Skill | Purpose |
+|-------|---------|
+| [SKILLS/task-workflow.md](SKILLS/task-workflow.md) | Task claiming, completion, and status management |
+| [SKILLS/plan-document-generator.md](SKILLS/plan-document-generator.md) | Create new plan documents and `.plan/` structure |
+| [SKILLS/plan-validator.md](SKILLS/plan-validator.md) | Validate plan document compliance |
+| [SKILLS/toc-generator.md](SKILLS/toc-generator.md) | Generate table of contents documents |
+| [SKILLS/agents-start-here-generator.md](SKILLS/agents-start-here-generator.md) | Create agent entry point documents |
+| [SKILLS/sysctl-documenter.md](SKILLS/sysctl-documenter.md) | Document sysctl MIB hierarchies |
+| [SKILLS/ascii-diagrammer.md](SKILLS/ascii-diagrammer.md) | Generate architecture diagrams |
+| [SKILLS/risk-assessor.md](SKILLS/risk-assessor.md) | Create and maintain risk registers |
+| [SKILLS/test-planner.md](SKILLS/test-planner.md) | Generate testing documentation |
+| [SKILLS/build-status-updater.md](SKILLS/build-status-updater.md) | Maintain CI/CD build status |
+| [SKILLS/validation-document-generator.md](SKILLS/validation-document-generator.md) | Create validation reports and corrections |
+| [SKILLS/security-document-generator.md](SKILLS/security-document-generator.md) | Create security documents (threat model, access control, etc.) |
+
+See [AGENTS_START_HERE.md](AGENTS_START_HERE.md) for the primary agent entry point and [SKILLS/README.md](SKILLS/README.md) for the complete skill index.
+
 ## 🎯 Purpose
 
 The goal of these guidelines is to provide a clear roadmap for developers, ensuring that every application—whether it's a low-level system tool or a complex web service—follows the same core principles of CloudBSD development.

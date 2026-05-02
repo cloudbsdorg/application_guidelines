@@ -223,6 +223,68 @@ Load this skill when the user asks you to:
 **Classification:** INTERNAL
 ```
 
+### Implementation Tasks Document (300)
+
+```markdown
+# <Project> Planning — Implementation Tasks
+
+**Document ID:** <Project>-Implementation
+**Version:** 1.0
+**Last Updated:** YYYY-MM-DD
+**Maintainer:** <Team or Contact>
+**Status:** ACTIVE
+**Classification:** INTERNAL
+
+---
+
+## Phase 1: Kernel
+
+## Phase 2: Userland
+
+## Phase 3: Integration
+
+---
+
+## Detailed Specifications
+
+### 300.1 <Task Title> {#3001}
+
+**Detailed Specification:**
+- <Requirement 1>
+- <Requirement 2>
+
+**Acceptance Criteria:**
+- [ ] <Criterion 1>
+- [ ] <Criterion 2>
+
+**Test Steps:**
+1. <Step 1>
+2. <Step 2>
+
+---
+
+## Change Log
+
+| Version | Date | Author | Changes |
+|---------|------|--------|---------|
+| 1.0 | YYYY-MM-DD | Name | Initial version |
+
+**Last Updated:** YYYY-MM-DD HH:MM UTC
+**Classification:** INTERNAL
+```
+
+### Task Table Format
+
+When creating task tables in implementation documents, use this format:
+
+```markdown
+| ID | Task | Priority | Status | Assigned To | Owner | Phase | Start | End | Dependencies | Files | Spec | Notes |
+|----|------|----------|--------|-------------|-------|-------|-------|-----|--------------|-------|------|-------|
+| 300.1 | Create module entry point | P0 | ⬜ PENDING | | | Phase 1 | | | | `sys/foo/foo_mod.c` | [Spec](#3001) | |
+```
+
+**Note:** The `Spec` column links to the detailed specification section (e.g., `[Spec](#3001)`) which should be defined in the `Detailed Specifications` section of the same document using the anchor pattern `{#3001}`.
+
 ## Naming Convention
 
 Documents follow: `<Number>-<Project>-<Topic>.md`

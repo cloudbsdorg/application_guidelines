@@ -111,7 +111,7 @@ For new contributors, read documents in this order:
 
 | Category | Link |
 |----------|------|
-| Build Status | [build-status.md](./build-status.md) |
+| Build Status | [0002-<Project>-Build-Status.md](./0002-<Project>-Build-Status.md) |
 | Current Tasks | [300-<Project>-Implementation-Tasks.md](./300-<Project>-Implementation-Tasks.md) |
 | Validation Report | [900-<Project>-Validation.md](./900-<Project>-Validation.md) |
 ```
@@ -138,7 +138,7 @@ For new contributors, read documents in this order:
 | Kernel Module | ✅ PASS | ✅ PASS | 🔄 IN PROGRESS |
 | Userland Tools | ✅ PASS | ⏳ PENDING | ⏳ PENDING |
 
-[Full build status](./build-status.md)
+[Full build status](./0002-<Project>-Build-Status.md)
 ```
 
 ## Template for 000 Document

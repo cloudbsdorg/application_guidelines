@@ -74,10 +74,53 @@ If a task claims dependency on a non-existent task or a task marked ❌ FAILED:
 ## Task Table Format
 
 ```
-| ID | Task | Priority | Status | Assigned To | Owner | Phase | Start | End | Dependencies | Files | Notes |
-|----|------|----------|--------|-------------|-------|-------|-------|-----|--------------|-------|-------|
-| 300.1 | Create module entry point | P0 | ⬜ PENDING | | | Phase 1 | | | | `sys/foo/foo_mod.c` | |
+| ID | Task | Priority | Status | Assigned To | Owner | Phase | Start | End | Dependencies | Files | Spec | Notes |
+|----|------|----------|--------|-------------|-------|-------|-------|-----|--------------|-------|------|-------|
+| 300.1 | Create module entry point | P0 | ⬜ PENDING | | | Phase 1 | | | | `sys/foo/foo_mod.c` | [Spec](#3001) | |
 ```
+
+### Spec Column — Linking to Detailed Specifications
+
+The `Spec` column provides a link to the detailed specification for that task in the companion implementation document (e.g., `300-<Project>-Implementation-Tasks.md`).
+
+**Format:**
+- `[Spec](#<task-id>)` — Anchor link to section within same document
+- `[Spec](300-Impl.md#<task-id>)` — Link to section in external document
+
+**Example task with specification:**
+
+In the task table:
+```
+| 300.1 | Create module entry point | P0 | ⬜ PENDING | | | Phase 1 | | | | `sys/foo/foo_mod.c` | [Spec](#3001) | |
+```
+
+In the detailed spec section (same or companion document):
+```markdown
+### 300.1 Create module entry point {#3001}
+
+**Detailed Specification:**
+
+- Create `sys/foo/foo_mod.c` with module metadata
+- Register module with `MODULE_DEPEND`
+- Initialize sysctl tree under `net.graph.foo`
+
+**Acceptance Criteria:**
+- [ ] Module loads without panic
+- [ ] `kldstat` shows module loaded
+- [ ] Sysctl `net.graph.foo.enable` exists
+
+**Test Steps:**
+1. `sudo kldload foo`
+2. `sysctl net.graph.foo.enable`
+3. Verify output is `0` (disabled by default)
+```
+
+### Task ID Anchor Convention
+
+Task IDs used as anchors follow the pattern:
+- `300.1` in table → `#3001` as anchor (dots removed)
+- `700.12` in table → `#70012` as anchor
+- `301.3` in table → `#3013` as anchor
 
 ## Priority Levels
 
