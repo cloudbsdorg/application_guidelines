@@ -20,6 +20,9 @@ This directory contains AI skills for CloudBSD project development.
 | [security-document-generator](security-document-generator.md) | Create security documentation (threat model, access control, etc.) | When creating 1.1-1.6 security documents |
 | [progress-tracker-updater](progress-tracker-updater.md) | Create and maintain TODO Tracker Summary tables | When updating phase progress |
 | [quick-reference-generator](quick-reference-generator.md) | Create Quick Reference sections for AGENTS_START_HERE | When creating agent entry points |
+| [reverse-engineer-for-port](reverse-engineer-for-port.md) | Analyze source code to understand actual behavior | When porting applications |
+| [feature-task-generator](feature-task-generator.md) | Generate tasks from feature analysis | After reverse-engineering analysis |
+| [code-quality-analyzer](code-quality-analyzer.md) | Find duplication and plan refactoring | When reviewing ported code quality |
 
 ## Skill Invocation Format
 
@@ -73,6 +76,12 @@ agents-start-here-generator
      └──► build-status-updater
 
 plan-validator (standalone - validates all of the above)
+
+reverse-engineer-for-port
+     │
+     └──► feature-task-generator
+               │
+               └──► code-quality-analyzer (optional - for refactoring backlog)
 ```
 
 ## Skill Categories
@@ -100,6 +109,13 @@ These skills generate specific document types:
 
 ### Quality Assurance
 - `plan-validator` — Validate all plan documents for compliance
+
+### Code Porting
+These skills analyze and port applications from one language/framework to another:
+
+- `reverse-engineer-for-port` — Analyze actual code behavior (entry points, features, dead code)
+- `feature-task-generator` — Generate porting tasks from feature analysis
+- `code-quality-analyzer` — Identify duplication and plan refactoring after porting
 
 ## Skill Conventions
 
@@ -146,6 +162,24 @@ Task: "Validate my project's .plan/ directory"
 2. Load task-workflow — to verify task states
 ```
 
+### Port Application
+
+```
+Task: "Port <application> from <source> to <target>"
+
+1. Load reverse-engineer-for-port — to analyze actual code behavior
+   - Trace entry points, find dead code, classify components
+   - Output: Feature Inventory with evidence
+
+2. Load feature-task-generator — to generate porting tasks
+   - Group by workflow, not file
+   - Output: Task table with priorities and dependencies
+
+3. Load code-quality-analyzer — to identify refactoring opportunities
+   - Find duplication, interface opportunities
+   - Output: Refactoring backlog (fix after working port)
+```
+
 ## Skill Maintenance
 
 Skills are versioned alongside Planning/PLANNING.md:
@@ -172,6 +206,9 @@ agents-start-here-generator
 build-status-updater
 progress-tracker-updater
 quick-reference-generator
+reverse-engineer-for-port
+feature-task-generator
+code-quality-analyzer
 ===END SKILL===
 ```
 
