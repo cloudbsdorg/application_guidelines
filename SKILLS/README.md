@@ -18,6 +18,8 @@ This directory contains AI skills for CloudBSD project development.
 | [build-status-updater](build-status-updater.md) | Maintain CI/CD build status | When updating build status |
 | [validation-document-generator](validation-document-generator.md) | Create validation reports and corrections | When validating implementation tasks |
 | [security-document-generator](security-document-generator.md) | Create security documentation (threat model, access control, etc.) | When creating 1.1-1.6 security documents |
+| [progress-tracker-updater](progress-tracker-updater.md) | Create and maintain TODO Tracker Summary tables | When updating phase progress |
+| [quick-reference-generator](quick-reference-generator.md) | Create Quick Reference sections for AGENTS_START_HERE | When creating agent entry points |
 
 ## Skill Invocation Format
 
@@ -50,21 +52,25 @@ Skills depend on each other as follows:
 
 ```
 agents-start-here-generator
-    │
-    ├──► toc-generator
-    │        └──► plan-document-generator
-    │
-    ├──► task-workflow
-    │
-    ├──► plan-document-generator
-    │        │
-    │        ├──► ascii-diagrammer
-    │        ├──► sysctl-documenter
-    │        ├──► risk-assessor
-    │        ├──► test-planner
-    │        └──► toc-generator
-    │
-    └──► build-status-updater
+     │
+     ├──► toc-generator
+     │        └──► plan-document-generator
+     │
+     ├──► task-workflow
+     │
+     ├──► plan-document-generator
+     │        │
+     │        ├──► ascii-diagrammer
+     │        ├──► sysctl-documenter
+     │        ├──► risk-assessor
+     │        ├──► test-planner
+     │        └──► toc-generator
+     │
+     ├──► quick-reference-generator
+     │
+     ├──► progress-tracker-updater
+     │
+     └──► build-status-updater
 
 plan-validator (standalone - validates all of the above)
 ```
@@ -78,6 +84,8 @@ These skills create the initial project structure:
 - `toc-generator` — Create 000 TOC document
 - `agents-start-here-generator` — Create `AGENTS_START_HERE.md`
 - `build-status-updater` — Create `0002-<Project>-Build-Status.md`
+- `quick-reference-generator` — Create Quick Reference section
+- `progress-tracker-updater` — Create TODO Tracker Summary
 
 ### Task Management
 - `task-workflow` — Task claiming and completion
@@ -162,6 +170,8 @@ test-planner
 toc-generator
 agents-start-here-generator
 build-status-updater
+progress-tracker-updater
+quick-reference-generator
 ===END SKILL===
 ```
 

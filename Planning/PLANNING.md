@@ -223,6 +223,67 @@ The TOC must include:
 - A cross-reference index for topics that span multiple documents
 - Build status summary (linking to `0002-<Project>-Build-Status.md`)
 
+#### 3.1.1 Document Dependencies Tree
+
+Use a visual ASCII tree to show document relationships:
+
+```markdown
+## Document Dependencies
+
+```
+0000 (TOC) ──┬── 0001 (Workflow)
+             ├─── 0002 (Build Status)
+             │
+             ├──► 0100 (Security Overview)
+             │         │
+             │         ├──► 0101 (Threat Model)
+             │         ├──► 0102 (Access Control)
+             │         ├──► 0103 (Emulator Security)
+             │         ├──► 0104 (Runtime Safety)
+             │         ├──► 0105 (Additional Analysis)
+             │         └───► 0106 (Security Implementation)
+             │
+             ├──► 0200 (Overview)
+             │         │
+             │         ├──► 0201 (Current Architecture)
+             │         └───► 0210 (Architecture Design)
+             │
+             ├──► 0300 (Implementation Tasks)
+             │         │
+             │         ├──► 0301 (Kernel Module)
+             │         └───► 0302 (Userland Tools)
+             │
+             ├──► 0400 (Testing)
+             │         ├──► 0401 (Unit Tests)
+             │         ├──► 0402 (Integration Tests)
+             │         └───► 0403 (Code Validation)
+             │
+             └──► 0500 (Governance)
+                      ├──► 0501 (Sysctl Interface)
+                      ├──► 0510 (Tooling)
+                      └──► 0511 (Examples)
+
+Legend: ──┬── = references, ──► = depends on
+```
+```
+
+#### 3.1.2 Reading Order
+
+Provide a numbered reading sequence for new contributors:
+
+```markdown
+## Reading Order for New Contributors
+
+1. `AGENTS_START_HERE.md` — Start here (project root)
+2. `0000-<Project>-TOC.md` — Master index
+3. `0001-<Project>-Workflow.md` — How tasks work
+4. `0100-<Project>-Security-Overview.md` — Security strategy
+5. `0200-<Project>-Overview.md` — The big picture
+6. `0300-<Project>-Implementation-Tasks.md` — What needs building
+7. `0400-<Project>-Testing.md` — How to verify
+8. `0500-<Project>-Governance.md` — Operational policies
+```
+
 ### 3.2 Workflow (`001`)
 
 The workflow document must define:
@@ -234,6 +295,59 @@ The workflow document must define:
 - Merge conflict resolution for multi-agent scenarios
 - Agent identity and hostname conventions
 - Communication protocols for multi-agent coordination
+
+#### 3.2.1 Multi-Agent Coordination
+
+When multiple agents work concurrently on shared branches:
+
+**Independent vs Dependent Tasks:**
+| Type | Description | Coordination |
+|------|-------------|--------------|
+| Independent | No shared files or dependencies | Work concurrently without locks |
+| Dependent | Shared files or sequential dependencies | Use task claiming protocol |
+
+**Sync Protocol:**
+1. Before starting, pull latest: `git pull --rebase`
+2. Claim tasks by updating status and pushing immediately
+3. After completing, push and notify in commit message
+4. If blocked by unmerged work, claim next available independent task
+
+**Merge Conflict Resolution:**
+1. If conflict detected, stop and assess
+2. Communicate via commit message or log
+3. The agent with the merge conflict should either:
+   - Resolve immediately if changes are minor
+   - Revert and rebase if changes are substantial
+   - Mark task as `🟡 BLOCKED` and pick another task
+
+#### 3.2.2 YOLO Mode
+
+For autonomous operation without human confirmation:
+
+```markdown
+## YOLO Mode
+
+**YOLO Mode:** Enabled (skip all confirmations)
+
+When YOLO mode is active:
+- Agents skip confirmation prompts for task claims and completions
+- Agents proceed with autonomous decision-making
+- All actions still require immediate git commit and push
+- Conflicts are resolved autonomously with revert/rebase strategy
+```
+
+**Enabling YOLO Mode:**
+YOLO mode is typically set via environment variable or agent configuration. When enabled, the agent displays a visual indicator in all outputs.
+
+**When to Use YOLO:**
+- During overnight autonomous sessions
+- When human review will happen later
+- For well-defined, low-risk tasks
+
+**When to Disable YOLO:**
+- When making architectural decisions
+- When modifying shared critical files
+- When uncertain about task scope
 
 ### 3.3 Overview (`200`)
 
@@ -691,6 +805,27 @@ Defines the final quality gate and security posture. Mandatory sections:
   - **CloudBSD Standards**: Verification against global application guidelines.
   - **License Compliance**: Auditing of third-party dependency licenses.
 
+### 3.17 Author Policy
+
+All CloudBSD project documents must include an explicit author policy to maintain authorship integrity:
+
+```markdown
+## Author Policy
+
+**Author:** <Name> <email>
+**Co-Authors:** None (unless explicitly approved)
+**Sponsorship:** None (unless explicitly stated and recorded)
+
+### Authorship Rules
+
+- **No trailers**: Do not add `Co-authored-by:`, `Sponsored-by:`, or similar trailers
+- **No sponsorships**: Do not include funding acknowledgments unless explicitly approved
+- **No co-authors**: All commits made solely by the stated author unless approved
+- **Attribution**: When modifying another author's work, maintain original authorship and add a change log entry
+```
+
+**Rationale:** Prevents authorship creep and ensures clear accountability.
+
 ## 4. Task Tables
 
 Plan documents that contain implementation tasks must use a standardized task table:
@@ -790,7 +925,28 @@ Implementation is organized into phases:
 4. Update `Notes` with a brief summary
 5. Commit and push immediately
 
-### 4.6 Build Status Integration
+### 4.6 TODO Tracker Summary Table
+
+The TODO Tracker provides a high-level progress overview across all phases. Include this summary table in the Implementation Tasks document (`0300`) and update it after each task completion:
+
+```markdown
+## TODO Tracker Summary
+
+| Phase | Focus | Tasks | Completed | Total | Progress |
+|-------|-------|-------|-----------|-------|----------|
+| Phase 1 | Kernel | Core kernel module | 0 | 20 | 0% |
+| Phase 2 | Userland | Userland tools | 0 | 15 | 0% |
+| Phase 3 | Integration | Full system integration | 0 | 25 | 0% |
+| Phase 4 | Validation | Comprehensive validation | 0 | 30 | 0% |
+| **Total** | | | **0** | **90** | **0%** |
+```
+
+**Update Protocol:**
+1. After completing a task, update both the task row and recalculate the phase and total progress
+2. Commit the TODO Tracker update alongside the task completion
+3. Use emoji states: `⬜` not started, `🔄` in progress, `✅` completed
+
+### 4.7 Build Status Integration
 
 Each project must maintain a `0002-<Project>-Build-Status.md` file:
 
@@ -896,9 +1052,45 @@ A table summarizing major architectural choices:
 
 #### 5.2.8 Quick Reference
 
-- **Key Files** — Important source files and their purposes
-- **Key Sysctls** — Common sysctl nodes with defaults and purposes
-- **Key Groups** — Relevant system groups and GIDs
+Provide compact lookup information for fast reference:
+
+```markdown
+## Quick Reference
+
+### Key Files
+
+| File | Purpose |
+|------|---------|
+| `sys/module/foo/foo_mod.c` | Module entry point |
+| `sys/module/foo/foo_main.c` | Core implementation |
+
+### Key Sysctls
+
+| Sysctl | Default | Purpose |
+|--------|---------|---------|
+| `net.graph.foo.enable` | 0 | Enable/disable module |
+| `net.graph.foo.mode` | 0 | Operation mode |
+
+### Key Groups
+
+| Group | GID | Purpose |
+|-------|-----|---------|
+| `operator` | 5 | Read-only access |
+| `kmem` | 2 | Kernel memory access |
+
+### Key Commands
+
+```bash
+# Load module
+sudo kldload foo
+
+# Check status
+sysctl net.graph.foo
+
+# Unload module
+sudo kldunload foo
+```
+```
 
 #### 5.2.9 Need Help?
 
