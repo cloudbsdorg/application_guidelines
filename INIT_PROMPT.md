@@ -35,6 +35,26 @@ Read every file listed below before generating any output:
 ### Project-Specific Plans
 In addition to the repository guidelines above, every CloudBSD project may contain its own planning documents. **Project-specific plans are located in the `.plan/` directory in the current working directory (pwd).** When working within a project, always check for and read any `.plan/*.md` files present in the project's root before generating code or making architectural decisions. Treat these plans as mandatory supplements to the global CloudBSD guidelines.
 
+### AI Skills
+For common development tasks, AI agents should load relevant skills from the `SKILLS/` directory. See `SKILLS/README.md` for the complete skill index.
+
+| Skill | Purpose |
+|-------|---------|
+| `SKILLS/task-workflow.md` | Task claiming and completion |
+| `SKILLS/plan-document-generator.md` | Create plan documents |
+| `SKILLS/sysctl-documenter.md` | Document sysctl interfaces |
+| `SKILLS/ascii-diagrammer.md` | Generate architecture diagrams |
+| `SKILLS/risk-assessor.md` | Risk register management |
+| `SKILLS/test-planner.md` | Testing documentation |
+| `SKILLS/toc-generator.md` | Table of contents creation |
+| `SKILLS/agents-start-here-generator.md` | Agent entry point creation |
+| `SKILLS/build-status-updater.md` | CI/CD status updates |
+
+To load a skill, read the skill file and follow its specifications for your current task.
+
+### Agent Entry Point
+For multi-agent collaboration, the `AGENTS_START_HERE.md` file in the project root serves as the primary entry point. It summarizes what the project builds, lists all plan documents, states primary directives, and provides condensed workflow summaries. See `AGENTS_START_HERE.md` for details.
+
 ---
 
 ## 1. Identity & Attribution
