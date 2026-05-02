@@ -12,6 +12,39 @@ Load this skill when the user asks you to:
 - Initialize planning for a new project
 - Add a new document type to an existing project
 
+## Pre-Planning: Analysis Phase
+
+**IMPORTANT:** Before generating any plan documents, run the analysis workflow to understand the actual codebase:
+
+1. **Load source-analysis-orchestrator** to coordinate analysis
+2. **Generate Feature Inventory** to know what exists
+3. **Generate Refactoring Backlog** to plan improvements
+
+Do NOT generate implementation tasks without first analyzing the source code. Plans should reflect reality, not assumptions.
+
+### Analysis → Planning Workflow
+
+```
+Source Code
+    │
+    ▼
+source-analysis-orchestrator
+    │
+    ├──► Feature Inventory (what actually exists)
+    │
+    ├──► Component Map (roles classified)
+    │
+    ├──► Portability Report (OS-specific items)
+    │
+    └──► Refactoring Backlog (duplication, interfaces)
+            │
+            ▼
+    feature-task-generator
+            │
+            ▼
+    plan-document-generator (informed by analysis)
+```
+
 ## Document Type Templates
 
 ### TOC Document (000)

@@ -26,6 +26,12 @@ This directory contains AI skills for CloudBSD project development.
 | [ui-ux-analyzer](ui-ux-analyzer.md) | Document UI objects, states, actions, and data flow | When analyzing interfaces for implementation |
 | [api-analyzer](api-analyzer.md) | Document REST endpoints, HTTP protocols, request/response formats | When analyzing APIs for implementation |
 | [message-queue-analyzer](message-queue-analyzer.md) | Document message brokers, queues, pub/sub patterns, event streaming | When analyzing queue systems (RabbitMQ, Kafka, MQTT, etc.) |
+| [system-call-analyzer](system-call-analyzer.md) | Analyze syscalls, file I/O, memory ops, signals, debugging | When porting low-level system code |
+| [process-model-analyzer](process-model-analyzer.md) | Document threads, processes, IPC, synchronization patterns | When analyzing concurrent applications |
+| [network-stack-analyzer](network-stack-analyzer.md) | Document sockets, TCP/UDP, epoll/kqueue, SSL/TLS | When analyzing network-heavy applications |
+| [file-system-analyzer](file-system-analyzer.md) | Document paths, permissions, locking, extended attributes | When analyzing file system dependencies |
+| [privilege-analyzer](privilege-analyzer.md) | Document UID/GID, capabilities, ACLs, chroot, securelevel | When analyzing privilege requirements |
+| [source-analysis-orchestrator](source-analysis-orchestrator.md) | Coordinate all analysis skills for pre-planning | When starting a new project or porting |
 
 ## Skill Invocation Format
 
@@ -91,6 +97,28 @@ ui-ux-analyzer (standalone - analyzes UI for implementation)
 api-analyzer (standalone - analyzes REST APIs and HTTP protocols)
 
 message-queue-analyzer (standalone - analyzes message brokers and queues)
+
+system-call-analyzer ───────────┐
+                                │
+process-model-analyzer ─────────┼── (OS analysis skills)
+                                │
+network-stack-analyzer ─────────┤
+                                │
+file-system-analyzer ──────────┤
+                                │
+privilege-analyzer ────────────┘
+
+source-analysis-orchestrator
+     │
+     ├──► reverse-engineer-for-port
+     ├──► ui-ux-analyzer
+     ├──► api-analyzer
+     ├──► message-queue-analyzer
+     ├──► code-quality-analyzer
+     └──► OS skills (as needed)
+             │
+             ▼
+     feature-task-generator ──► plan-document-generator
 ```
 
 ## Skill Categories
@@ -128,6 +156,51 @@ These skills analyze and port applications from one language/framework to anothe
 - `ui-ux-analyzer` — Document UI objects, states, actions, and data flow
 - `api-analyzer` — Document REST endpoints, HTTP protocols, request/response formats
 - `message-queue-analyzer` — Document message brokers, queues, pub/sub patterns, event streaming
+
+### OS Analysis
+These skills analyze OS-level dependencies for cross-platform porting:
+
+- `system-call-analyzer` — Analyze syscalls, file I/O, memory ops, signals, debugging
+- `process-model-analyzer` — Document threads, processes, IPC, synchronization patterns
+- `network-stack-analyzer` — Document sockets, TCP/UDP, epoll/kqueue, SSL/TLS
+- `file-system-analyzer` — Document paths, permissions, locking, extended attributes
+- `privilege-analyzer` — Document UID/GID, capabilities, ACLs, chroot, securelevel
+
+### Analysis Orchestration
+- `source-analysis-orchestrator` — Coordinate all analysis skills for pre-planning
+
+## Pre-Planning Analysis Workflow
+
+For new projects or porting efforts, run the analysis workflow BEFORE generating any plan documents:
+
+```
+Source Code
+    │
+    ▼
+source-analysis-orchestrator (run first)
+    │
+    ├──► reverse-engineer-for-port
+    ├──► ui-ux-analyzer (if applicable)
+    ├──► api-analyzer (if applicable)
+    ├──► message-queue-analyzer (if applicable)
+    ├──► system-call-analyzer (if applicable)
+    ├──► process-model-analyzer (if applicable)
+    ├──► network-stack-analyzer (if applicable)
+    ├──► file-system-analyzer (if applicable)
+    ├──► privilege-analyzer (if applicable)
+    └──► code-quality-analyzer
+            │
+            ▼
+    Feature Inventory + Refactoring Backlog
+            │
+            ▼
+    feature-task-generator
+            │
+            ▼
+    plan-document-generator (informed by analysis)
+```
+
+This ensures plans reflect reality, not assumptions.
 
 ## Skill Conventions
 
@@ -174,22 +247,69 @@ Task: "Validate my project's .plan/ directory"
 2. Load task-workflow — to verify task states
 ```
 
+### Analyze & Plan (Recommended)
+
+```
+Task: "Port <application> from <source> to <target>"
+
+IMPORTANT: Run analysis BEFORE planning to avoid over-generating tasks.
+
+1. Load source-analysis-orchestrator — to coordinate all analysis skills
+   - This runs reverse-engineer-for-port first
+   - Then runs domain-specific analyzers (ui-ux, api, message-queue, os skills)
+   - Then runs code-quality-analyzer
+   - Output: Feature Inventory with evidence
+
+2. Load feature-task-generator — to generate tasks from Feature Inventory
+   - Uses actual features found, not assumptions
+   - Groups by workflow
+   - Includes portability notes
+
+3. Load plan-document-generator — to create .plan/ documents
+   - Uses feature-task-generator output
+   - Documents reference actual features
+
+4. Load toc-generator — to create TOC document
+```
+
 ### Port Application
 
 ```
 Task: "Port <application> from <source> to <target>"
 
-1. Load reverse-engineer-for-port — to analyze actual code behavior
-   - Trace entry points, find dead code, classify components
-   - Output: Feature Inventory with evidence
+IMPORTANT: Always analyze BEFORE planning.
 
-2. Load feature-task-generator — to generate porting tasks
-   - Group by workflow, not file
+1. Load source-analysis-orchestrator — to coordinate all analysis skills
+   - Runs reverse-engineer-for-port first
+   - Runs domain-specific analyzers (ui-ux, api, message-queue, os skills)
+   - Runs code-quality-analyzer
+   - Output: Feature Inventory + Refactoring Backlog
+
+2. Load feature-task-generator — to generate tasks from Feature Inventory
+   - Uses actual features found, not assumptions
+   - Groups by workflow, not file
    - Output: Task table with priorities and dependencies
 
-3. Load code-quality-analyzer — to identify refactoring opportunities
-   - Find duplication, interface opportunities
-   - Output: Refactoring backlog (fix after working port)
+3. Load plan-document-generator — to create .plan/ documents
+   - Uses feature-task-generator output
+   - Tasks reference actual features found
+
+4. Load toc-generator — to create TOC document
+```
+Task: "Port <application> from <source> to <target>"
+
+1. Load source-analysis-orchestrator — to coordinate all analysis
+   - Traces entry points, finds dead code
+   - Outputs: Feature Inventory, Component Map, Refactoring Backlog
+
+2. Load feature-task-generator — to generate porting tasks
+   - Uses Feature Inventory as input
+   - Groups by workflow, not file
+   - Output: Task table with priorities and dependencies
+
+3. Load code-quality-analyzer — to refine refactoring backlog
+   - Uses Refactoring Backlog from orchestrator
+   - Output: Prioritized refactoring tasks (fix after working port)
 ```
 
 ## Skill Maintenance
@@ -224,6 +344,11 @@ code-quality-analyzer
 ui-ux-analyzer
 api-analyzer
 message-queue-analyzer
+system-call-analyzer
+process-model-analyzer
+network-stack-analyzer
+file-system-analyzer
+privilege-analyzer
 ===END SKILL===
 ```
 

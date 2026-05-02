@@ -67,6 +67,114 @@ Every CloudBSD project must have:
 
 The `.plan/` directory must be committed to version control and kept up to date.
 
+### 1.5 Pre-Planning Analysis Phase (Phase 0)
+
+Before creating any planning documents, perform source code analysis to understand the actual codebase. This prevents over-generating tasks and ensures plans reflect reality.
+
+#### 1.5.1 Analysis Workflow
+
+```
+┌─────────────────────────────────────────────────────────────────────┐
+│                    Phase 0: Source Analysis                            │
+│                                                                      │
+│  Step 1: Load reverse-engineer-for-port                               │
+│           → Trace entry points                                        │
+│           → Find dead code                                           │
+│           → Classify components                                       │
+│           → Output: Feature Inventory with Evidence                   │
+│                                                                      │
+│  Step 2: Load domain-specific analyzers (as applicable)              │
+│           ├── ui-ux-analyzer → UI object inventory                  │
+│           ├── api-analyzer → API endpoint inventory                 │
+│           ├── message-queue-analyzer → Queue/broker inventory       │
+│           └── (OS skills if low-level)                              │
+│                                                                      │
+│  Step 3: Load code-quality-analyzer                                  │
+│           → Identify duplication and interface opportunities          │
+│           → Output: Refactoring Backlog                              │
+│                                                                      │
+│  Step 4: Generate Feature Inventory Report                           │
+│           → Consolidate all findings                                 │
+│           → Document porting complexity                              │
+│           → Identify platform-specific code                          │
+└─────────────────────────────────────────────────────────────────────┘
+
+#### 1.5.2 When to Run Each Analyzer
+
+| Project Type | Required Analyzers |
+|--------------|-------------------|
+| **Porting from language to language** | All: reverse-engineer, code-quality, then relevant domain |
+| **Web Application** | reverse-engineer, ui-ux, api, message-queue |
+| **CLI Tool** | reverse-engineer, system-call, process-model, file-system, privilege |
+| **Network Service** | reverse-engineer, network-stack, api, message-queue |
+| **Kernel Module** | reverse-engineer, system-call, privilege |
+| **IoT/Embedded** | reverse-engineer, network-stack (MQTT), privilege, file-system |
+
+#### 1.5.3 Analysis Output: Feature Inventory
+
+The Feature Inventory is the key output of Phase 0:
+
+```markdown
+# Feature Inventory: <Project>
+
+## Summary
+- Total features found: 12
+- Actual CLI commands: 3 (not 15)
+- Actual API endpoints: 8 (not 50)
+- Dead code identified: 35%
+- Estimated porting effort: Medium
+
+## Actual Features (vs Assumed)
+
+| Feature | Type | Evidence | Portability |
+|---------|------|----------|-------------|
+| start command | CLI | main.go:42, cobra AddCommand | Portable |
+| Token validation | Core | auth.go:15, HMAC-SHA256 | Portable |
+| /health endpoint | API | server.go:50, JSON response | Portable |
+| O_DIRECT usage | File I/O | cache.c:30 | Linux only |
+| epoll_wait | Network | net.c:42 | Linux only |
+| Custom allocator | Memory | mem.c:20 | Complex |
+
+## Dead Code (Will Not Port)
+
+| Code | Location | Reason |
+|------|----------|--------|
+| LDAP auth | auth_ldap.go | Not used - dead import |
+| XML parser | xml.c | Not called from any path |
+| Legacy config | config_old.go | Superseded by config.go |
+
+## Component Role Classification
+
+| File | Name Implies | Actual Role | Response Type |
+|------|--------------|-------------|---------------|
+| server.go | HTTP server | API only | JSON (no HTML) |
+| auth.go | Full auth | Token validation only | N/A |
+| users.go | User management | Read-only list | JSON |
+
+## Task Generation Input
+
+From this inventory, generate tasks that:
+- Match actual features (not assumed)
+- Group by workflow
+- Skip dead code
+- Note platform-specific items
+```
+
+#### 1.5.4 Analysis Skills Reference
+
+| Skill | Purpose | Output |
+|-------|---------|--------|
+| reverse-engineer-for-port | Trace entry points, find dead code | Feature Inventory |
+| ui-ux-analyzer | Document UI objects and states | UI Component Map |
+| api-analyzer | Map REST endpoints and auth | API Specification |
+| message-queue-analyzer | Document queues and brokers | Queue Architecture |
+| system-call-analyzer | Analyze syscall usage | Syscall Map |
+| process-model-analyzer | Document threads and IPC | Process Architecture |
+| network-stack-analyzer | Map sockets and protocols | Network Architecture |
+| file-system-analyzer | Document paths and permissions | File System Map |
+| privilege-analyzer | Document UID/GID and capabilities | Privilege Requirements |
+| code-quality-analyzer | Find duplication and interfaces | Refactoring Backlog |
+
 ### 1.3 Document Numbering
 
 Plan documents follow the `<Number>-<Project>-<Topic>.md` pattern:
