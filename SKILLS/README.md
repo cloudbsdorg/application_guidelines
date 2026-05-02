@@ -296,21 +296,6 @@ IMPORTANT: Always analyze BEFORE planning.
 
 4. Load toc-generator — to create TOC document
 ```
-Task: "Port <application> from <source> to <target>"
-
-1. Load source-analysis-orchestrator — to coordinate all analysis
-   - Traces entry points, finds dead code
-   - Outputs: Feature Inventory, Component Map, Refactoring Backlog
-
-2. Load feature-task-generator — to generate porting tasks
-   - Uses Feature Inventory as input
-   - Groups by workflow, not file
-   - Output: Task table with priorities and dependencies
-
-3. Load code-quality-analyzer — to refine refactoring backlog
-   - Uses Refactoring Backlog from orchestrator
-   - Output: Prioritized refactoring tasks (fix after working port)
-```
 
 ## Skill Maintenance
 
