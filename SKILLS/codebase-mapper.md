@@ -3131,3 +3131,298 @@ src/utils/image.ts
 |---------|---------------|---------|------------|
 | `image-processor.wasm` | `image-processor.js` | 4.2x | [View](.discovery/wasm-image.md) |
 | `crypto-native.node` | `crypto-js` | 8.7x | [View](.discovery/native-crypto.md) |
+
+### Phase31: Embedded Systems & Firmware Mapping=
+
+Map embedded C/C++, device trees, kernel modules.
+
+**Detection:**
+
+```bash
+# Find embedded files
+find . -type f \( -name "*.c" -o -name "*.h" -o -name "*.ino" -o -name "*.device-tree" \) \
+  ! -path "./node_modules/*" ! -path "./.git/*" | head -20
+
+# Check for embedded build systems
+[ -f "Makefile" ] && grep -q "CROSS_COMPILE\|ARCH=" Makefile && echo "Cross-compile detected"
+[ -f "Kconfig" ] && echo "Kernel config detected"
+[ -d "device_tree/" ] && echo "Device tree detected"
+```
+
+**Device Tree Mapping:**
+
+```markdown
+## Device Tree (device_tree/imx6ul.dts)
+
+### Nodes Mapped
+| Node | Compatible | Reg | Purpose |
+|------|-------------|-----|---------|
+| `/soc@2000000` | fsl,imx6ul-soc | 0x20000000 | SoC base addr |
+| `/soc/aips-bus@2000000/uart1@2020000` | fsl,imx-uart | 0x2020000 | UART1 for console |
+| `/chosen` | - | - | Bootargs, stdout-path |
+```
+
+**Kernel Module Mapping:**
+
+```markdown
+## Kernel Modules (drivers/)
+
+### `drivers/char/mydevice.c`
+
+```
+mydevice.c
+├── [include] <linux/module.h>
+│   └── Kernel module macros
+├── [include] <linux/fs.h>
+│   └── File operations struct
+├── [module_param] static int debug = 0;
+│   └── Module parameter (writable via /sys/module/)
+├── [function] static int mydevice_open(struct inode *inode, struct file *filp)
+│   ├── Gets device data from filp->private_data
+│   ├── Increments usage count
+│   └── Returns 0 (success)
+├── [struct] static struct file_operations mydevice_fops = {
+│   ├── .owner = THIS_MODULE
+│   ├── .open = mydevice_open
+│   └── .release = mydevice_release
+├── [function] static int __init mydevice_init(void)
+│   ├── Registers character device (alloc_chrdev_region)
+│   ├── Creates class (class_create)
+│   ├── Creates device (device_create)
+│   └── Returns 0 (success)
+└── [module] module_init(mydevice_init); module_exit(mydevice_exit);
+    └── Registers init/exit functions
+```
+
+**Cross-Reference (Kernel → Userspace):**
+
+| Kernel Device | Userspace File | Purpose |
+|---------------|----------------|---------|
+| `/dev/mydevice` | `src/utils/device.ts` | Opens device for IOCTL |
+| `sys/class/myclass/` | `src/monitor/status.ts` | Reads device attributes |
+
+### Phase32: Blockchain & Smart Contract Mapping=
+
+Map Solidity, Rust (Solana), Go (Hyperledger), WASM (EOS) contracts.
+
+**Detection:**
+
+```bash
+# Find smart contract files
+find . -type f \( -name "*.sol" -o -name "*.rs" -o -name "*.go" \) \
+  ! -path "./node_modules/*" ! -path "./.git/*" | head -10
+
+# Check for blockchain config
+[ -f "hardhat.config.ts" ] && echo "Hardhat (Ethereum) detected"
+[ -f "truffle-config.js" ] && echo "Truffle detected"
+[ -f "anchor.toml" ] && echo "Anchor (Solana) detected"
+```
+
+**Solidity Contract Mapping:**
+
+```markdown
+## Smart Contracts (contracts/)
+
+### `contracts/Token.sol`
+
+```
+Token.sol
+├── [import] from "@openzeppelin/contracts/token/ERC20/ERC20.sol"
+│   └── OpenZeppelin ERC20 implementation
+├── [contract] contract Token is ERC20 {
+│   ├── [constructor] constructor(uint256 initialSupply) ERC20("MyToken", "MTK") {
+│   │   ├── Calls _mint(msg.sender, initialSupply)
+│   │   └── Mints initial supply to deployer
+│   ├── [function] function transfer(address to, uint256 amount) public override returns (bool) {
+│   │   ├── Validates `to` is not zero address
+│   │   ├── Calls super.transfer()
+│   │   └── Emits event Transfer
+│   └── [event] event Transfer(address indexed from, address indexed to, uint256 value)
+│       └── ERC20 standard event
+└── [emit] emit Transfer(address(0), initialSupply)
+    └── Logs initial mint
+```
+
+**Cross-Chain Dependencies:**
+
+| Chain | Bridge | Contract | Discovery |
+|-------|--------|----------|------------|
+| Ethereum | `src/bridge/eth.ts` | `Token.sol` | [View](.discovery/contracts-token.md) |
+| Solana | `src/bridge/sol.ts` | `token.rs` | [View](.discovery/programs-token.md) |
+
+### Phase33: Game Development Mapping=
+
+Map Unity (C#), Unreal (C++), Godot (GDScript), custom engines.
+
+**Detection:**
+
+```bash
+# Find game engine files
+find . -type f \( -name "*.cs" -o -name "*.cpp" -o -name "*.gdscript" -o -name "*.unity" \) \
+  ! -path "./node_modules/*" ! -path "./.git/*" | head -10
+
+# Check for engine-specific directories
+[ -d "Assets/" ] && echo "Unity detected"
+[ -d "Content/" ] && echo "Unreal detected"
+[ -d "scenes/" ] && echo "Godot detected"
+```
+
+**Unity Component Mapping:**
+
+```markdown
+## Unity Scripts (Assets/Scripts/)
+
+### `PlayerController.cs`
+
+```
+PlayerController.cs
+├── [using] UnityEngine;
+│   └── Unity engine namespace
+├── [public class] PlayerController : MonoBehaviour {
+│   ├── [SerializeField] private float moveSpeed = 5.0f;
+│   │   └── Exposed in Unity Inspector
+│   ├── [public] void Start() {
+│   │   ├── Gets Rigidbody component
+│   │   ├── Locks cursor to center
+│   │   └── Initializes score to 0
+│   ├── [public] void Update() {
+│   │   ├── Reads Input.GetAxis("Horizontal")
+│   │   ├── Reads Input.GetAxis("Vertical")
+│   │   ├── Calculates movement vector
+│   │   └── Calls Rigidbody.MovePosition()
+│   └── [void] void OnCollisionEnter(Collision collision) {
+│       ├── Checks collision.gameObject.tag == "Enemy"
+│       ├── Destroys enemy gameObject
+│       └── Increments score
+└── [export] public int GetScore() { return score; }
+    └── Returns current score
+```
+
+**Game Object Hierarchy:**
+
+```mermaid
+graph TD
+    A[Scene: MainLevel] --> B[Player]
+    A --> C[Enemies]
+    A --> D[UI]
+    B --> E[PlayerController.cs]
+    B --> F[Rigidbody]
+    B --> G[MeshRenderer]
+    C --> H[EnemyAI.cs]
+    C --> I[NavMeshAgent]
+    D --> J[ScoreText]
+    D --> K[HealthBar]
+```
+
+### Phase34: CI/CD Pipeline Visualization=
+
+Map CI/CD configs to visual pipeline graphs.
+
+**Detection:**
+
+```bash
+# Find CI/CD configs
+find . -type f \( -name "*.yml" -o -name "*.yaml" \) \
+  -path "*/.github/workflows/*" -o -path "*/.gitlab-ci.yml" -o -path "*/Jenkinsfile" \
+  ! -path "./node_modules/*" ! -path "./.git/*"
+```
+
+**GitHub Actions Pipeline Mapping:**
+
+```markdown
+## CI/CD Pipelines (.github/workflows/)
+
+### `ci.yml` - Main Pipeline
+
+```
+ci.yml
+├── [name] name: CI
+├── [on] on: [push, pull_request]
+│   └── Triggers on push and PR to main/dev
+├── [jobs] jobs:
+│   ├── [job] build:
+│   │   ├── [runs-on] runs-on: ubuntu-latest
+│   │   ├── [steps] steps:
+│   │   │   ├── [step] - uses: actions/checkout@v3
+│   │   │   ├── [step] - name: Setup Node.js
+│   │   │   │   └── uses: actions/setup-node@v3
+│   │   │   ├── [step] - name: Install deps
+│   │   │   │   └── run: npm ci
+│   │   │   ├── [step] - name: Run linter
+│   │   │   │   └── run: npm run lint
+│   │   │   ├── [step] - name: Run tests
+│   │   │   │   └── run: npm test
+│   │   │   └── [step] - name: Build
+│   │   │       └── run: npm run build
+│   │   └── [depends] needs: [] (no dependencies)
+│   └── [job] deploy:
+│       ├── [runs-on] runs-on: ubuntu-latest
+│       ├── [steps] steps: [...] (deploy steps)
+│       └── [depends] needs: [build]
+│           └── Must complete build job first
+└── [env] env:
+    └── NODE_ENV: production
+```
+
+**Pipeline Visualization:**
+
+```mermaid
+graph LR
+    A[Push/PR] --> B[Lint]
+    A --> C[Test]
+    A --> D[Build]
+    B --> E[Deploy]
+    C --> E
+    D --> E
+    E --> F[Production]
+```
+
+### Phase35: Accessibility (A11y) Mapping=
+
+Map accessibility patterns, ARIA attributes, semantic HTML.
+
+**Detection:**
+
+```bash
+# Find frontend files
+find . -type f \( -name "*.tsx" -o -name "*.jsx" -o -name "*.html" \) \
+  ! -path "./node_modules/*" ! -path "./.git/*" | head -10
+
+# Check for a11y tools
+grep -r "aria-\|role=" src/ 2>/dev/null | head -5
+[ -f ".eslintrc*" ] && grep -q "jsx-a11y" .eslintrc* && echo "ESLint a11y detected"
+```
+
+**Accessibility Mapping:**
+
+```markdown
+## Accessibility Audit (src/components/)
+
+### `Button.tsx`
+
+```
+Button.tsx
+├── [import] from '@radix-ui/react-button'
+│   └── Accessible button primitive
+├── [component] export function Button({ children, onClick, disabled, ariaLabel }) {
+│   ├── [aria] aria-label={ariaLabel}
+│   │   └── Screen reader label
+│   ├── [aria] aria-disabled={disabled}
+│   │   └── Indicates disabled state
+│   ├── [role] role="button"
+│   │   └── Explicit role (redundant but explicit)
+│   ├── [handler] onClick={() => !disabled && onClick?.()}
+│   │   └── Prevent clicks when disabled
+│   └── [render] <button onClick={handleClick} disabled={disabled} aria-label={ariaLabel}>
+│       └── Native button with proper attributes
+└── [export] export default Button;
+    └── Export for use in other components
+```
+
+**Accessibility Scorecard:**
+
+| Component | ARIA Usage | Keyboard Nav | Color Contrast | Score |
+|------------|------------|--------------|---------------|-------|
+| `Button.tsx` | ✅ Full | ✅ Tab/Enter | ✅ 4.5:1 | A |
+| `Modal.tsx` | ⚠️ Missing ESC | ✅ Tab cycle | ✅ 3:1 | B |
+| `Nav.tsx` | ✅ Full | ⚠️ Skip nav | ⚠️ 2.5:1 | C |
