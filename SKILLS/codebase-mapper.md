@@ -1493,3 +1493,1342 @@ If BOTH monorepo AND pluralistic:
   3. Add cross-repo links between monorepos
   4. Generate unified dependency graph across all repos
 ```
+
+### Phase8: Visualization & Interactive Reports
+
+Static markdown is great, but interactive visualizations help humans understand complex codebases faster.
+
+**HTML Dashboard Generation:**
+
+Create `.discovery/dashboard.html`:
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Codebase Discovery Dashboard</title>
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <style>
+    .node { cursor: pointer; }
+    .link { stroke: #999; stroke-opacity: 0.6; }
+    .tooltip { position: absolute; background: white; border: 1px solid #ccc; padding: 10px; }
+  </style>
+</head>
+<body>
+  <h1>Codebase Discovery: <span id="project-name"></span></h1>
+  <div id="stats"></div>
+  <svg id="dependency-graph" width="1200" height="800"></svg>
+  <div id="file-list"></div>
+  
+  <script>
+    // Load data from deps.json (generated in Phase6.5.1)
+    d3.json('.discovery/export.json').then(data => {
+      // Render stats
+      d3.select('#project-name').text(data.project);
+      d3.select('#stats').html(`
+        <p>Total Files: ${data.statistics.totalFiles}</p>
+        <p>Total Functions: ${data.statistics.totalFunctions}</p>
+      `);
+      
+      // Render dependency graph
+      const svg = d3.select('#dependency-graph');
+      // ... D3 force-directed graph rendering
+    });
+  </script>
+</body>
+</html>
+```
+
+**Interactive Features:**
+
+| Feature | Implementation | Use Case |
+|---------|----------------|----------|
+| **Zoomable Graph** | D3.js zoom behavior | Navigate large dependency graphs |
+| **Filter by Type** | Checkboxes for [import], [class], etc. | Focus on specific patterns |
+| **Search** | Text input + highlight | Find files/functions instantly |
+| **Drill-Down** | Click node → open discovery doc | Deep dive into components |
+| **Heatmap** | Color nodes by change frequency | Find hot spots (git log) |
+| **Call Graphs** | Expand node → show callers/callees | Understand flow |
+
+**Mermaid Live Preview:**
+
+Create `.discovery/interactive.md`:
+
+```markdown
+# Interactive Discovery
+
+## Live Dependency Graph
+
+```mermaid
+graph TD
+    A[src/main.ts] --> B[src/config.ts]
+    A --> C[src/server.ts]
+    click A href ".discovery/100-main.md" "View Discovery"
+    click B href ".discovery/200-config.md" "View Discovery"
+    style A fill:#e1f5fe
+```
+
+**Embedded Discovery:**
+
+Convert discovery docs to interactive HTML snippets:
+
+```bash
+# Generate self-contained HTML files
+for f in .discovery/*.md; do
+  pandoc "$f" -o "${f%.md}.html" --self-contained
+done
+```
+
+### Phase8.5: Smart Caching & Incremental Intelligence
+
+Beyond basic mtime checks, implement intelligent caching.
+
+**Content-Based Caching:**
+
+```bash
+# Cache key = hash of file content (not mtime)
+for f in $(find . -name "*.ts" ! -path "./node_modules/*"); do
+  HASH=$(md5 -r "$f" | awk '{print $1}')
+  CACHE_FILE=".discovery/cache/${HASH}.md"
+  
+  if [ -f "$CACHE_FILE" ]; then
+    echo "CACHE HIT: $f"
+    # Reuse cached discovery
+  else
+    echo "CACHE MISS: $f"
+    # Generate discovery, save to cache
+    # ... mapping logic ...
+    cp ".discovery/$(basename $f .ts)-discovery.md" "$CACHE_FILE"
+  fi
+done
+```
+
+**Change Impact Analysis:**
+
+```bash
+# When file X changes, what else needs re-mapping?
+if [ -f ".discovery/impact-graph.json" ]; then
+  CHANGED_FILE="src/utils/helper.ts"
+  
+  # Find all files that depend on changed file
+  jq -r --arg file "$CHANGED_FILE" \
+    '.dependencies[] | select(.to == $file) | .from' \
+    .discovery/impact-graph.json
+fi
+```
+
+**Smart Cache Invalidation:**
+
+| Trigger | Action |
+|---------|--------|
+| **File content changes** | Re-map file + dependents |
+| **Package.json changes** | Re-map all files (deps changed) |
+| **Config changes** (tsconfig.json, etc.) | Re-map affected files |
+| **Git branch switch** | Full re-map (context changed) |
+| **File deleted** | Remove from discovery, update TOC |
+
+**Cache Statistics:**
+
+```markdown
+## Cache Performance
+
+| Metric | Value |
+|---------|-------|
+| **Cache Hits** | 1,247 |
+| **Cache Misses** | 89 |
+| **Hit Rate** | 93.3% |
+| **Bytes Saved** | ~2.4MB (reused discovery docs) |
+| **Time Saved** | ~12 minutes |
+```
+
+### Phase9: Security Analysis Deep Dive
+
+Integrate security-focused mapping into the codebase-mapper.
+
+**Security Pattern Detection:**
+
+Add to each discovery document:
+
+```markdown
+## Security Analysis
+
+### Input Validation
+| Location | Pattern | Risk |
+|----------|---------|------|
+| `src/api.ts:42` | `req.body.username` (no validation) | HIGH |
+| `src/auth.ts:89` | `validator.isEmail(email)` | LOW |
+
+### Authentication & Authorization
+| Location | Mechanism | Notes |
+|----------|-----------|-------|
+| `src/middleware/auth.ts` | JWT (jsonwebtoken) | Secret in env var ✅ |
+
+### Hardcoded Secrets
+| Location | Pattern | Action |
+|----------|---------|--------|
+| `src/config.ts:12` | `apiKey = "sk_live_..."` | 🚨 REMOVE IMMEDIATELY |
+
+### Injection Vulnerabilities
+| Location | Type | Risk |
+|----------|------|------|
+| `src/db.ts:56` | SQL injection (string concat) | CRITICAL |
+| `src/utils.ts:34` | Command injection (child_process.exec) | HIGH |
+
+### Dependency Scanning
+```bash
+# Check for known vulns in mapped dependencies
+npm audit --json | jq '.vulnerabilities | keys[]' > .discovery/security/audit.txt
+
+# Cross-reference with mapped files
+grep -f <(jq -r '.vulnerabilities[].via[].source" package.json 2>/dev/null
+```
+
+**Security Report Generation:**
+
+Create `.discovery/security-report.md`:
+
+```markdown
+# Security Report
+
+## Summary
+- 🚨 **CRITICAL**: 2 issues
+- ⚠️ **HIGH**: 5 issues
+- ⚠️ **MEDIUM**: 12 issues
+
+## Critical Issues
+1. **SQL Injection in `src/db.ts:56`**
+   - Pattern: `SELECT * FROM users WHERE id = ${userId}`
+   - Fix: Use parameterized queries
+   - Discovery: [db.ts discovery](.discovery/300-db.md)
+
+## Dependency Vulns
+| Package | Severity | CVE | Discovery Link |
+|---------|----------|-----|----------------|
+| `lodash@4.17.20` | HIGH | CVE-2020-8203 | [package.json](.discovery/root-config/100-package.md) |
+```
+
+### Phase10: IDE & Editor Integration
+
+Make discovery docs accessible directly from the IDE.
+
+**VS Code Extension (Manifest):**
+
+Create `.vscode/codebase-mapper.json`:
+
+```json
+{
+  "maps": [
+    {
+      "file": "src/main.ts",
+      "discovery": ".discovery/100-main.md",
+      "description": "Application entry point"
+    }
+  ],
+  "shortcuts": {
+    "Ctrl+Shift+D": "Open discovery doc for current file",
+    "Ctrl+Shift+T": "Show dependency graph"
+  }
+}
+```
+
+**Click-to-Discovery (VS Code):**
+
+```typescript
+// .vscode/extensions/codebase-mapper/
+// extension.ts
+import * as vscode from 'vscode';
+
+export function activate(context: vscode.ExtensionContext) {
+  // Register "Open Discovery" command
+  let disposable = vscode.commands.registerCommand('codebaseMapper.openDiscovery', () => {
+    const editor = vscode.window.activeTextEditor;
+    if (editor) {
+      const filePath = editor.document.uri.fsPath;
+      const discoveryPath = `.discovery/${path.basename(filePath, '.ts')}-discovery.md`;
+      vscode.workspace.openTextDocument(discoveryPath).then(doc => {
+        vscode.window.showTextDocument(doc);
+      });
+    }
+  });
+  
+  context.subscriptions.push(disposable);
+}
+```
+
+**Hover Providers:**
+
+```typescript
+// Show discovery summary on hover
+vscode.languages.registerHoverProvider('typescript', {
+  provideHover(document, position, token) {
+    const range = document.getWordRangeAtPosition(position);
+    const word = document.getText(range);
+    
+    // Check if word is a function/class mapped in discovery
+    const discovery = loadDiscoveryForFile(document.uri.fsPath);
+    const node = discovery.nodes.find(n => n.name === word);
+    
+    if (node) {
+      return new vscode.Hover({
+        language: 'markdown',
+        value: `**${node.type}:** ${node.description}\n\n[View Full Discovery](.discovery/${node.discoveryFile})`
+      });
+    }
+  }
+});
+```
+
+**JetBrains IDE Support:**
+
+Create `.idea/codebase-mapper.xml`:
+
+```xml
+<component name="CodebaseMapper">
+  <file-mappings>
+    <mapping file="src/main.ts" discovery=".discovery/100-main.md" />
+  </file-mappings>
+</component>
+```
+
+**Emacs/Vim Integration:**
+
+```elisp
+;; .emacs.d/init.el
+(defun open-discovery-for-current-file ()
+  "Open the discovery document for the current file."
+  (interactive)
+  (let* ((file (buffer-file-name))
+         (basename (file-name-base file))
+         (discovery (format ".discovery/%s-discovery.md" basename)))
+    (find-file discovery)))
+
+(global-set-key (kbd "C-c d") 'open-discovery-for-current-file)
+```
+
+```vim
+" .vimrc
+nnoremap <leader>d :call OpenDiscovery()<CR>
+function! OpenDiscovery()
+  let l:file = expand('%:t:r')
+  let l:discovery = '.discovery/' . l:file . '-discovery.md'
+  execute 'edit ' . l:discovery
+endfunction
+```
+
+### Phase11: ML-Assisted Mapping (Experimental)
+
+Use machine learning models to assist with mapping complex codebases.
+
+**Pattern Recognition:**
+
+```bash
+# Train/fine-tune on existing discovery docs
+# Use similarity search to find similar patterns
+# Suggest tree structures for unseen code patterns
+
+# Example: Use local embeddings
+if command -v sentence-transformers &> /dev/null; then
+  python3 -c "
+from sentence_transformers import SentenceTransformer
+model = SentenceTransformer('all-MiniLM-L6-v2')
+# Encode existing discovery patterns
+# Find similar patterns in unmapped code
+"
+fi
+```
+
+**AI-Powered Suggestions:**
+
+| Task | ML Approach | Output |
+|------|--------------|--------|
+| **Function classification** | CodeBERT fine-tuned on discovery docs | Suggest `[function]`, `[handler]`, `[middleware]` labels |
+| **Importance scoring** | PageRank on dependency graph | Mark high-centrality nodes for priority mapping |
+| **Duplicate detection** | Embedding similarity (>0.9) | Flag potential code duplication early |
+| **Test coverage gaps** | Compare function embeddings vs test embeddings | Suggest missing test targets |
+
+**Integration:**
+
+```markdown
+## ML-Assisted Insights (Phase11)
+
+### Similarity Clusters
+| Cluster | Files | Pattern |
+|---------|-------|---------|
+| Auth-related | `auth.ts`, `login.ts`, `permissions.ts` | JWT, session management |
+| Data access | `db.ts`, `models/*.ts`, `queries.ts` | SQL queries, ORM patterns |
+
+### Importance Scores (Top 10)
+| File | Centrality Score | Reason |
+|------|------------------|--------|
+| `src/server.ts` | 0.95 | Imported by 23 files |
+| `src/config.ts` | 0.89 | Configuration hub |
+| `src/auth.ts` | 0.87 | Security-critical, widely used |
+
+### Duplication Detection
+| Original | Duplicate | Similarity |
+|-----------|-----------|------------|
+| `utils/validator.ts` | `lib/validate.ts` | 0.92 |
+| `helpers/http.ts` | `utils/requests.ts` | 0.88 |
+```
+
+**Safety Rails:**
+
+```
+1. ML suggestions are MARKED, not auto-applied
+2. Human MUST verify all ML-generated nodes
+3. Confidence scores shown: [ML-0.95] = 95% confident
+4. Flag low-confidence (<0.7) for human review
+```
+
+### Phase12: Database Schema Analysis
+
+Map database schemas, migrations, and ORM models.
+
+**Detection:**
+
+```bash
+# Find database-related files
+find . -type f \( -name "*.sql" -o -name "*schema*" -o -name "*migration*" \) \
+  ! -path "./node_modules/*" ! -path "./.git/*"
+
+# Check for ORM usage
+grep -r "from sqlalchemy\|from django.db\|from sequelize\|mongoose\|prisma" . 2>/dev/null | head -10
+
+# Check for migration tools
+[ -f "migrations/" ] && echo "SQLAlchemy/Flyway migrations"
+[ -f "prisma/schema.prisma" ] && echo "Prisma ORM"
+[ -f "knexfile.js" ] && echo "Knex migrations"
+```
+
+**Schema Mapping:**
+
+```markdown
+## Database Schema
+
+### Entity-Relationship Diagram (Mermaid)
+
+```mermaid
+erDiagram
+  USERS ||--o{ ORDERS : places
+  USERS {
+    int id PK
+    string email
+    string password_hash
+  }
+  ORDERS ||--|{ ORDER_ITEMS : contains
+  ORDERS {
+    int id PK
+    int user_id FK
+    datetime created_at
+  }
+```
+
+### Tables/Collections
+
+| Table/Collection | File | Type | Purpose |
+|------------------|------|------|---------|
+| `users` | `prisma/schema.prisma:12` | PostgreSQL | User accounts, auth |
+| `orders` | `migrations/001_create_orders.sql` | PostgreSQL | Order data |
+| `sessions` | `src/models/session.ts` | Redis | Session storage |
+
+### Migrations
+
+| Version | File | Changes | Date |
+|----------|------|---------|------|
+| 001 | `migrations/001_init.sql` | Create users, orders | 2026-01-15 |
+| 002 | `migrations/002_add_indexes.sql` | Add indexes to users.email | 2026-02-20 |
+
+### ORM Models
+
+| Model | File | Fields | Relations |
+|-------|------|--------|-----------|
+| `User` | `src/models/User.ts` | id, email, passwordHash | hasMany: Order |
+| `Order` | `src/models/Order.ts` | id, userId, total | belongsTo: User |
+
+### Query Analysis
+
+| Location | Query Type | Table | Notes |
+|-----------|-------------|-------|-------|
+| `src/db.ts:45` | SELECT | users | Parameterized ✅ |
+| `src/orders.ts:89` | INSERT | orders | Uses transaction |
+| `src/admin.ts:123` | RAW SQL | users, orders | 🚨 SQL injection risk! |
+```
+
+**Cross-Reference with Code:**
+
+```
+- File: `src/routes/orders.ts` → imports `db.ts` → queries `orders` table
+- File: `src/models/Order.ts` → defines ORM model → maps to `orders` table
+- Migration: `migrations/002_add_indexes.sql` → modifies `users` table
+```
+
+### Phase13: API Contract Generation
+
+Generate API contracts from mapped routes and handlers.
+
+**Extract from Discovery Docs:**
+
+```bash
+# Find all [route] nodes
+grep -r "\[route\]" .discovery/ 2>/dev/null | head -20
+
+# Find all API-related files
+grep -r "express\|fastify\|koa\|hono" package.json 2>/dev/null
+```
+
+**OpenAPI/Swagger Generation:**
+
+Create `.discovery/api-contract.yaml`:
+
+```yaml
+openapi: 3.0.0
+info:
+  title: My API
+  version: 1.0.0
+paths:
+  /api/users:
+    get:
+      summary: List users
+      operationId: listUsers
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+    post:
+      summary: Create user
+      operationId: createUser
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateUserInput'
+      responses:
+        '201':
+          description: Created
+  
+  /api/users/{id}:
+    get:
+      summary: Get user by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+        email:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+    CreateUserInput:
+      type: object
+      required: [email, password]
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+```
+
+**GraphQL Schema Generation (if applicable):**
+
+```graphql
+type Query {
+  users: [User!]!
+  user(id: ID!): User
+}
+
+type Mutation {
+  createUser(input: CreateUserInput!): User!
+  updateUser(id: ID!, input: UpdateUserInput!): User!
+  deleteUser(id: ID!): Boolean!
+}
+
+type User {
+  id: ID!
+  email: String!
+  createdAt: DateTime!
+}
+
+input CreateUserInput {
+  email: String!
+  password: String!
+}
+```
+
+**Contract Testing:**
+
+```markdown
+## API Contract Tests
+
+| Endpoint | Method | Expected Status | Auth Required |
+|-----------|--------|-------------------|----------------|
+| `/api/users` | GET | 200 | No |
+| `/api/users` | POST | 201 | Yes (JWT) |
+| `/api/users/:id` | GET | 200 | Yes (JWT) |
+| `/api/admin/users` | GET | 403 | Yes (Admin role required) |
+```
+
+### Phase14: Test Coverage Mapping
+
+Map test files to the code they cover.
+
+**Detection:**
+
+```bash
+# Find test files
+find . -type f \( -name "*.test.*" -o -name "*.spec.*" -o -path "*/test/*" -o -path "*/tests/*" \) \
+  ! -path "./node_modules/*" ! -path "./.git/*"
+
+# Check test framework
+[ -f "jest.config.js" ] && echo "Jest"
+[ -f "vitest.config.ts" ] && echo "Vitest"
+[ -f "cypress/" ] && echo "Cypress (E2E)"
+[ -f ".playwright/" ] && echo "Playwright (E2E)"
+```
+
+**Coverage Mapping:**
+
+```markdown
+## Test Coverage Map
+
+### Test-to-Source Mapping
+
+| Test File | Source File | Functions Covered | Coverage % |
+|-----------|-------------|---------------------|------------|
+| `test/auth.test.ts` | `src/auth.ts` | login, logout, refreshToken | 85% |
+| `test/api.test.ts` | `src/routes/*.ts` | All route handlers | 92% |
+| `test/db.test.ts` | `src/db.ts` | query, insert, update | 78% |
+
+### Missing Coverage
+
+| Source File | Functions | Priority |
+|-------------|-----------|----------|
+| `src/utils/validator.ts` | validateEmail, validatePhone | HIGH |
+| `src/admin.ts` | deleteUser, banUser | MEDIUM |
+| `src/webhooks.ts` | handleStripe, handleTwilio | LOW |
+
+### E2E Test Coverage
+
+| Scenario | Test File | Status |
+|-----------|-----------|--------|
+| User login | `cypress/e2e/login.cy.ts` | ✅ |
+| Checkout flow | `cypress/e2e/checkout.cy.ts` | ❌ Missing |
+| Admin dashboard | `playwright/admin.spec.ts` | ✅ |
+```
+
+**Coverage Visualization:**
+
+```mermaid
+pie title Test Coverage by Module
+    "src/auth.ts" : 85
+    "src/routes" : 92
+    "src/db.ts" : 78
+    "src/utils" : 45
+    "src/admin.ts" : 30
+```
+
+### Phase15: Streaming & Incremental Output
+
+For large codebases, stream discovery output instead of batching.
+
+**Streaming Output Format:**
+
+```
+.discovery/
+├── 000-root.md          # Written first (header)
+├── 100-main.md          # Streamed as mapped
+├── 200-config.md        # Streamed as mapped
+├── ...                   # Incremental writes
+└── TOC.md              # Finalized last
+```
+
+**Implementation:**
+
+```bash
+# Instead of building full tree in memory:
+# Stream each file's discovery doc as it's mapped
+
+map_file() {
+  local file="$1"
+  local discovery_file=".discovery/$(echo $file | sed 's/\//-/g').md"
+  
+  # Stream header
+  echo "# Component: $(basename $file)" > "$discovery_file"
+  echo "" >> "$discovery_file"
+  
+  # Stream structure (as it's parsed)
+  parse_file "$file" | while read line; do
+    echo "$line" >> "$discovery_file"
+  done
+  
+  # Update TOC incrementally
+  echo "| [$discovery_file]($discovery_file) | ... |" >> .discovery/TOC.md.partial
+}
+
+# After all files mapped, finalize TOC
+mv .discovery/TOC.md.partial .discovery/TOC.md
+```
+
+**Progress Reporting:**
+
+```markdown
+## Streaming Progress
+
+| File | Status | Discovery Doc |
+|------|--------|---------------|
+| ✅ `src/main.ts` | Mapped | [100-main.md](.discovery/100-main.md) |
+| ✅ `src/config.ts` | Mapped | [200-config.md](.discovery/200-config.md) |
+| 🔄 `src/server.ts` | In Progress | (streaming...) |
+| ⏳️ `src/routes/*.ts` | Pending | - |
+| ⏳️ `src/models/*.ts` | Pending | - |
+```
+
+### Phase16: Plugin System for Custom Node Types
+
+Allow users to extend the skill with custom node types and parsers.
+
+**Plugin Manifest (`.discovery/plugins.json`):**
+
+```json
+{
+  "plugins": [
+    {
+      "name": "react-hooks",
+      "filePattern": "*.tsx",
+      "nodeTypes": ["hook", "component", "effect"],
+      "parser": "tree-sitter-tsx"
+    },
+    {
+      "name": "kubernetes",
+      "filePattern": "*.yaml",
+      "nodeTypes": ["deployment", "service", "ingress"],
+      "parser": "k8s-parser"
+    }
+  ]
+}
+```
+
+**Custom Node Type Example (React Hooks):**
+
+```markdown
+## Structure
+
+```
+App.tsx
+├── [hook] useState(initialState)
+│   ├── Local state management
+│   └── Returns [state, setState]
+├── [hook] useEffect(() => { ... }, [deps])
+│   ├── Side effect on mount/update
+│   └── Cleanup on unmount
+├── [component] function App()
+│   ├── Renders main UI
+│   ├── Calls custom hooks
+│   └── Returns JSX
+└── [export] export default App
+```
+
+**Plugin API (for advanced users):**
+
+```typescript
+// .discovery/plugins/react-hooks.ts
+export interface CodebaseMapperPlugin {
+  name: string;
+  filePattern: RegExp;
+  
+  parseFile(filePath: string): TreeNode[];
+  getNodeTypes(): string[];
+}
+
+export class ReactHooksPlugin implements CodebaseMapperPlugin {
+  name = "react-hooks";
+  filePattern = /\.tsx?$/;
+  
+  parseFile(filePath: string): TreeNode[] {
+    // Custom parsing logic
+    // Return custom tree nodes
+  }
+  
+  getNodeTypes() {
+    return ["hook", "component", "effect"];
+  }
+}
+```
+
+### Phase17: Comparison & Diff Between Mapping Versions
+
+Track how the codebase evolves across mapping versions.
+
+**Version Storage:**
+
+```
+.discovery/
+├── v1/
+│   ├── 000-root.md
+│   ├── 100-main.md
+│   └── TOC.md
+├── v2/
+│   ├── 000-root.md
+│   ├── 100-main.md
+│   └── TOC.md
+└── latest/ → symlink to v2/
+```
+
+**Diff Generation:**
+
+```bash
+# Compare two mapping versions
+diff -u .discovery/v1/TOC.md .discovery/v2/TOC.md > .discovery/diff-v1-v2.patch
+
+# Or use git-style diff
+git diff --no-index .discovery/v1/ .discovery/v2/ > .discovery/changes.patch
+```
+
+**Change Report (`.discovery/changelog.md`):**
+
+```markdown
+# Codebase Discovery Changelog
+
+## Version 2 (2026-05-03)
+
+### Added
+- ✅ `src/new-feature.ts` (new file, 245 lines)
+- ✅ `src/api/v2/` (new API version)
+
+### Modified
+- 🔄 `src/config.ts` (added 3 new config options)
+- 🔄 `src/server.ts` (added WebSocket support)
+
+### Removed
+- ❌ `src/legacy/handler.ts` (deleted)
+- ❌ `src/utils/old-validator.ts` (replaced)
+
+### Statistics Change
+| Metric | v1 | v2 | Change |
+|---------|----|----|--------|
+| Total files | 1,245 | 1,247 | +2 |
+| Total functions | 3,421 | 3,456 | +35 |
+| Total classes | 456 | 462 | +6 |
+```
+
+**Drift Detection:**
+
+```markdown
+## Architecture Drift Report
+
+### New Patterns Detected
+| Pattern | Files | Version |
+|---------|-------|---------|
+| `async/await` | 89 files | v2 (new) |
+| `Observable` (RxJS) | 12 files | v2 (new) |
+
+### Deprecated Patterns
+| Pattern | Files | Last Seen |
+|---------|-------|-----------|
+| `callbacks` | 23 files | v1 (declining) |
+| `Promise.then()` | 45 files | v2 (replaced by async/await) |
+```
+
+### Phase18: Real-Time Collaboration & Sharing=
+
+Allow multiple developers to collaborate on codebase mapping.
+
+**Live Share (VS Code):**
+
+```bash
+# Share .discovery/ directory via Live Share
+# Other developers can see updates in real-time
+# Conflicts resolved via file-level locking
+```
+
+**CRDT-Based Synchronization:**
+
+```typescript
+// .discovery/_sync/crdt-log.json
+// Conflict-free replicated data types for collaborative editing
+
+interface DiscoveryCRDT {
+  file: string;
+  version: number;
+  changes: Array<{
+    nodeId: string;
+    action: 'add' | 'modify' | 'delete';
+    timestamp: number;
+    author: string;
+  }>;
+}
+```
+
+**Collaborative Features:**
+
+| Feature | Implementation | Use Case |
+|---------|----------------|----------|
+| **Live Cursors** | WebSocket + position sharing | See what others are mapping |
+| **Conflict Resolution** | Operational Transform (OT) | Merge concurrent edits |
+| **Change History** | Git-like DAG for discovery docs | Revert to previous mapping |
+| **Comments/Annotations** | Comment threads on nodes | Discuss mapping decisions |
+| **Presence Awareness** | "User X is mapping src/auth.ts" | Coordinate work |
+
+**Shared Session Example:**
+
+```markdown
+## Collaborative Session (2026-05-03)
+
+### Active Mappers
+- **Alice** → `src/frontend/` (React components)
+- **Bob** → `src/backend/` (API routes)
+- **Charlie** → `packages/shared/` (utils, types)
+
+### Recent Changes
+| Time | Author | File | Change |
+|------|--------|------|---------|
+| 14:23 | Alice | `300-app.tsx` | Added [hook] useState node |
+| 14:25 | Bob | `200-api.ts` | Modified [route] /users description |
+| 14:27 | Charlie | `100-types.ts` | Added [type] User interface |
+
+### Comments
+- **Alice** on `300-app.tsx:45`: "Should we split this component?"
+- **Bob** replied: "Yes, extract UserProfile separately"
+```
+
+### Phase19: Binary & Asset Analysis=
+
+Handle non-text files with specialized analysis.
+
+**Binary File Detection:**
+
+```bash
+# Find binary files (exclude .discovery/)
+find . -type f ! -path "./.discovery/*" ! -path "./node_modules/*" | \
+  while read f; do
+    file "$f" | grep -q "text" || echo "BINARY: $f"
+  done
+```
+
+**Asset Metadata Extraction:**
+
+| Asset Type | Tool | Extracted Metadata |
+|------------|------|-------------------|
+| **Images (PNG, JPG)** | `identify` (ImageMagick) | Dimensions, color space, size, format |
+| **SVG** | XML parser | ViewBox, elements, paths, text nodes |
+| **Fonts (TTF, OTF, WOFF)** | `fc-query` | Family, weight, style, coverage |
+| **Audio (MP3, WAV)** | `ffprobe` | Duration, bitrate, sample rate, channels |
+| **Video (MP4, WebM)** | `ffprobe` | Resolution, duration, codec, bitrate |
+| **PDF** | `pdfinfo` | Pages, author, creation date, encrypted |
+| **Archive (ZIP, TAR, GZ)** | `unzip -l`, `tar -tvf` | Contained files, sizes, structure |
+
+**Asset Discovery Document (`.discovery/assets.md`):**
+
+```markdown
+# Asset Inventory
+
+## Images
+| File | Dimensions | Size | Used In | Description |
+|------|-----------|------|---------|-------------|
+| `public/logo.png` | 200x80 | 12KB | `src/App.tsx:15` | Main logo |
+| `public/hero.jpg` | 1920x1080 | 340KB | `src/pages/Home.tsx` | Landing page hero |
+
+## Fonts
+| File | Family | Weight | Coverage |
+|------|--------|--------|-----------|
+| `fonts/inter.woff2` | Inter | 400, 600, 700 | Latin, Cyrillic |
+
+## Media
+| File | Duration | Size | Used In |
+|------|----------|------|---------|
+| `public/intro.mp4` | 2:34 | 12MB | `src/pages/About.tsx` |
+```
+
+**Binary Dependency Mapping:**
+
+```markdown
+## Binary Dependencies
+
+| Binary | Used By | Purpose |
+|--------|---------|---------|
+| `ffmpeg` | `src/utils/video.ts` | Video transcoding |
+| `imagemagick` | `src/utils/images.ts` | Thumbnail generation |
+| `pandoc` | `src/utils/export.ts` | Document conversion |
+```
+
+### Phase20: Documentation Generation From Discovery=
+
+Auto-generate various documentation from discovery docs.
+
+**README.md Generator:**
+
+```bash
+# Generate README.md from .discovery/
+cat > README.md << 'EOF'
+# $(basename $PWD)
+
+## Project Structure
+$(grep -A 20 "^## Project Structure" .discovery/TOC.md | tail -n +3)
+
+## Quick Start
+\`\`\`bash
+$(jq -r '.scripts.start' package.json 2>/dev/null || echo "npm start")
+\`\`\`
+
+## Architecture
+See [full discovery docs](.discovery/TOC.md).
+EOF
+```
+
+**API Documentation (from [route] nodes):**
+
+```markdown
+# API Documentation
+
+## Endpoints
+
+### GET /api/users
+- **Handler:** `src/routes/users.ts:42` → [View Discovery](.discovery/300-users.md)
+- **Response:** Array of User objects
+- **Auth:** Required (JWT)
+
+### POST /api/users
+- **Handler:** `src/routes/users.ts:89` → [View Discovery](.discovery/300-users.md)
+- **Body:** UserCreateInput
+- **Response:** User object
+- **Auth:** Required (Admin role)
+```
+
+**Architecture Decision Records (ADR):**
+
+```markdown
+# Architecture Decision Records
+
+## ADR-001: Use Express.js for API
+
+**Status:** Accepted
+
+**Context:**
+When starting the project, needed a web framework for the REST API.
+
+**Decision:**
+Use Express.js with TypeScript.
+
+**Consequences:**
+- ✅ Large ecosystem, middleware available
+- ✅ TypeScript support via @types/express
+- ⚠️ Manual error handling required
+- ⚠️ No built-in validation
+
+**Discovery Links:**
+- [Server setup](.discovery/300-server.md)
+- [Route handlers](.discovery/300-routes.md)
+```
+
+**Component Inventory (from [class], [function] nodes):**
+
+```markdown
+# Component Inventory
+
+## React Components (Frontend)
+
+| Component | File | Props | State | Discovery |
+|-----------|------|-------|-------|------------|
+| `App` | `src/App.tsx` | - | - | [View](.discovery/400-app.md) |
+| `UserList` | `src/components/UserList.tsx` | users, onSelect | selectedUser | [View](.discovery/401-user-list.md) |
+| `UserProfile` | `src/components/UserProfile.tsx` | userId | user, loading | [View](.discovery/402-user-profile.md) |
+
+## Utility Functions (Shared)
+
+| Function | File | Parameters | Returns | Discovery |
+|-----------|------|------------|---------|------------|
+| `validateEmail` | `src/utils/validation.ts` | email: string | boolean | [View](.discovery/500-validation.md) |
+| `formatDate` | `src/utils/format.ts` | date: Date, format: string | string | [View](.discovery/501-format.md) |
+```
+
+### Phase21: Performance Profiling Integration=
+
+Map performance characteristics alongside code structure.
+
+**Integration with Profilers:**
+
+```bash
+# If perf data exists (from profiling runs)
+if [ -f "perf-data.json" ]; then
+  jq -r '.samples[] | "\(.file):\(.line) \(.duration_ms)"' perf-data.json | \
+    sort -k2 -rn | head -20
+fi
+```
+
+**Hot Spot Mapping:**
+
+```markdown
+## Performance Hot Spots
+
+| File | Function | Avg Time (ms) | Calls | Discovery |
+|------|-----------|-----------------|-------|------------|
+| `src/db.ts` | `query()` | 450ms | 1,247 | [View](.discovery/300-db.md) |
+| `src/auth.ts` | `verifyToken()` | 12ms | 3,421 | [View](.discovery/301-auth.md) |
+| `src/utils.ts` | `encrypt()` | 89ms | 892 | [View](.discovery/500-utils.md) |
+
+### Optimization Opportunities
+1. **`src/db.ts:query()`** - Add connection pooling, index frequently queried fields
+2. **`src/utils.ts:encrypt()`** - Consider caching encrypted values, use faster algorithm
+```
+
+**Memory Allocation Mapping:**
+
+```markdown
+## Memory Profile
+
+| File | Est. Memory (MB) | Reason |
+|------|-------------------|--------|
+| `src/cache.ts` | 145MB | In-memory LRU cache |
+| `src/models/` | 67MB | Loaded ORM models |
+| `src/assets/` | 234MB | Static assets in memory |
+```
+
+**Bundle Size Analysis (Frontend):**
+
+```bash
+# If webpack-bundle-analyzer output exists
+if [ -f "bundle-stats.json" ]; then
+  echo "### Bundle Composition" >> .discovery/perf.md
+  jq -r '.assets[] | "| \(.name) | \(.size) bytes |"' bundle-stats.json >> .discovery/perf.md
+fi
+```
+
+### Phase22: Code Complexity Metrics=
+
+Calculate and map complexity metrics for each component.
+
+**Cyclomatic Complexity:**
+
+```bash
+# Using eslint-plugin-complexity or radicalize
+npx eslint --format json src/ | jq -r '.[].messages[] | select(.ruleId == "complexity") | "\(.filePath): \(.message)"'
+```
+
+**Metrics per File (in discovery docs):**
+
+```markdown
+## Complexity Metrics
+
+| Metric | Value | Threshold | Status |
+|---------|-------|-----------|--------|
+| **Cyclomatic Complexity** | 18 | <15 | ⚠️ Over threshold |
+| **Lines of Code** | 245 | <500 | ✅ OK |
+| **Maintainability Index** | 68 | >60 | ✅ OK |
+| **Halstead Volume** | 1,245 | - | - |
+| **Number of Parameters** | 5 | <4 | ⚠️ Over threshold |
+
+### Functions Needing Refactoring
+1. **`processData()`** (complexity: 18) → Break into smaller functions
+2. **`validateForm()`** (complexity: 12) → Extract validation rules
+```
+
+**Visual Complexity Map:**
+
+```mermaid
+pie title Complexity Distribution
+    "Low (<5)" : 145
+    "Medium (5-10)" : 67
+    "High (10-15)" : 23
+    "Very High (>15)" : 8
+```
+
+**Code Smell Detection:**
+
+| Smell | Detection | File | Action |
+|--------|-----------|------|--------|
+| **God Class** | >500 lines, >20 methods | `src/models/User.ts` | Split into modules |
+| **Long Method** | >50 lines | `src/utils.ts:parse()` | Extract helper functions |
+| **Duplicated Code** | Similarity >80% | `src/a.ts`, `src/b.ts` | Extract shared logic |
+| **Dead Code** | Never called, not exported | `src/old-utils.ts` | Remove |
+```
+
+### Phase23: Architecture Pattern Detection=
+
+Automatically detect and document common architecture patterns.
+
+**Pattern Recognition:**
+
+```bash
+# Detect MVC pattern
+[ -f "src/models/" ] && [ -f "src/views/" ] && [ -f "src/controllers/" ] && echo "MVC pattern detected"
+
+# Detect Layered Architecture
+[ -d "src/presentation/" ] && [ -d "src/domain/" ] && [ -d "src/infrastructure/" ] && echo "Layered Architecture"
+
+# Detect Microservices
+find . -name "package.json" ! -path "./node_modules/*" | wc -l | awk '$1 > 1 {print "Microservices (monorepo) detected"}'
+```
+
+**Pattern Documentation:**
+
+```markdown
+## Architecture Patterns Detected
+
+### Pattern: Model-View-Controller (MVC)
+
+**Evidence:**
+- `src/models/` → Data layer (User, Order, Product)
+- `src/views/` → Presentation layer (React components)
+- `src/controllers/` → Business logic (request handlers)
+
+**File Mapping:**
+| Layer | Files | Discovery |
+|-------|-------|------------|
+| Model | `src/models/*.ts` | [View](.discovery/200-models.md) |
+| View | `src/views/*.tsx` | [View](.discovery/400-views.md) |
+| Controller | `src/controllers/*.ts` | [View](.discovery/300-controllers.md) |
+
+### Pattern: Repository Pattern
+
+**Evidence:**
+- `src/repositories/` directory exists
+- Classes like `UserRepository`, `OrderRepository`
+- Interface-based data access
+
+**Benefits:**
+- ✅ Decouples data access from business logic
+- ✅ Easy to swap data sources (test doubles)
+- ✅ Centralized query logic
+```
+
+**Anti-Pattern Detection:**
+
+| Anti-Pattern | Detection | File | Severity |
+|---------------|-----------|------|----------|
+| **Singleton Abuse** | Multiple `getInstance()` calls | `src/utils.ts` | Medium |
+| **Magic Numbers** | Unnamed numeric constants | `src/config.ts:42` | Low |
+| **Shotgun Surgery** | Same change scattered across files | `src/routes/*.ts` | High |
+| **Feature Envy** | Method uses another class's data | `src/auth.ts:89` | Medium |
+```
+
+### Phase24: Dependency Vulnerability Deep-Dive=
+
+Go beyond `npm audit` with deeper supply chain analysis.
+
+**Snyk Integration:**
+
+```bash
+if command -v snyk &> /dev/null; then
+  snyk test --json > .discovery/security/snyk.json
+  snyk monitor  # Push to Snyk dashboard
+fi
+```
+
+**Vulnerability Mapping (in discovery docs):**
+
+```markdown
+## Supply Chain Security
+
+### Vulnerable Dependencies
+
+| Package | Version | Vulnerability | Severity | Discovery |
+|---------|---------|----------------|----------|------------|
+| `lodash` | 4.17.20 | CVE-2020-8203 (Prototype Pollution) | HIGH | [View](.discovery/root-config/100-package.md) |
+| `express` | 4.17.1 | CVE-2024-29041 (DoS) | MEDIUM | [View](.discovery/root-config/100-package.md) |
+
+### Dependency Tree Risk
+
+```
+lodash@4.17.20 (HIGH risk)
+├── Used by: src/utils.ts (direct)
+├── Used by: src/validation.ts (transitive)
+└── Fix: npm install lodash@4.17.21
+
+express@4.17.1 (MEDIUM risk)
+├── Used by: src/server.ts (direct)
+└── Fix: npm install express@4.19.2
+```
+
+**License Compliance Check:**
+
+```bash
+# Check for GPL/AGPL etc. that may affect commercial use
+npx license-checker --onlyAllow="MIT;Apache-2.0;BSD-3-Clause" --summary
+```
+
+**Security.txt Generation:**
+
+```markdown
+# .discovery/security/security.txt
+
+Contact: security@example.com
+Preferred-Languages: en
+Canonical: https://example.com/.well-known/security.txt
+Policy: https://example.com/security-policy
+```
+
+### Phase25: Multi-Language Monorepo Support=
+
+Handle monorepos with multiple programming languages.
+
+**Detection:**
+
+```bash
+# Find all languages used
+find . -type f ! -path "./node_modules/*" ! -path "./.git/*" | \
+  sed 's/.*\.//' | sort | uniq -c | sort -rn
+
+# Example output:
+#   1,247 ts
+#     456 js
+#     234 py
+#      89 java
+#      67 rb
+#      45 sh
+```
+
+**Language-Specific Discovery:**
+
+```
+.discovery/
+├── typescript/          # TypeScript/JavaScript files
+│   ├── src/
+│   └── tests/
+├── python/              # Python files
+│   ├── src/
+│   └── tests/
+├── java/                # Java files
+│   └── src/
+└── TOC.md             # Master TOC linking all languages
+```
+
+**Cross-Language Dependencies:**
+
+```markdown
+## Cross-Language Calls
+
+| Caller (TS) | Callee (Python) | Mechanism |
+|---------------|--------------|-----------|
+| `src/utils/process.ts` | `scripts/analyze.py` | `child_process.exec()` |
+| `src/api/server.ts` | `java -jar processor.jar` | `child_process.spawn()` |
+```
+
+**Build Order (multi-language):**
+
+```mermaid
+graph TD
+    A[Python: preprocess.py] --> B[TypeScript: compile]
+    B --> C[Java: build jar]
+    C --> D[Bundle: package]
+```
