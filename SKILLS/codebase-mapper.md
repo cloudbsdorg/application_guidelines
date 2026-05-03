@@ -194,52 +194,92 @@ For each orphan file:
 ```bash
 #!/bin/bash
 # orphan-discovery.sh - Find and categorize all unmapped files
+# Generates Master File Tracking Table with: File | Mapped | UTC Timestamp | Where Used | Purpose
 
-EXCLUDES="! -path ./.discovery/* ! -path ./node_modules/* ! -path ./.git/* ! -path ./dist/* ! -path ./build/*"
+EXCLUDES="! -path ./discovery/* ! -path ./node_modules/* ! -path ./git/* ! -path ./dist/* ! -path ./build/*"
 
 echo "=== Orphan Discovery ==="
 
-# Find all project files
+# Step 1: Find ALL project files (the 'find *' at codebase root)
 eval "find . -type f $EXCLUDES" | sort > /tmp/all_files.txt
 
-# Find mapped files
+# Step 2: Find already-mapped files from .discovery/ documents
 grep -h "**Path:**" .discovery/*.md 2>/dev/null | sed 's/.*`//; s/`.*//' | sort -u > /tmp/mapped_files.txt
 
-# Find orphans
-comm -23 /tmp/all_files.txt /tmp/mapped_files.txt > /tmp/orphans.txt
+# Step 3: Find orphans (in project but not in discovery docs)
+comm -23 /tmp/all_files.txt /tmp/mapped_files.txt > /tmp/orphan_files.txt
 
 echo "Total project files: $(wc -l < /tmp/all_files.txt)"
 echo "Mapped files: $(wc -l < /tmp/mapped_files.txt)"
-echo "Orphan files: $(wc -l < /tmp/orphans.txt)"
-echo ""
+echo "Orphan files: $(wc -l < /tmp/orphan_files.txt)"
 
-# Categorize orphans
-echo "=== Categorized Orphans ==="
+# Step 4: Generate Master File Tracking Table (.discovery/TOC.md section)
+TOC_FILE=".discovery/TOC.md"
+[[ -f "$TOC_FILE" ]] || echo "# Codebase Discovery — Table of Contents
+
+## 📋 Master File Tracking Table
+
+> **CRITICAL:** EVERY file in the project MUST appear in this table.
+> NO file is "not interesting" — every file has a purpose.
+
+| File | Mapped (true/false) | Timestamp (UTC) | Where Used | Purpose |
+|------|----------------------|-------------------|-------------|---------|" > /tmp/master_table.txt
+
+# Process ALL files (not just orphans — we want EVERY file)
 while read f; do
+  # Check if mapped
+  MAPPED=$(grep -q "$f" /tmp/mapped_files.txt && echo "✅ true" || echo "❌ false")
+  
+  # Get timestamp (use file mtime as approximation, or TOC generation time)
+  TIMESTAMP=$(date -u -r "$f" "+%Y-%m-%dT%H:%M:%SZ" 2>/dev/null || echo "-")
+  
+  # Find where this file is used (grep for filename in source dirs)
+  BASENAME=$(basename "$f")
+  WHERE_USED=$(grep -rl "$BASENAME" src/ 2>/dev/null | head -3 | xargs -I {} echo "\`{}\`" | tr '\n' ',' | sed 's/,$//')
+  [[ -z "$WHERE_USED" ]] && WHERE_USED="(not referenced)"
+  
+  # Determine purpose based on file type and location
+  PURPOSE=""
   case "$f" in
-    *config*/*.json|*package.json|*tsconfig.json|*Makefile|*Dockerfile)
-      echo "[CONFIG] $f" ;;
+    *config*/*.json|*package.json|*Makefile|*Dockerfile)
+      PURPOSE="Configuration file - $(file -b "$f" 2>/dev/null || echo "config")" ;;
     *test*/*|*__tests__*/*|*.test.*|*.spec.*)
-      echo "[TEST] $f" ;;
+      PURPOSE="Test file - $(wc -l < "$f" 2>/dev/null || echo "0") lines" ;;
     *src/*|*lib/*|*app/*)
-      echo "[SOURCE] $f" ;;
+      PURPOSE="Source code - $(head -1 "$f" 2>/dev/null | cut -c1-50)..." ;;
     *.md|*docs/*)
-      echo "[DOCS] $f" ;;
-    *.min.js|*.bundle.js|*dist/*)
-      echo "[GENERATED] $f" ;;
-    *.png|*.jpg|*.pdf|*.ico)
-      echo "[BINARY] $f" ;;
+      PURPOSE="Documentation - $(head -3 "$f" 2>/dev/null | grep -o '^#.*' | head -1 || echo "doc")" ;;
+    *.png|*.jpg|*.gif|*.svg)
+      PURPOSE="Image asset - $(file -b "$f" 2>/dev/null), used in UI" ;;
+    *.pdf)
+      PURPOSE="PDF document - $(file -b "$f" 2>/dev/null)" ;;
     *.po|*.mo|*locales/*|*i18n/*)
-      echo "[I18N] $f" ;;
+      PURPOSE="Localization file - $(basename "$f")" ;;
+    *.min.js|*.bundle.js|*dist/*)
+      PURPOSE="[GENERATED] Compiled/bundled output - do NOT decompose" ;;
     *.github/*|*Jenkinsfile|*docker-compose.yml)
-      echo "[CI/CD] $f" ;;
+      PURPOSE="CI/CD configuration - $(basename "$f")" ;;
     *)
-      echo "[OTHER] $f" ;;
+      PURPOSE="$(file -b "$f" 2>/dev/null || echo "Unknown")" ;;
   esac
-done < /tmp/orphans.txt
+  
+  echo "| \`$f\` | $MAPPED | $TIMESTAMP | $WHERE_USED | $PURPOSE |" >> /tmp/master_table.txt
+done < /tmp/all_files.txt
+
+# Append the master table to TOC
+cat /tmp/master_table.txt >> "$TOC_FILE"
+
+echo "=== Master File Tracking Table generated in $TOC_FILE ==="
 ```
 
-Run this script and systematically map each orphan file before proceeding to Phase2.
+**Run this script FIRST** before any mapping. It ensures:
+1. EVERY file is captured (from `find *` at codebase root)
+2. Mapped status is tracked (true/false)
+3. UTC timestamp recorded
+4. Where Used shows which source files reference it
+5. Purpose is determined for every file (even PNGs know "where used and why")
+
+Then systematically map each orphan file, updating the Mapped column to ✅ true as you go.
 
 ### Phase2: Recursive Component Mapping
 
