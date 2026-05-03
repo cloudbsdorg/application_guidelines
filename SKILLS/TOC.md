@@ -39,6 +39,7 @@
 | `rc.d`, `startup script`, `rc script` | `freebsd-admin/rc-script-writer.md` | Write FreeBSD rc.d startup scripts |
 | `service`, `rc.d`, `sysrc` | `freebsd-admin/service-manager.md` | Manage FreeBSD services |
 | `map codebase`, `discovery`, `.discovery/` | `analysis/codebase-mapper.md` | Map codebase to tree-view documents |
+| `migrate`, `port`, `convert`, `legacy`, `DOS`, `Pascal`, `retro` | `migration/codebase-migrator.md` | Migrate legacy apps to modern platforms |
 | `Effect`, `Effect v4`, `effect-smol` | `platform/opencode/effect.md` | Work with Effect-based TypeScript |
 | `GitHub`, `triage`, `issue`, `PR` | `platform/opencode/github-triage.md` | Read-only GitHub triage |
 | `pre-publish`, `release gate`, `npm publish` | `platform/opencode/pre-publish-review.md` | Nuclear-grade 16-agent release gate |
@@ -121,6 +122,11 @@
 | github-triage | `platform/opencode/github-triage.md` | GitHub triage |
 | pre-publish-review | `platform/opencode/pre-publish-review.md` | Release gate |
 | work-with-pr | `platform/opencode/work-with-pr.md` | PR lifecycle |
+
+### Migration (`migration/`)
+| Skill | Path | Purpose |
+|-------|------|---------|
+| codebase-migrator | `migration/codebase-migrator.md` | Migrate legacy apps to modern platforms |
 
 ### Platform - Cloudflare (`platform/cloudflare/`)
 | Skill | Path | Purpose |
