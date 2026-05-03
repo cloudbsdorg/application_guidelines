@@ -15,41 +15,41 @@ This directory contains AI skills for CloudBSD project development.
 | [plan-document-generator](plan-document-generator.md) | Create plan documents following standard templates | When creating new documents or initializing projects |
 | [plan-validator](plan-validator.md) | Validate plan document compliance | On PR review or before commits |
 | [sysctl-documenter](sysctl-documenter.md) | Document sysctl MIB hierarchies | When defining configuration interfaces |
-| [ascii-diagrammer](ascii-diagrammer.md) | Generate architecture diagrams | When writing architecture documents |
-| [risk-assessor](risk-assessor.md) | Create and maintain risk registers | When creating 700 document or risk review |
-| [test-planner](test-planner.md) | Generate testing documentation | When creating 401/402/1101 documents |
-| [toc-generator](toc-generator.md) | Create table of contents documents | When creating 000 document |
-| [agents-start-here-generator](agents-start-here-generator.md) | Generate agent entry point document | When initializing a project |
-| [build-status-updater](build-status-updater.md) | Maintain CI/CD build status | When updating build status |
-| [validation-document-generator](validation-document-generator.md) | Create validation reports and corrections | When validating implementation tasks |
-| [security-document-generator](security-document-generator.md) | Create security documentation (threat model, access control, etc.) | When creating 1.1-1.6 security documents |
-| [progress-tracker-updater](progress-tracker-updater.md) | Create and maintain TODO Tracker Summary tables | When updating phase progress |
-| [quick-reference-generator](quick-reference-generator.md) | Create Quick Reference sections for AGENTS_START_HERE | When creating agent entry points |
-| [reverse-engineer-for-port](reverse-engineer-for-port.md) | Analyze source code to understand actual behavior | When porting applications |
-| [feature-task-generator](feature-task-generator.md) | Generate tasks from feature analysis | After reverse-engineering analysis |
-| [code-quality-analyzer](code-quality-analyzer.md) | Find duplication and plan refactoring | When reviewing ported code quality |
-| [ui-ux-analyzer](ui-ux-analyzer.md) | Document UI objects, states, actions, and data flow | When analyzing interfaces for implementation |
-| [api-analyzer](api-analyzer.md) | Document REST endpoints, HTTP protocols, request/response formats | When analyzing APIs for implementation |
-| [message-queue-analyzer](message-queue-analyzer.md) | Document message brokers, queues, pub/sub patterns, event streaming | When analyzing queue systems (RabbitMQ, Kafka, MQTT, etc.) |
-| [system-call-analyzer](system-call-analyzer.md) | Analyze syscalls, file I/O, memory ops, signals, debugging | When porting low-level system code |
-| [process-model-analyzer](process-model-analyzer.md) | Document threads, processes, IPC, synchronization patterns | When analyzing concurrent applications |
-| [network-stack-analyzer](network-stack-analyzer.md) | Document sockets, TCP/UDP, epoll/kqueue, SSL/TLS | When analyzing network-heavy applications |
-| [file-system-analyzer](file-system-analyzer.md) | Document paths, permissions, locking, extended attributes | When analyzing file system dependencies |
-| [privilege-analyzer](privilege-analyzer.md) | Document UID/GID, capabilities, ACLs, chroot, securelevel | When analyzing privilege requirements |
-| [source-analysis-orchestrator](source-analysis-orchestrator.md) | Coordinate all analysis skills for pre-planning | When starting a new project or porting |
-| [bhyve-manager](bhyve-manager.md) | Create and manage bhyve VMs with vm-bhyve | When setting up FreeBSD VMs |
-| [jail-manager](jail-manager.md) | Manage FreeBSD jails with iocage, bastille, pot | When creating jail environments |
-| [zfs-manager](zfs-manager.md) | ZFS pool management, snapshots, safety rules | When managing ZFS storage |
-| [linuxulator-runner](linuxulator-runner.md) | Run Linux binaries on FreeBSD with Linuxulator | When running Linux binaries on FreeBSD |
-| [rc-script-writer](rc-script-writer.md) | Write FreeBSD rc.d startup scripts | When creating new services |
-| [service-manager](service-manager.md) | Manage FreeBSD services with rc.d and sysrc | When managing running services |
-| [codebase-mapper](codebase-mapper.md) | Map any codebase into exhaustive tree-view markdown documents | When mapping project structure and dependencies |
-| [effect](effect.md) | Work with Effect v4 / effect-smol TypeScript code | When working with Effect-based TypeScript code |
-| [github-triage](github-triage.md) | Read-only GitHub triage for issues and PRs | When triaging GitHub issues or PRs |
-| [pre-publish-review](pre-publish-review.md) | Nuclear-grade 16-agent pre-publish release gate | Before EVERY npm publish |
-| [work-with-pr](work-with-pr.md) | Full PR lifecycle: worktree → implement → PR → merge | When implementation work needs to land as a PR |
-| [agents-sdk](agents-sdk.md) | Build AI agents on Cloudflare Workers using Agents SDK | When creating stateful agents, durable workflows, real-time WebSocket apps |
-| [cloudflare](cloudflare.md) | Comprehensive Cloudflare platform skill covering Workers, Pages, storage, AI, networking, security | When developing on Cloudflare platform |
+| [ascii-diagrammer](diagramming/ascii-diagrammer.md) | Generate architecture diagrams | When writing architecture documents |
+| [risk-assessor](security/risk-assessor.md) | Create and maintain risk registers | When creating 700 document or risk review |
+| [test-planner](testing/test-planner.md) | Generate testing documentation | When creating 401/402/1101 documents |
+| [toc-generator](planning/toc-generator.md) | Create table of contents documents | When creating 000 document |
+| [agents-start-here-generator](planning/agents-start-here-generator.md) | Generate agent entry point document | When initializing a project |
+| [build-status-updater](workflow/build-status-updater.md) | Maintain CI/CD build status | When updating build status |
+| [validation-document-generator](testing/validation-document-generator.md) | Create validation reports and corrections | When validating implementation tasks |
+| [security-document-generator](security/security-document-generator.md) | Create security documentation (threat model, access control, etc.) | When creating 1.1-1.6 security documents |
+| [progress-tracker-updater](workflow/progress-tracker-updater.md) | Create and maintain TODO Tracker Summary tables | When updating phase progress |
+| [quick-reference-generator](planning/quick-reference-generator.md) | Create Quick Reference sections for AGENTS_START_HERE | When creating agent entry points |
+| [reverse-engineer-for-port](analysis/reverse-engineer-for-port.md) | Analyze source code to understand actual behavior | When porting applications |
+| [feature-task-generator](planning/feature-task-generator.md) | Generate tasks from feature analysis | After reverse-engineering analysis |
+| [code-quality-analyzer](analysis/code-quality-analyzer.md) | Find duplication and plan refactoring | When reviewing ported code quality |
+| [ui-ux-analyzer](analysis/ui-ux-analyzer.md) (modular — load `wireframing.md`, `objects.md`, etc.) | Document UI objects, states, actions, and data flow | When analyzing interfaces for implementation |
+| [api-analyzer](analysis/api-analysis/api-analyzer.md) (modular — load `http-fundamentals.md`, `rest-endpoints.md`, etc.) | Document REST endpoints, HTTP protocols, request/response formats | When analyzing APIs for implementation |
+| [message-queue-analyzer](analysis/message-queue-analyzer.md) | Document message brokers, queues, pub/sub patterns, event streaming | When analyzing queue systems (RabbitMQ, Kafka, MQTT, etc.) |
+| [system-call-analyzer](analysis/os-analysis/system-call-analyzer.md) | Analyze syscalls, file I/O, memory ops, signals, debugging | When porting low-level system code |
+| [process-model-analyzer](analysis/os-analysis/process-model-analyzer.md) | Document threads, processes, IPC, synchronization patterns | When analyzing concurrent applications |
+| [network-stack-analyzer](analysis/os-analysis/network-stack-analyzer.md) | Document sockets, TCP/UDP, epoll/kqueue, SSL/TLS | When analyzing network-heavy applications |
+| [file-system-analyzer](analysis/os-analysis/file-system-analyzer.md) | Document paths, permissions, locking, extended attributes | When analyzing file system dependencies |
+| [privilege-analyzer](analysis/os-analysis/privilege-analyzer.md) | Document UID/GID, capabilities, ACLs, chroot, securelevel | When analyzing privilege requirements |
+| [source-analysis-orchestrator](analysis/source-analysis-orchestrator.md) | Coordinate all analysis skills for pre-planning | When starting a new project or porting |
+| [bhyve-manager](freebsd-admin/bhyve-manager.md) | Create and manage bhyve VMs with vm-bhyve | When setting up FreeBSD VMs |
+| [jail-manager](freebsd-admin/jail-manager.md) | Manage FreeBSD jails with iocage, bastille, pot | When creating jail environments |
+| [zfs-manager](freebsd-admin/zfs-manager.md) | ZFS pool management, snapshots, safety rules | When managing ZFS storage |
+| [linuxulator-runner](freebsd-admin/linuxulator-runner.md) | Run Linux binaries on FreeBSD with Linuxulator | When running Linux binaries on FreeBSD |
+| [rc-script-writer](freebsd-admin/rc-script-writer.md) | Write FreeBSD rc.d startup scripts | When creating new services |
+| [service-manager](freebsd-admin/service-manager.md) | Manage FreeBSD services with rc.d and sysrc | When managing running services |
+| [codebase-mapper](analysis/codebase-mapper.md) (modular — load `phases-0-1.md`, `phases-2-3.md`, etc.) | Map any codebase into exhaustive tree-view markdown documents | When mapping project structure and dependencies |
+| [effect](platform/opencode/effect.md) | Work with Effect v4 / effect-smol TypeScript code | When working with Effect-based TypeScript code |
+| [github-triage](platform/opencode/github-triage.md) | Read-only GitHub triage for issues and PRs | When triaging GitHub issues or PRs |
+| [pre-publish-review](platform/opencode/pre-publish-review.md) | Nuclear-grade 16-agent pre-publish release gate | Before EVERY npm publish |
+| [work-with-pr](platform/opencode/work-with-pr.md) | Full PR lifecycle: worktree → implement → PR → merge | When implementation work needs to land as a PR |
+| [agents-sdk](platform/cloudflare/agents-sdk.md) | Build AI agents on Cloudflare Workers using Agents SDK | When creating stateful agents, durable workflows, real-time WebSocket apps |
+| [cloudflare](platform/cloudflare/cloudflare.md) | Comprehensive Cloudflare platform skill covering Workers, Pages, storage, AI, networking, security | When developing on Cloudflare platform |
 
 ## 🎨 Diagram Standard
 
