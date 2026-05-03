@@ -38,6 +38,11 @@ This directory contains AI skills for CloudBSD project development.
 | [linuxulator-runner](linuxulator-runner.md) | Run Linux binaries on FreeBSD with Linuxulator | When running Linux binaries on FreeBSD |
 | [rc-script-writer](rc-script-writer.md) | Write FreeBSD rc.d startup scripts | When creating new services |
 | [service-manager](service-manager.md) | Manage FreeBSD services with rc.d and sysrc | When managing running services |
+| [codebase-mapper](codebase-mapper.md) | Map any codebase into exhaustive tree-view markdown documents | When mapping project structure and dependencies |
+| [effect](effect.md) | Work with Effect v4 / effect-smol TypeScript code | When working with Effect-based TypeScript code |
+| [github-triage](github-triage.md) | Read-only GitHub triage for issues and PRs | When triaging GitHub issues or PRs |
+| [pre-publish-review](pre-publish-review.md) | Nuclear-grade 16-agent pre-publish release gate | Before EVERY npm publish |
+| [work-with-pr](work-with-pr.md) | Full PR lifecycle: worktree → implement → PR → merge | When implementation work needs to land as a PR |
 
 ## Skill Invocation Format
 
@@ -125,6 +130,23 @@ source-analysis-orchestrator
              │
              ▼
      feature-task-generator ──► plan-document-generator
+
+codebase-mapper (standalone - maps codebase to .discovery/ tree)
+     └──► References: ascii-diagrammer, toc-generator
+
+effect (standalone - Effect v4 / effect-smol workflows)
+
+github-triage (standalone - read-only GitHub analysis)
+
+pre-publish-review
+     │
+     ├──► review-work (5-agent holistic review)
+     └──► oracle (release synthesis)
+
+work-with-pr
+     │
+     ├──► git-master (atomic commits)
+     └──► review-work (post-implementation review)
 ```
 
 ## Skill Categories
@@ -184,6 +206,15 @@ These skills manage FreeBSD-specific virtualization and service management:
 - `linuxulator-runner` — Run Linux binaries on FreeBSD using Linux compatibility layer
 - `rc-script-writer` — Write FreeBSD rc.d startup scripts following conventions
 - `service-manager` — Manage FreeBSD services with service command and sysrc
+
+### Development Workflow
+These skills manage OpenCode/TypeScript development workflows:
+
+- `codebase-mapper` — Recursively map any codebase into `.discovery/` tree-view documents
+- `effect` — Work with Effect v4 / effect-smol TypeScript services and schemas
+- `github-triage` — Read-only triage for GitHub issues and PRs (1 subagent per item)
+- `pre-publish-review` — 16-agent release gate (ultrabrain ×10, review-work, oracle)
+- `work-with-pr` — Full PR lifecycle with worktree, atomic commits, and verification loop
 
 ## Pre-Planning Analysis Workflow
 

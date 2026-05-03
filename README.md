@@ -71,6 +71,11 @@ AI agents can load specialized skills from the `SKILLS/` directory for common de
 | [SKILLS/build-status-updater.md](SKILLS/build-status-updater.md) | Maintain CI/CD build status |
 | [SKILLS/validation-document-generator.md](SKILLS/validation-document-generator.md) | Create validation reports and corrections |
 | [SKILLS/security-document-generator.md](SKILLS/security-document-generator.md) | Create security documents (threat model, access control, etc.) |
+| [SKILLS/codebase-mapper.md](SKILLS/codebase-mapper.md) | Map any codebase into exhaustive tree-view markdown documents |
+| [SKILLS/effect.md](SKILLS/effect.md) | Work with Effect v4 / effect-smol TypeScript code |
+| [SKILLS/github-triage.md](SKILLS/github-triage.md) | Read-only GitHub triage for issues and PRs |
+| [SKILLS/pre-publish-review.md](SKILLS/pre-publish-review.md) | Nuclear-grade 16-agent pre-publish release gate |
+| [SKILLS/work-with-pr.md](SKILLS/work-with-pr.md) | Full PR lifecycle: worktree → implement → PR → merge |
 
 See [AGENTS_START_HERE.md](AGENTS_START_HERE.md) for the primary agent entry point and [SKILLS/README.md](SKILLS/README.md) for the complete skill index.
 
