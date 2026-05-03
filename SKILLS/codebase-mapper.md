@@ -430,6 +430,63 @@ Create the master Table of Contents at `.discovery/TOC.md`:
 
 ---
 
+## 📋 Master File Tracking Table
+
+> **CRITICAL:** EVERY file in the project MUST appear in this table.
+> NO file is "not interesting" — every file gets mapped or purpose-determined.
+
+| File | Mapped (true/false) | Timestamp (UTC) | Where Used | Purpose |
+|------|----------------------|-------------------|-------------|---------|
+| `src/main.ts` | ✅ true | 2026-05-03T14:23:45Z | `src/server.ts` (imports), `tests/` (tested) | Application entry point, Express server setup |
+| `src/config.ts` | ✅ true | 2026-05-03T14:25:12Z | `src/main.ts`, `src/services/*` (imports) | Configuration loader, validates env vars |
+| `public/logo.png` | ✅ true | 2026-05-03T14:30:00Z | `src/App.tsx:15` (import), `README.md` (display) | Main logo, 200x80, used in header |
+| `docs/README.md` | ✅ true | 2026-05-03T14:31:00Z | External readers | Project documentation, setup instructions |
+| `scripts/migrate.ts` | ✅ true | 2026-05-03T14:32:00Z | `package.json` (npm script) | Standalone migration script, run once on deploy |
+| `node_modules/` | ❌ false | - | - | External dependencies (excluded from mapping) |
+| ... | ... | ... | ... | ... |
+
+**How to Read This Table:**
+- **Mapped (true/false):** ✅ true = has `.discovery/<NNN>.md` file; ❌ false = NOT yet mapped (MUST be mapped!)
+- **Timestamp (UTC):** When the file was last mapped (from `.discovery/TOC.md` update time)
+- **Where Used:** Which source files import/reference this file (run `grep -r "filename" src/` to find)
+- **Purpose:** Why this file exists — every file has a purpose, even `logo.png` (used in UI) or `migrate.ts` (run once on deploy)
+
+**Generation Script (Phase1.5 + Phase5 combined):**
+
+```bash
+# Generate Master File Tracking Table
+echo "## 📋 Master File Tracking Table" >> .discovery/TOC.md
+echo "" >> .discovery/TOC.md
+echo "| File | Mapped (true/false) | Timestamp (UTC) | Where Used | Purpose |" >> .discovery/TOC.md
+echo "|------|----------------------|-------------------|-------------|---------|" >> .discovery/TOC.md
+
+TOC_TIME=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+
+for f in $(eval "find . -type f $EXCLUDES" | sort); do
+  # Check if mapped
+  MAPPED=$(grep -q "**Path:**.*\`$f\`" .discovery/*.md 2>/dev/null && echo "✅ true" || echo "❌ false")
+  
+  # Get timestamp (from discovery doc or file mtime)
+  if [ "$MAPPED" = "✅ true" ]; then
+    TIMESTAMP=$TOC_TIME  # Use TOC generation time for simplicity
+  else
+    TIMESTAMP="-"
+  fi
+  
+  # Find where used (grep for filename in source dirs)
+  BASENAME=$(basename "$f")
+  WHERE_USED=$(grep -rl "$BASENAME" src/ 2>/dev/null | head -3 | xargs -I {} echo "\`{}\`" | tr '\n' ',' | sed 's/,$//')
+  [ -z "$WHERE_USED" ] && WHERE_USED="(not referenced)"
+  
+  # Determine purpose (from orphan category or manual)
+  PURPOSE=$(grep -q "\`$f\`" .discovery/TOC.md 2>/dev/null && grep "\`$f\`" .discovery/TOC.md | sed 's/.*| //' || echo "TODO: determine purpose")
+  
+  echo "| \`$f\` | $MAPPED | $TIMESTAMP | $WHERE_USED | $PURPOSE |" >> .discovery/TOC.md
+done
+```
+
+---
+
 ## Project Structure
 
 ```
@@ -448,7 +505,7 @@ Create the master Table of Contents at `.discovery/TOC.md`:
 ## Dependency Graph
 
 ```
-<ASCII dependency graph showing component relationships>
+<Mermaid graph showing component relationships>
 ```
 
 ## Entry Points
