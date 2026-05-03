@@ -72,15 +72,16 @@ These directives from the CloudBSD standards govern all mapping behavior:
 
 ## Mapping Methodology
 
-### Phase 0: Entry Point Identification
+### Phase0: Entry Point Identification
 
 Identify the starting point of the application:
+
 1. Read `package.json`, `Cargo.toml`, `go.mod`, `pyproject.toml`, `Makefile`, or equivalent to find entry points.
 2. Identify the main executable, server entry, CLI entry, or library entry.
 3. Read the entry point file completely before proceeding.
 4. Create the root discovery document at `.discovery/000-root.md`.
 
-### Phase 1: Directory Structure Scan
+### Phase1: Directory Structure Scan
 
 Generate a high-level tree of the entire project structure:
 
@@ -99,7 +100,148 @@ project-root/
 
 Each directory entry in this tree links to its own discovery file.
 
-### Phase 2: Recursive Component Mapping
+### Phase1.5: Orphan Discovery (CRITICAL for unlinked files)
+
+Files not in the main dependency chain are easily missed. This phase ensures 100% coverage.
+
+**Step 1: Find ALL project files (excluding standard excludes)**
+
+```bash
+# Get ALL files in the project (excluding .discovery/ and common excludes)
+find . -type f \
+  ! -path "./.discovery/*" \
+  ! -path "./node_modules/*" \
+  ! -path "./.git/*" \
+  ! -path "./dist/*" \
+  ! -path "./build/*" \
+  ! -path "./.next/*" \
+  ! -path "./__pycache__/*" \
+  ! -name "*.min.js" \
+  ! -name "*.bundle.js" \
+  ! -name "*.map" \
+  ! -name "*.pyc" \
+  > /tmp/all_files.txt
+
+# Count
+wc -l /tmp/all_files.txt
+```
+
+**Step 2: Extract already-mapped files from .discovery/ documents**
+
+```bash
+# Get all files already mapped (extract from .discovery/ documents)
+grep -h "**Path:**" .discovery/*.md 2>/dev/null | \
+  sed 's/.*`//; s/`.*//' | sort -u > /tmp/mapped_files.txt
+
+# Count mapped
+wc -l /tmp/mapped_files.txt
+```
+
+**Step 3: Find orphan files (in project but NOT mapped)**
+
+```bash
+# Find orphans (in project but not in discovery docs)
+comm -23 <(sort /tmp/all_files.txt) <(sort /tmp/mapped_files.txt) > /tmp/orphan_files.txt
+
+echo "=== Orphan Files Found ==="
+wc -l /tmp/orphan_files.txt
+```
+
+**Step 4: Categorize orphans by type**
+
+```bash
+cat /tmp/orphan_files.txt | while read f; do
+  if [ -f "$f" ]; then
+    lines=$(wc -l < "$f" 2>/dev/null || echo "0")
+    ftype=$(file -b "$f" 2>/dev/null || echo "unknown type")
+    echo "$f ($lines lines) — $ftype"
+  fi
+done
+```
+
+**Orphan Categories & Handling:**
+
+| Category | Detection | Priority | Action |
+|----------|-----------|----------|--------|
+| **Entry points** | `main.*`, `index.*`, `cli.*`, `server.*` | 1 | Map immediately with full recursive analysis |
+| **Config files** | `.json`, `.yaml`, `.toml`, `.ini`, `.env*`, `Makefile`, `Dockerfile` | 2 | Map to `config-*.md` with full content analysis |
+| **Core source** | In `src/`, `lib/`, `app/`, `packages/*/src/` | 3 | Map with full recursive analysis |
+| **Test files** | In `test/`, `tests/`, `__tests__/`, `*.test.*`, `*.spec.*` | 4 | Map with test framework identification |
+| **Build/CI tooling** | `.github/workflows/*`, `Jenkinsfile`, `docker-compose.yml`, `Makefile` | 5 | Map build steps, dependencies, triggers |
+| **Documentation** | `docs/*`, `*.md` (except .discovery/), `README*` | 6 | Map doc structure, cross-references |
+| **i18n/l10n** | `locales/*`, `translations/*`, `*.po`, `*.mo`, `i18n/*` | 7 | Map languages, coverage, framework |
+| **Generated files** | `.min.js`, `.bundle.js`, compiled outputs, `dist/*` | 8 | Skip with `[GENERATED]` note in TOC |
+| **Binary assets** | `.png`, `.jpg`, `.pdf`, executables, `.ico` | 9 | Skip with `[BINARY]` note in TOC |
+| **IDE/Editor config** | `.vscode/*`, `.zed/*`, `.idea/*`, `.editorconfig` | 10 | Note presence, skip detailed mapping |
+| **Linting/Formatting** | `.eslintrc*`, `.prettierrc*`, `.editorconfig` | 11 | Map rules, inherited configs |
+| **Type definitions** | `*.d.ts`, `*.d.tsx`, `@types/*` | 12 | Map interfaces, augmentations |
+| **Git hooks** | `.git/hooks/*`, `hooks/*`, `githooks/*` | 13 | Map hook purpose, triggered events |
+
+**Mapping Strategy for Orphans:**
+
+```
+For each orphan file:
+  1. READ the file completely (never assume based on extension)
+  2. Categorize using table above
+  3. If IN a directory already being mapped → add to parent directory's discovery doc
+  4. If STANDALONE file → create new discovery doc with appropriate number
+  5. If GENERATED/BINARY → add to TOC with [GENERATED] or [BINARY] tag
+  6. Update the master TOC immediately after mapping
+```
+
+**Orphan Discovery Script (all-in-one):**
+
+```bash
+#!/bin/bash
+# orphan-discovery.sh - Find and categorize all unmapped files
+
+EXCLUDES="! -path ./.discovery/* ! -path ./node_modules/* ! -path ./.git/* ! -path ./dist/* ! -path ./build/*"
+
+echo "=== Orphan Discovery ==="
+
+# Find all project files
+eval "find . -type f $EXCLUDES" | sort > /tmp/all_files.txt
+
+# Find mapped files
+grep -h "**Path:**" .discovery/*.md 2>/dev/null | sed 's/.*`//; s/`.*//' | sort -u > /tmp/mapped_files.txt
+
+# Find orphans
+comm -23 /tmp/all_files.txt /tmp/mapped_files.txt > /tmp/orphans.txt
+
+echo "Total project files: $(wc -l < /tmp/all_files.txt)"
+echo "Mapped files: $(wc -l < /tmp/mapped_files.txt)"
+echo "Orphan files: $(wc -l < /tmp/orphans.txt)"
+echo ""
+
+# Categorize orphans
+echo "=== Categorized Orphans ==="
+while read f; do
+  case "$f" in
+    *config*/*.json|*package.json|*tsconfig.json|*Makefile|*Dockerfile)
+      echo "[CONFIG] $f" ;;
+    *test*/*|*__tests__*/*|*.test.*|*.spec.*)
+      echo "[TEST] $f" ;;
+    *src/*|*lib/*|*app/*)
+      echo "[SOURCE] $f" ;;
+    *.md|*docs/*)
+      echo "[DOCS] $f" ;;
+    *.min.js|*.bundle.js|*dist/*)
+      echo "[GENERATED] $f" ;;
+    *.png|*.jpg|*.pdf|*.ico)
+      echo "[BINARY] $f" ;;
+    *.po|*.mo|*locales/*|*i18n/*)
+      echo "[I18N] $f" ;;
+    *.github/*|*Jenkinsfile|*docker-compose.yml)
+      echo "[CI/CD] $f" ;;
+    *)
+      echo "[OTHER] $f" ;;
+  esac
+done < /tmp/orphans.txt
+```
+
+Run this script and systematically map each orphan file before proceeding to Phase2.
+
+### Phase2: Recursive Component Mapping
 
 For each discovered item, generate a tree-view document following this structure:
 
@@ -223,16 +365,56 @@ const result = await authService.login(username, password).then(r => r.token);
     └── result: string (JWT token)
 ```
 
-### Phase 3: Cross-Reference Generation
+### Phase3: Cross-Reference Generation
 
 After mapping all components, generate cross-references:
+
 1. Track every import/require statement across all files.
 2. Build a dependency graph showing which components depend on which.
 3. Identify circular dependencies.
 4. Identify orphan files (not imported by anything).
 5. Identify entry points (imported by nothing, but referenced in build config).
 
-### Phase 4: TOC Generation
+### Phase4: Coverage Verification (MANDATORY)
+
+**BEFORE generating the TOC, verify 100% coverage:**
+
+```bash
+# Step 1: Re-run orphan check
+find . -type f ! -path "./.discovery/*" ! -path "./node_modules/*" ! -path "./.git/*" | sort > /tmp/verify_all.txt
+grep -h "**Path:**" .discovery/*.md 2>/dev/null | sed 's/.*`//; s/`.*//' | sort -u > /tmp/verify_mapped.txt
+comm -23 /tmp/verify_all.txt /tmp/verify_mapped.txt > /tmp/still_orphans.txt
+
+if [ -s /tmp/still_orphans.txt ]; then
+  echo "ERROR: Still have unmapped files!"
+  cat /tmp/still_orphans.txt
+  echo "Go back to Phase1.5 and map these files."
+  exit 1
+fi
+
+echo "✅ 100% Coverage Verified"
+```
+
+**Coverage Quality Gates:**
+
+| Gate | Check | Failure Action |
+|------|-------|----------------|
+| **Count Match** | `all_files - mapped_files = 0` | Map remaining orphans |
+| **Import Links** | Every import has a linked .discovery/ file | Create missing discovery docs |
+| **Export Docs** | Every export is documented with behavior | Add missing export descriptions |
+| **Dir Children** | Directory trees show all children with descriptions | Add missing child entries |
+| **TOC Links** | TOC links to every discovery document | Add missing TOC entries |
+| **Dep Graph** | Dependency graph is accurate and complete | Fix missing edges |
+| **Circular Depts** | All circular dependencies identified | Run cycle detection |
+| **Entry Points** | All entry points identified and documented | Add missing entry points |
+| **File Size** | No discovery file exceeds 200 lines without split | Split large files |
+| **Evidence-Based** | All descriptions backed by actual code (not assumptions) | Re-read and fix descriptions |
+| **Cross-Refs** | Cross-references between documents are correct | Fix broken links |
+| **Statistics** | Statistics in TOC are accurate | Recalculate and update |
+| **UTF-8** | All files use UTF-8 encoding | Re-save with UTF-8 |
+| **No Dupes** | No duplicate content across files (use links) | Replace dupes with links |
+
+### Phase5: TOC Generation
 
 Create the master Table of Contents at `.discovery/TOC.md`:
 
@@ -244,6 +426,7 @@ Create the master Table of Contents at `.discovery/TOC.md`:
 **Root:** <entry-point-path>
 **Total files mapped:** <count>
 **Total directories mapped:** <count>
+**Coverage:** 100% ✅ (verified)
 
 ---
 
@@ -278,10 +461,10 @@ Create the master Table of Contents at `.discovery/TOC.md`:
 
 ## Orphan Files
 
-| File | Why Orphaned |
-|------|-------------|
-| `scripts/migrate.ts` | Standalone migration script |
-| `docs/examples/usage.ts` | Documentation example |
+| File | Why Orphaned | Action Taken |
+|------|-------------|--------------|
+| `scripts/migrate.ts` | Standalone migration script | Mapped to 950-migrate.md |
+| `docs/examples/usage.ts` | Documentation example | Mapped to 951-usage-example.md |
 
 ## Circular Dependencies
 
@@ -300,8 +483,18 @@ Create the master Table of Contents at `.discovery/TOC.md`:
 | Total exports | |
 | Total imports | |
 | Max nesting depth | |
-| Orphan files | |
+| Orphan files (pre-mapping) | |
 | Circular dependencies | |
+
+## Coverage Verification
+
+- [x] 100% file coverage (all files mapped)
+- [x] All imports linked
+- [x] All exports documented
+- [x] Directory trees complete
+- [x] TOC links to all documents
+- [x] Dependency graph accurate
+- [x] All descriptions evidence-based
 ```
 
 ## Naming Convention
@@ -315,6 +508,7 @@ Discovery documents follow: `.discovery/<NNN>-<name>.md`
 | Directory group | `.discovery/200-config/` (directory of files) |
 | Sub-component | `.discovery/201-config-schema.md` |
 | Deep component | `.discovery/201-01-config-validation.md` |
+| Orphan file | `.discovery/950-<name>.md` (use 950+ range for discovered orphans) |
 
 Numbering rules:
 - Start at 000 for the root.
@@ -322,6 +516,7 @@ Numbering rules:
 - Use sequential numbers for sibling components.
 - Use `<parent>-<sub>` notation for deeply nested items.
 - Keep numbers consistent — never renumber existing files.
+- Use 950-999 range for orphan files discovered in Phase1.5.
 
 ## Tree Node Format
 
@@ -350,6 +545,8 @@ Where `[type]` is one of:
 - `[method]` — Class/instance method
 - `[re-export]` — Re-exported from another module
 - `[side-effect]` — Side-effectful operation
+- `[generated]` — Generated/compiled file (note only, don't decompose)
+- `[binary]` — Binary or asset file (note only, don't decompose)
 
 ## Description Guidelines
 
@@ -382,6 +579,7 @@ Recursion terminates when:
 2. A node is a primitive value (string literal, number, boolean) with no behavior.
 3. A node references a standard library API already well-documented elsewhere (e.g., `console.log`, `Array.map`).
 4. Maximum practical depth is reached (the tree would become unreadable beyond this point).
+5. **Node is a generated/binary file** — note it and stop (no decomposition).
 
 **Never terminate early** because something "seems simple." Verify by reading the code.
 
@@ -396,7 +594,7 @@ Before marking mapping as complete:
 - [ ] The TOC links to every discovery document
 - [ ] The dependency graph is accurate
 - [ ] Circular dependencies are identified
-- [ ] Orphan files are listed
+- [ ] Orphan files are listed AND mapped
 - [ ] Entry points are identified
 - [ ] No discovery file exceeds 200 lines without being split
 - [ ] All descriptions are evidence-based (from actual code, not assumptions)
@@ -404,6 +602,8 @@ Before marking mapping as complete:
 - [ ] Statistics in TOC are accurate
 - [ ] UTF-8 encoding throughout
 - [ ] No duplicate content across files (use links instead)
+- [ ] **Coverage verification passed (100% files mapped)**
+- [ ] **All orphan files from Phase1.5 have been mapped**
 
 ## Example: Complete Mapping of a Small File
 
@@ -472,10 +672,10 @@ Configures a Winston logger with environment-aware transports. In production, lo
 
 ```
 config.logLevel ──┐
-                  ▼
+                   ▼
 config.env ───► logger creation ──► File transports (always)
-                  │
-                  └──► Console transport (dev only)
+                   │
+                   └──► Console transport (dev only)
 ```
 
 ## Side Effects
