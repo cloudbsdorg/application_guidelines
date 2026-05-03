@@ -1179,9 +1179,11 @@ Create `.discovery/export.json`:
 }
 ```
 
-**Phase6.5.2: Graphviz DOT Output**
+**Phase6.5.2: Graphviz DOT Output (Deprecated)**
 
-Create `.discovery/deps.dot`:
+> **Note:** DOT language is deprecated. Use Mermaid (Phase 6.5.3) for all new diagrams.
+
+Create `.discovery/deps.dot` (legacy format):
 
 ```dot
 digraph Dependencies {
@@ -1201,7 +1203,26 @@ digraph Dependencies {
 }
 ```
 
-Render: `dot -Tpng .discovery/deps.dot -o .discovery/deps.png`
+**Migrated to Mermaid (preferred):**
+
+```mermaid
+graph LR
+    A["src/main.ts"] --> B["src/config.ts"]
+    A --> C["src/server.ts"]
+    C --> D["src/routes.ts"]
+    D --> E["src/controllers/auth.ts"]
+    
+    subgraph packages["Packages"]
+        F["packages/core/src/index.ts"]
+        G["packages/ui/src/index.ts"]
+    end
+    
+    style A fill:#e1f5fe
+    style B fill:#fce4ec
+    style C fill:#d4edda
+```
+
+Render DOT: `dot -Tpng .discovery/deps.dot -o .discovery/deps.png` (legacy only)
 
 **Phase6.5.3: Mermaid Diagram**
 
@@ -1431,7 +1452,7 @@ analytics-service ──► main-app (webhook)
 | Code Pattern | Found In | Used By |
 |--------------|----------|---------|
 | `User` interface | `common-lib/src/types.ts` | `main-app`, `auth-service` |
-| `加密辅助函数` | `common-lib/src/crypto.ts` | `auth-service` |
+| `Encryption Helpers` | `common-lib/src/crypto.ts` | `auth-service` |
 | `APIResponse` type | `common-lib/src/api.ts` | All services |
 
 ## Cross-Repo TOC
