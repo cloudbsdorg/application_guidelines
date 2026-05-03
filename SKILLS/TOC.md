@@ -9,10 +9,14 @@
 | `agent SDK`, `Cloudflare Agent`, `stateful agent` | `platform/cloudflare/agents-sdk.md` | Build AI agents on Cloudflare Workers |
 | `agent start`, `entry point`, `AGENTS_START_HERE` | `planning/agents-start-here-generator.md` | Generate agent entry point document |
 | `API`, `REST`, `endpoint`, `HTTP` | `analysis/api-analysis/api-analyzer.md` | Document REST endpoints and HTTP protocols |
+| `audit`, `vulnerability`, `OWASP`, `STRIDE` | `security/security-audit/security-audit.md` | Security audit with OWASP and STRIDE |
 | `bhyve`, `VM`, `virtual machine` | `freebsd-admin/bhyve-manager.md` | Create and manage bhyve VMs |
 | `build status`, `CI`, `0002` | `workflow/build-status-updater.md` | Maintain CI/CD build status |
 | `Cloudflare`, `Worker`, `Pages`, `KV`, `R2` | `platform/cloudflare/cloudflare.md` | Comprehensive Cloudflare platform skill |
 | `code quality`, `duplication`, `refactor` | `analysis/code-quality-analyzer.md` | Find duplication and plan refactoring |
+| `codebase`, `explore`, `understand`, `find in code` | `analysis/codebase/codebase.md` | Read-only codebase exploration |
+| `consult`, `advice`, `opinion`, `should I` | `planning/office-hours/office-hours.md` | Direct consulting with recommendations |
+| `debug`, `investigate`, `root cause`, `trace` | `workflow/investigate/investigate.md` | Root cause debugging with evidence |
 | `diagram`, `architecture`, `flowchart` | `diagramming/ascii-diagrammer.md` | Generate Mermaid diagrams |
 | `effect`, `Effect v4`, `effect-smol` | `platform/opencode/effect.md` | Work with Effect-based TypeScript |
 | `feature`, `task generation` | `planning/feature-task-generator.md` | Generate tasks from feature analysis |
@@ -25,16 +29,21 @@
 | `migrate`, `port`, `convert`, `legacy`, `DOS`, `Pascal`, `retro` | `migration/codebase-migrator.md` | Migrate legacy apps to modern platforms |
 | `orchestrate`, `pre-planning`, `coordinate` | `analysis/source-analysis-orchestrator.md` | Coordinate all analysis skills |
 | `plan`, `document`, `initialize` | `planning/plan-document-generator.md` | Create plan documents and `.plan/` structure |
+| `plan`, `document`, `initialize` | `planning/plan-document-generator.md` | Create plan documents and `.plan/` structure |
+| `plan-ceo-review`, `scope challenge`, `is this right` | `planning/plan-ceo-review/plan-ceo-review.md` | Strategic scope challenge |
 | `pre-publish`, `release gate`, `npm publish` | `platform/opencode/pre-publish-review.md` | Nuclear-grade 16-agent release gate |
 | `PR`, `pull request`, `worktree`, `merge` | `platform/opencode/work-with-pr.md` | Full PR lifecycle |
 | `privilege`, `UID`, `GID`, `capability`, `chroot` | `analysis/os-analysis/privilege-analyzer.md` | Document privilege requirements |
 | `progress`, `tracker`, `TODO` | `workflow/progress-tracker-updater.md` | Create TODO Tracker Summary tables |
 | `quick reference`, `AGENTS_START_HERE` | `planning/quick-reference-generator.md` | Create Quick Reference sections |
 | `rc.d`, `startup script`, `rc script` | `freebsd-admin/rc-script-writer.md` | Write FreeBSD rc.d startup scripts |
+| `review`, `code review`, `lgtm`, `approve` | `workflow/review/review.md` | Code review for correctness/security |
 | `reverse engineer`, `port`, `analyze source` | `analysis/reverse-engineer-for-port.md` | Analyze source code for porting |
 | `risk`, `threat`, `700 document` | `security/risk-assessor.md` | Create and maintain risk registers |
+| `scope`, `challenge plan`, `effort estimate` | `planning/plan-ceo-review/plan-ceo-review.md` | Strategic scope challenge |
 | `security`, `threat model`, `access control`, `1.1-1.6` | `security/security-document-generator.md` | Create security documents |
 | `service`, `rc.d`, `sysrc` | `freebsd-admin/service-manager.md` | Manage FreeBSD services |
+| `ship`, `deploy`, `release`, `push to prod` | `workflow/ship/ship.md` | Verified deployment workflow |
 | `socket`, `TCP`, `UDP`, `epoll`, `kqueue` | `analysis/os-analysis/network-stack-analyzer.md` | Document network stack dependencies |
 | `syscall`, `file I/O`, `memory`, `signal` | `analysis/os-analysis/system-call-analyzer.md` (modular — load `file-io.md`, `signals.md`, etc.) | Analyze syscalls for porting |
 | `sysctl`, `MIB`, `kernel parameter` | `planning/sysctl-documenter.md` | Document sysctl MIB hierarchies |
@@ -59,6 +68,8 @@
 | agents-start-here-generator | `planning/agents-start-here-generator.md` | Generate entry points |
 | quick-reference-generator | `planning/quick-reference-generator.md` | Create Quick Reference |
 | feature-task-generator | `planning/feature-task-generator.md` | Generate tasks from features |
+| office-hours | `planning/office-hours/office-hours.md` | Consulting with recommendations |
+| plan-ceo-review | `planning/plan-ceo-review/plan-ceo-review.md` | Strategic scope challenge |
 
 ### Analysis (`analysis/`)
 | Skill | Path | Purpose |
@@ -70,6 +81,7 @@
 | message-queue-analyzer | `analysis/message-queue-analyzer.md` | Document message queues |
 | codebase-mapper | `analysis/codebase-mapper.md` | Map codebase structure |
 | source-analysis-orchestrator | `analysis/source-analysis-orchestrator.md` | Coordinate analysis |
+| codebase | `analysis/codebase/codebase.md` | Read-only codebase exploration |
 
 #### OS Analysis (`analysis/os-analysis/`)
 | Skill | Path | Purpose |
@@ -96,11 +108,15 @@
 | task-workflow | `workflow/task-workflow.md` | Task claiming/completion |
 | build-status-updater | `workflow/build-status-updater.md` | Maintain build status |
 | progress-tracker-updater | `workflow/progress-tracker-updater.md` | Update TODO trackers |
+| investigate | `workflow/investigate/investigate.md` | Root cause debugging |
+| review | `workflow/review/review.md` | Code review |
+| ship | `workflow/ship/ship.md` | Verified deployment |
 
 ### Security (`security/`)
 | Skill | Path | Purpose |
 |-------|------|---------|
 | risk-assessor | `security/risk-assessor.md` | Create risk registers |
+| security-audit | `security/security-audit/security-audit.md` | Security audit (OWASP/STRIDE) |
 | security-document-generator | `security/security-document-generator.md` | Create security docs |
 
 ### Testing (`testing/`)

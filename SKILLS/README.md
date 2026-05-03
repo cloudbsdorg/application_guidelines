@@ -43,6 +43,7 @@ This directory contains AI skills for CloudBSD project development.
 | [linuxulator-runner](freebsd-admin/linuxulator-runner.md) | Run Linux binaries on FreeBSD with Linuxulator | When running Linux binaries on FreeBSD |
 | [rc-script-writer](freebsd-admin/rc-script-writer.md) | Write FreeBSD rc.d startup scripts | When creating new services |
 | [service-manager](freebsd-admin/service-manager.md) | Manage FreeBSD services with rc.d and sysrc | When managing running services |
+| [codebase](analysis/codebase/codebase.md) | Read-only codebase exploration and analysis | When understanding project structure |
 | [codebase-mapper](analysis/codebase-mapper.md) (modular — load `phases-0-1.md`, `phases-2-3.md`, etc.) | Map any codebase into exhaustive tree-view markdown documents | When mapping project structure and dependencies |
 | [effect](platform/opencode/effect.md) | Work with Effect v4 / effect-smol TypeScript code | When working with Effect-based TypeScript code |
 | [github-triage](platform/opencode/github-triage.md) | Read-only GitHub triage for issues and PRs | When triaging GitHub issues or PRs |
@@ -50,6 +51,12 @@ This directory contains AI skills for CloudBSD project development.
 | [work-with-pr](platform/opencode/work-with-pr.md) | Full PR lifecycle: worktree → implement → PR → merge | When implementation work needs to land as a PR |
 | [agents-sdk](platform/cloudflare/agents-sdk.md) | Build AI agents on Cloudflare Workers using Agents SDK | When creating stateful agents, durable workflows, real-time WebSocket apps |
 | [cloudflare](platform/cloudflare/cloudflare.md) | Comprehensive Cloudflare platform skill covering Workers, Pages, storage, AI, networking, security | When developing on Cloudflare platform |
+| [investigate](workflow/investigate/investigate.md) | Root cause debugging with evidence-based protocol | When debugging broken systems |
+| [office-hours](planning/office-hours/office-hours.md) | Direct consulting recommendations with reasoning | When asking for advice or recommendations |
+| [plan-ceo-review](planning/plan-ceo-review/plan-ceo-review.md) | Strategic scope challenge before building | When planning new features or projects |
+| [review](workflow/review/review.md) | Code review for correctness, security, FreeBSD conventions | When reviewing PRs or code changes |
+| [security-audit](security/security-audit/security-audit.md) | Security audit with OWASP and STRIDE frameworks | When auditing for vulnerabilities |
+| [ship](workflow/ship/ship.md) | Verified deployment: tests, coverage, PR, deploy | When shipping to production |
 
 ## 🎨 Diagram Standard
 
@@ -192,6 +199,15 @@ These skills generate specific document types:
 ### Quality Assurance
 - `plan-validator` — Validate all plan documents for compliance
 
+### Security
+- `security-audit` — Security audit with OWASP Top 10 and STRIDE framework
+
+### Planning
+These skills support project planning and consultation:
+
+- `plan-ceo-review` — Strategic scope challenge before building
+- `office-hours` — Direct consulting with recommendations and reasoning
+
 ### Code Porting
 These skills analyze and port applications from one language/framework to another:
 
@@ -201,6 +217,7 @@ These skills analyze and port applications from one language/framework to anothe
 - `ui-ux-analyzer` — Document UI objects, states, actions, and data flow
 - `api-analyzer` — Document REST endpoints, HTTP protocols, request/response formats
 - `message-queue-analyzer` — Document message brokers, queues, pub/sub patterns, event streaming
+- `codebase` — Read-only codebase exploration and analysis
 
 ### OS Analysis
 These skills analyze OS-level dependencies for cross-platform porting:
@@ -225,8 +242,11 @@ These skills manage FreeBSD-specific virtualization and service management:
 - `service-manager` — Manage FreeBSD services with service command and sysrc
 
 ### Development Workflow
-These skills manage OpenCode/TypeScript development workflows:
+These skills manage code and deployment workflows:
 
+- `investigate` — Root cause debugging with evidence-based protocol
+- `review` — Code review for correctness, security, FreeBSD conventions
+- `ship` — Verified deployment: tests, coverage, PR, deploy
 - `codebase-mapper` — Recursively map any codebase into `.discovery/` tree-view documents
 - `effect` — Work with Effect v4 / effect-smol TypeScript services and schemas
 - `github-triage` — Read-only triage for GitHub issues and PRs (1 subagent per item)
