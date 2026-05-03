@@ -43,6 +43,8 @@ This directory contains AI skills for CloudBSD project development.
 | [github-triage](github-triage.md) | Read-only GitHub triage for issues and PRs | When triaging GitHub issues or PRs |
 | [pre-publish-review](pre-publish-review.md) | Nuclear-grade 16-agent pre-publish release gate | Before EVERY npm publish |
 | [work-with-pr](work-with-pr.md) | Full PR lifecycle: worktree → implement → PR → merge | When implementation work needs to land as a PR |
+| [agents-sdk](agents-sdk.md) | Build AI agents on Cloudflare Workers using Agents SDK | When creating stateful agents, durable workflows, real-time WebSocket apps |
+| [cloudflare](cloudflare.md) | Comprehensive Cloudflare platform skill covering Workers, Pages, storage, AI, networking, security | When developing on Cloudflare platform |
 
 ## Skill Invocation Format
 
@@ -215,6 +217,12 @@ These skills manage OpenCode/TypeScript development workflows:
 - `github-triage` — Read-only triage for GitHub issues and PRs (1 subagent per item)
 - `pre-publish-review` — 16-agent release gate (ultrabrain ×10, review-work, oracle)
 - `work-with-pr` — Full PR lifecycle with worktree, atomic commits, and verification loop
+
+### Cloudflare Platform
+These skills cover Cloudflare Workers, storage, AI, networking, and infrastructure-as-code:
+
+- `cloudflare` — Comprehensive Cloudflare platform skill (Workers, Pages, KV, D1, R2, AI, networking, security, IaC)
+- `agents-sdk` — Build stateful AI agents with Cloudflare Agents SDK (Agent class, state, RPC, Workflows, React hooks)
 
 ## Pre-Planning Analysis Workflow
 

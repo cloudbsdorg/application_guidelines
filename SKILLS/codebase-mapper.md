@@ -691,3 +691,805 @@ config.env ───► logger creation ──► File transports (always)
 - Planning standards: `.plan/` directory conventions
 - ASCII diagram conventions from `ascii-diagrammer` skill
 - TOC generation patterns from `toc-generator` skill
+
+### Phase1.75: Monorepo Detection & Handling
+
+Modern codebases often use monorepo structures (npm workspaces, Lerna, Nx, Turborepo). Detect and handle them specially.
+
+**Detection:**
+
+```bash
+# Check for monorepo indicators
+[ -f "lerna.json" ] && echo "Lerna monorepo detected"
+[ -f "nx.json" ] && echo "Nx monorepo detected"
+[ -f "turbo.json" ] && echo "Turborepo detected"
+grep -q '"workspaces"' package.json && echo "npm/yarn workspaces detected"
+
+# Find all package.json files (excluding node_modules)
+find . -name "package.json" ! -path "*/node_modules/*" | sort
+```
+
+**Monorepo Structure Discovery:**
+
+```
+If monorepo detected:
+  1. Parse root package.json for workspaces config
+  2. List all workspace packages
+  3. Create separate .discovery/ subtree for each package:
+     .discovery/
+       ├── root/           # Root-level analysis
+       ├── packages/
+       │   ├── pkg-a/      # Package A discovery
+       │   └── pkg-b/      # Package B discovery
+       └── TOC.md        # Master TOC linking all packages
+  4. Map inter-package dependencies explicitly
+  5. Note shared configs (tsconfig.json, .eslintrc, etc.)
+```
+
+**Package-Level Discovery:**
+
+| Aspect | Action |
+|--------|--------|
+| **Entry points** | Each package may have its own entry (main, bin, exports) |
+| **Dependencies** | Map inter-package deps (workspace:*) vs external |
+| **Shared config** | Note inheritance: tsconfig extends, eslint extends |
+| **Build order** | Infer from dependency graph (deps must build first) |
+| **Cross-package imports** | Link to other package's discovery docs |
+
+**Example Monorepo TOC structure:**
+
+```markdown
+# Codebase Discovery — Monorepo: my-project
+
+**Structure:** Monorepo (Turborepo)
+**Root:** .
+**Packages:** 5 workspaces
+
+---
+
+## Root Configuration
+- [000-root.md](./000-root.md) — Root package.json, turbo.json, tsconfig
+- [root-config/](./root-config/) — Shared configs (ESLint, TS, Prettier)
+
+## Packages
+| Package | Path | Type | Discovery |
+|---------|------|------|------------|
+| `@myapp/core` | `packages/core/` | Library | [100-core/](./packages/core/) |
+| `@myapp/ui` | `packages/ui/` | React library | [200-ui/](./packages/ui/) |
+| `@myapp/api` | `packages/api/` | Express API | [300-api/](./packages/api/) |
+| `@myapp/web` | `packages/web/` | Next.js app | [400-web/](./packages/web/) |
+
+## Inter-Package Dependencies
+```
+@myapp/web → @myapp/ui (runtime dep)
+@myapp/web → @myapp/core (runtime dep)
+@myapp/api → @myapp/core (runtime dep)
+@myapp/ui → @myapp/core (peer dep)
+```
+
+## Master Document Map
+[Links to ALL discovery documents across all packages]
+```
+
+### Phase2.5: Enhanced Dependency Analysis
+
+Beyond imports/requires, analyze all dependency relationships:
+
+**1. Package Manager Dependencies:**
+
+```bash
+# Extract all dependencies from package.json files
+for pkg in $(find . -name "package.json" ! -path "*/node_modules/*"); do
+  echo "=== $pkg ==="
+  jq -r '.dependencies, .devDependencies, .peerDependencies | keys[]' "$pkg" 2>/dev/null
+done | sort -u
+```
+
+**2. TypeScript Project References:**
+
+```bash
+# Check for TS project references (monorepo cross-linking)
+grep -r "references" tsconfig.json tsconfig.*.json 2>/dev/null
+```
+
+**3. Build System Dependencies:**
+
+| Build Tool | Config File | What to Map |
+|----------|-------------|--------------|
+| **Webpack** | `webpack.config.js` | Entry points, loaders, plugins, aliases |
+| **Vite** | `vite.config.ts` | Build entries, plugins, resolve aliases |
+| **Rollup** | `rollup.config.js` | Input/output, plugins, external deps |
+| **Turborepo** | `turbo.json` | Task pipeline, dependsOn, outputs |
+| **Nx** | `nx.json` | Project graph, task pipelines |
+
+**4. Runtime Dependencies (Dynamic Imports):**
+
+```
+Scan for dynamic import patterns:
+- `import(variable)` — Track variable source
+- `require(variable)` — Track variable source
+- `await import()` — Note as async dependency
+- Code splitting points — Map chunk boundaries
+```
+
+**5. Dependency Graph Enhancement:**
+
+In `.discovery/dependency-graph.md`, include:
+
+```markdown
+## Dependency Graph (Enhanced)
+
+### Direct Import Graph
+[ASCII graph of import relationships]
+
+### Package Manager Graph
+| Package | Dependencies | DevDependencies | PeerDependencies |
+|---------|---------------|-------------------|-------------------|
+| @myapp/core | lodash, axios | jest, @types/* | react (peer) |
+| @myapp/ui | @myapp/core | storybook, jest | react, react-dom |
+
+### Build System Graph
+| Step | Tool | Depends On | Outputs |
+|------|------|-----------|----------|
+| Build core | rollup | - | dist/ |
+| Build ui | vite | @myapp/core | dist/, types/ |
+| Build web | next | @myapp/ui, @myapp/core | .next/ |
+
+### Circular Dependency Report
+[Automated detection via: jdeps, madge, or custom analysis]
+```
+
+### Phase3.5: Integration With Other Skills
+
+The codebase-mapper produces structured data that other skills can consume.
+
+**Integration Points:**
+
+| Skill | Integration | What to Pass |
+|-------|--------------|---------------|
+| `ascii-diagrammer` | Generate architecture diagrams from discovery docs | `.discovery/TOC.md` dependency graph section |
+| `toc-generator` | Generate table of contents for discovery docs | `.discovery/` directory structure |
+| `source-analysis-orchestrator` | Pre-analysis codebase understanding | Entire `.discovery/` directory |
+| `code-quality-analyzer` | Find duplication across mapped components | All discovery docs with structure trees |
+| `api-analyzer` | Focus on API route discovery docs | Files with `[route]` nodes |
+| `ui-ux-analyzer` | Focus on UI component discovery docs | Files with React/Vue/Svelte components |
+
+**Integration Pattern:**
+
+```
+After completing Phase5 (TOC Generation):
+
+1. Check if ascii-diagrammer skill is available
+   If yes: Load ascii-diagrammer and generate:
+   - System architecture diagram (from dependency graph)
+   - Data flow diagrams (from data flow sections)
+   
+2. Check if source-analysis-orchestrator is available
+   If yes: Pass .discovery/ as context for pre-analysis
+   
+3. Check if code-quality-analyzer is available
+   If yes: Pass discovery docs to find cross-file duplication
+```
+
+**Cross-Skill References:**
+
+In each discovery document, add:
+
+```markdown
+## Skill Integration
+
+- **Analyzed by `source-analysis-orchestrator`**: Use this document as input
+- **Diagrammed by `ascii-diagrammer`**: Reference structure tree for visuals
+- **Quality-checked by `code-quality-analyzer`**: Check for duplication patterns
+```
+
+### Phase4.5: Performance Optimization (Large Codebases)
+
+For codebases with 1000+ files, optimize mapping performance:
+
+**1. Parallel Discovery:**
+
+```
+If codebase > 500 files:
+  - Spawn multiple analysis agents in parallel (category: quick)
+  - Each agent handles a subdirectory or package
+  - Merge results at the end
+  
+  Example:
+  Agent1: packages/core/ → discovery 100-199
+  Agent2: packages/ui/ → discovery 200-299
+  Agent3: packages/api/ → discovery 300-399
+```
+
+**2. Incremental Mapping:**
+
+```
+If .discovery/ already exists:
+  - Compare file modification times (mtime)
+  - Only re-map files that changed since last discovery
+  - Update affected discovery docs and TOC
+  
+  Command: find . -type f -newer .discovery/TOC.md ! -path "./.discovery/*"
+```
+
+**3. Smart Caching:**
+
+```bash
+# Cache parsed ASTs for large files
+[ -d ".discovery/cache" ] || mkdir -p .discovery/cache
+
+# For each large file (>500 lines):
+# 1. Generate hash: md5sum file.ts → hash
+# 2. Check cache: [ -f ".discovery/cache/$hash.md" ]
+# 3. If cached and file unchanged, reuse; else regenerate
+```
+
+**4. Progress Tracking:**
+
+```markdown
+## Mapping Progress (Live Update)
+
+**Files processed:** 347/1245 (27.8%)
+**Current:** `packages/web/src/components/App.tsx`
+**Elapsed:** 00:12:34
+**ETA:** 00:32:10
+
+### Completed Packages
+- [x] packages/core (42 files)
+- [x] packages/ui (38 files)
+- [ ] packages/api (in progress, 15/67 files)
+- [ ] packages/web (pending)
+```
+
+### Phase4.75: Error Handling & Recovery
+
+Handle errors gracefully during mapping:
+
+**Error Categories:**
+
+| Error | Detection | Recovery Action |
+|-------|-----------|------------------|
+| **Unreadable files** | Binary, encoding issues, permissions | Skip with `[UNREADABLE]` note in TOC |
+| **Parse errors** | Syntax errors, invalid JSON/YAML | Note error, skip decomposition, document as-is |
+| **Circular imports** | Import cycle detected | Document cycle, don't infinite recurse |
+| **Missing files** | Import/require points to non-existent file | Note `[MISSING]` in dependency list |
+| **Network dependencies** | Dynamic imports from URLs | Note `[EXTERNAL]` with URL |
+| **Generated content** | Minified, compiled, bundled | Skip decomposition, note `[GENERATED]` |
+
+**Error Logging:**
+
+Create `.discovery/errors.log`:
+
+```
+=== Mapping Errors Log ===
+Timestamp: 2026-05-03T14:23:45Z
+
+ERROR: Failed to parse packages/web/src/utils/legacy.js
+  Reason: SyntaxError (invalid escape sequence)
+  Action: Documented as-is, no decomposition
+
+WARNING: Circular dependency detected
+  Files: auth.ts ↔ users.ts ↔ permissions.ts
+  Action: Documented cycle, stopped recursion
+
+ERROR: Missing file referenced
+  File: packages/api/src/handlers/old-handler.ts
+  Referenced by: packages/api/src/server.ts:42
+  Action: Noted [MISSING] in dependency list
+
+UNREADABLE: Binary file skipped
+  File: packages/web/public/logo.png
+  Action: Noted [BINARY] in TOC
+```
+
+**Recovery Strategy:**
+
+```
+If mapping fails mid-process:
+  1. Check .discovery/errors.log for failure point
+  2. Fix the issue (skip problematic file, fix syntax, etc.)
+  3. Resume from last successful file (check .discovery/TOC.md progress)
+  4. Re-run Phase4 (Coverage Verification) to ensure completeness
+```
+
+**Safe Recursion Limits:**
+
+```
+Set hard limits to prevent infinite loops:
+- Max recursion depth: 50 levels (configurable)
+- Max file size to decompose: 1MB (skip huge files)
+- Max nodes per tree: 500 (split if exceeded)
+- Timeout per file: 30s (skip if too slow)
+```
+
+### Phase5.5: Language-Agnostic Parsing
+
+The skill currently assumes TypeScript/JavaScript patterns. Extend to support multiple languages.
+
+**Language Detection:**
+
+```bash
+# Detect primary language
+find . -type f ! -path "./node_modules/*" ! -path "./.git/*" | \
+  sed 's/.*\.//' | sort | uniq -c | sort -rn | head -10
+
+# Check for language-specific files
+[ -f "Cargo.toml" ] && echo "Rust project"
+[ -f "go.mod" ] && echo "Go project"
+[ -f "pyproject.toml" ] && echo "Python project (modern)"
+[ -f "requirements.txt" ] && echo "Python project (legacy)"
+[ -f "Makefile" ] && echo "C/C++ project"
+[ -f "build.gradle" ] && echo "Java/Gradle project"
+[ -f "pom.xml" ] && echo "Java/Maven project"
+```
+
+**Language-Specific Node Types:**
+
+| Language | Import Pattern | Export Pattern | Key Patterns |
+|----------|----------------|----------------|---------------|
+| **TypeScript/JS** | `import`, `require()` | `export`, `module.exports` | `[import]`, `[export]`, `[re-export]` |
+| **Python** | `import`, `from ... import` | Function defs, class defs | `[import-py]`, `[def]`, `[class-py]` |
+| **Rust** | `use`, `mod` | `pub fn`, `pub struct` | `[use]`, `[pub-fn]`, `[struct]`, `[trait]` |
+| **Go** | `import ()` | `func`, `type` | `[import-go]`, `[func]`, `[type-go]` |
+| **Java** | `import` | `public class` | `[import-java]`, `[public-class]`, `[method-java]` |
+| **C/C++** | `#include` | Function defs, struct | `[include]`, `[func-c]`, `[struct-c]` |
+| **Ruby** | `require`, `include` | `def`, `class` | `[require]`, `[def-rb]`, `[class-rb]` |
+| **PHP** | `require`, `include` | `function`, `class` | `[require-php]`, `[function-php]` |
+| **Swift** | `import` | `func`, `class` | `[import-swift]`, `[func-swift]` |
+
+**Language-Specific Tree Node Format:**
+
+```markdown
+#### Python Example
+```
+utils.py
+├── [import-py] os
+│   └── Standard library import
+├── [import-py] from pathlib import Path
+│   └── Selective import
+├── [def] def process_file(filepath: str) -> bool:
+│   ├── Creates Path object from filepath
+│   ├── Checks if file exists
+│   ├── Reads file contents
+│   └── Returns True if successful
+└── [class-py] class FileHandler:
+    ├── __init__(self, base_path: str)
+    │   └── Initializes with base path
+    └── process(self, filename: str) -> None:
+        ├── Constructs full path
+        ├── Calls process_file()
+        └── Logs result
+```
+
+#### Rust Example
+```
+src/lib.rs
+├── [use] std::fs
+│   └── Standard library import
+├── [use] serde::{Deserialize, Serialize}
+│   └── External crate import
+├── [pub-fn] pub fn process_data(input: &str) -> Result<String, Error> {
+│   ├── Validates input
+│   ├── Deserializes JSON
+│   ├── Transforms data
+│   └── Returns Ok(result)
+└── [struct] #[derive(Serialize, Deserialize)]
+    pub struct Config {
+    ├── host: String
+    ├── port: u16
+    └── debug: bool
+```
+
+### Phase6: Tree-Sitter Integration (Optional)
+
+For deeper parsing, use tree-sitter if available.
+
+**Check for tree-sitter:**
+
+```bash
+which tree-sitter || echo "tree-sitter not installed"
+ls -la node_modules/tree-sitter* 2>/dev/null || echo "No local tree-sitter"
+```
+
+**Tree-Sitter Query Examples:**
+
+```bash
+# TypeScript function query
+tree-sitter query --language typescript '
+  (function_declaration name: (identifier) @func.name)
+' src/index.ts
+
+# Python class query
+tree-sitter query --language python '
+  (class_definition name: (identifier) @class.name)
+' utils.py
+
+# Rust struct query
+tree-sitter query --language rust '
+  (struct_item name: (type_identifier) @struct.name)
+' src/lib.rs
+```
+
+**When to Use Tree-Sitter:**
+
+| Scenario | Action |
+|-----------|--------|
+| **tree-sitter available** | Use for accurate AST parsing, generate precise trees |
+| **tree-sitter NOT available** | Fall back to regex/grep-based parsing (current method) |
+| **Large files (>1000 lines)** | Use tree-sitter for performance |
+| **Complex nesting** | Use tree-sitter for accurate depth tracking |
+
+**Hybrid Approach:**
+
+```
+1. Try tree-sitter first (if available)
+   - Use queries to extract: functions, classes, imports, exports
+   - Generate tree nodes from query results
+   
+2. If tree-sitter fails or unavailable:
+   - Fall back to current method (grep/regex/Read)
+   - Note in tree: "[PARSED-WITH: regex]" vs "[PARSED-WITH: tree-sitter]"
+   
+3. Always verify with Read tool regardless of parser used
+```
+
+### Phase6.5: Output Formats Beyond Markdown
+
+The `.discovery/` directory can contain multiple output formats.
+
+**Secondary Output Formats:**
+
+| Format | Extension | Use Case | Generator |
+|--------|-----------|----------|-----------|
+| **Markdown** | `.md` | Human-readable docs, GitHub, TOC | Default (current) |
+| **JSON** | `.json` | Machine-readable, programmatic processing | Phase6.5.1 |
+| **DOT (Graphviz)** | `.dot` | Dependency graphs, visualization | Phase6.5.2 |
+| **Mermaid** | `.mmd` | Markdown diagrams, GitHub rendering | Phase6.5.3 |
+| **JSON-LD** | `.jsonld` | Semantic web, RDF, knowledge graphs | Phase6.5.4 |
+
+**Phase6.5.1: JSON Output**
+
+Create `.discovery/export.json`:
+
+```json
+{
+  "project": "my-project",
+  "generated": "2026-05-03",
+  "files": [
+    {
+      "path": "src/main.ts",
+      "type": "File",
+      "mapsTo": "100-main.md",
+      "imports": ["config", "express"],
+      "exports": ["app", "startServer"],
+      "functions": ["main", "startServer"],
+      "classes": ["AppServer"],
+      "lines": 245
+    }
+  ],
+  "dependencies": [
+    { "from": "src/main.ts", "to": "src/config.ts", "type": "import" }
+  ],
+  "statistics": {
+    "totalFiles": 1245,
+    "totalFunctions": 3421,
+    "totalClasses": 456,
+    "maxNestingDepth": 12
+  }
+}
+```
+
+**Phase6.5.2: Graphviz DOT Output**
+
+Create `.discovery/deps.dot`:
+
+```dot
+digraph Dependencies {
+  rankdir=LR;
+  node [shape=box, style=filled, fillcolor="#e1f5fe"];
+  
+  "src/main.ts" -> "src/config.ts";
+  "src/main.ts" -> "src/server.ts";
+  "src/server.ts" -> "src/routes.ts";
+  "src/routes.ts" -> "src/controllers/auth.ts";
+  
+  subgraph cluster_packages {
+    label="Packages";
+    "packages/core/src/index.ts";
+    "packages/ui/src/index.ts";
+  }
+}
+```
+
+Render: `dot -Tpng .discovery/deps.dot -o .discovery/deps.png`
+
+**Phase6.5.3: Mermaid Diagram**
+
+Create `.discovery/deps.mmd`:
+
+```mermaid
+graph TD
+    A[src/main.ts] --> B[src/config.ts]
+    A --> C[src/server.ts]
+    C --> D[src/routes.ts]
+    D --> E[src/controllers/auth.ts]
+    D --> F[src/controllers/users.ts]
+    
+    style A fill:#e1f5fe
+    style B fill:#fce4ec
+    style C fill:#d4edda
+```
+
+Render: Supported natively in GitHub markdown, Notion, Obsidian.
+
+**Phase6.5.4: JSON-LD (Semantic)**
+
+Create `.discovery/semantic.jsonld`:
+
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareSourceCode",
+  "name": "my-project",
+  "programmingLanguage": "TypeScript",
+  "runtime": "Node.js",
+  "file": [
+    {
+      "@type": "Code",
+      "name": "main.ts",
+      "url": "file:///src/main.ts",
+      "programmingLanguage": "TypeScript",
+      "runtime": "Node.js"
+    }
+  ]
+}
+```
+
+### Phase7: Incremental Updates (CI/CD Integration)
+
+Support incremental codebase mapping for CI/CD pipelines.
+
+**Git-Based Incremental Detection:**
+
+```bash
+# Detect changed files since last mapping
+LAST_MAPPING_COMMIT=$(git log --all --grep="codebase-mapper" --format="%H" | head -1)
+
+if [ -z "$LAST_MAPPING_COMMIT" ]; then
+  echo "No previous mapping found, doing full mapping"
+else
+  echo "Last mapping at: $LAST_MAPPING_COMMIT"
+  CHANGED_FILES=$(git diff --name-only $LAST_MAPPING_COMMIT HEAD)
+  echo "Changed files to re-map:"
+  echo "$CHANGED_FILES"
+fi
+```
+
+**Incremental Mapping Workflow:**
+
+```
+1. Check .discovery/TOC.md for last_update timestamp
+2. Find files modified since that timestamp
+3. Re-map only changed files
+4. Update affected discovery documents
+5. Update TOC with new timestamp
+6. Update statistics
+```
+
+**CI/CD Integration Example:**
+
+```yaml
+# .github/workflows/codebase-mapping.yml
+name: Update Codebase Discovery
+
+on:
+  push:
+    branches: [main, dev]
+
+jobs:
+  map:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0  # Full history for incremental detection
+          
+      - name: Run Codebase Mapper
+        run: |
+          npx opencode-skill codebase-mapper
+          
+      - name: Commit updated discovery
+        run: |
+          git config user.email "bot@github.com"
+          git config user.name "Codebase Mapper Bot"
+          git add .discovery/
+          git commit -m "chore: update codebase discovery [skip ci]" || echo "No changes"
+          git push
+```
+
+**Smart Skip Logic:**
+
+```bash
+# Skip files that haven't changed
+for file in $(git diff --name-only HEAD~1); do
+  if [ -f ".discovery/$(echo $file | sed 's/\//-/g').md" ]; then
+    MOD_TIME=$( stat -f "%m" "$file" 2>/dev/null || stat -c "%Y" "$file" 2>/dev/null)
+    DISCOVERY_TIME=$( stat -f "%m" ".discovery/..." 2>/dev/null || stat -c "%Y" ".discovery/..." 2>/dev/null)
+    
+    if [ "$MOD_TIME" -le "$DISCOVERY_TIME" ]; then
+      echo "SKIP: $file (unchanged)"
+      continue
+    fi
+  fi
+  
+  echo "MAPPING: $file"
+  # ... mapping logic
+done
+```
+
+### Phase7: Pluralistic Repos (Multi-Repo/Polyrepo)
+
+Support mapping across multiple interconnected repositories.
+
+**Detection:**
+
+```bash
+# Check for pluralistic repo indicators
+[ -f ".gitmodules" ] && echo "Git submodules detected"
+grep -q "repos:" .opencode/config.json 2>/dev/null && echo "OpenCode multi-repo config found"
+[ -d "../sibling-repo" ] && echo "Sibling repo detected"
+[ -f "lerna.json" ] && jq -e '.repositories' lerna.json >/dev/null 2>&1 && echo "Lerna multi-repo"
+```
+
+**Multi-Repo Structures:**
+
+| Structure | Detection | Mapping Strategy |
+|-----------|-----------|-------------------|
+| **Git Submodules** | `.gitmodules` exists | Map each submodule as separate `.discovery/` subtree |
+| **Lerna/Babel style** | `packages/*` each with `.git` | Map each package as independent repo |
+| **Microservices** | Multiple `service-*/` dirs with own `package.json` | Map each service with cross-repo links |
+| **Monorepo + Sibling** | `../other-repo` exists | Map both repos, link cross-dependencies |
+| **Git Subtrees** | Check `git log | grep subtree` | Treat as separate subtree in mapping |
+| **Meta-repo** | `.meta` config file | Follow meta-repo manifest for all repos |
+
+**Cross-Repo Dependency Mapping:**
+
+```bash
+# Find cross-repo imports/references
+grep -r "from '../../../" src/ 2>/dev/null | head -10
+grep -r "require('../../.." src/ 2>/dev/null | head -10
+
+# Check for workspace protocol references
+grep '"workspace:*"' package.json 2>/dev/null
+grep '"file:' package.json 2>/dev/null
+
+# Find Docker/compose cross-references
+grep -r "context: ../" docker-compose*.yml 2>/dev/null
+```
+
+**Pluralistic Repo Discovery Structure:**
+
+```
+If pluralistic repo detected:
+  1. Identify ALL repositories (main + siblings/submodules/microservices)
+  2. Create top-level discovery structure:
+     .discovery/
+     ├── main-repo/           # Main repository mapping
+     │   ├── 000-root.md
+     │   ├── src/
+     │   └── TOC.md
+     ├── services/
+     │   ├── auth-service/    # Microservice 1
+     │   ├── api-service/     # Microservice 2
+     │   └── TOC.md
+     ├── shared/
+     │   └── common-lib/      # Shared library repo
+     ├── CROSS-REPO-DEPS.md  # Cross-repo dependency map
+     └── TOC.md              # Master TOC for all repos
+  3. Map each repo independently
+  4. Generate cross-repo dependency graph
+  5. Link discoveries across repos
+```
+
+**Cross-Repo Discovery Document (`CROSS-REPO-DEPS.md`):**
+
+```markdown
+# Cross-Repo Dependencies
+
+## Repository Map
+
+| Repo | Path | Type | Discovery Path |
+|------|------|------|----------------|
+| `main-app` | `.` | Main application | `.discovery/main-repo/` |
+| `auth-service` | `../auth-service` | Microservice | `.discovery/services/auth-service/` |
+| `common-lib` | `libs/common` (submodule) | Shared library | `.discovery/shared/common-lib/` |
+
+## Cross-Repo Imports
+
+| From Repo | To Repo | File | Import |
+|-----------|---------|------|--------|
+| `main-app` | `auth-service` | `src/auth.ts` | `import { AuthClient } from 'auth-service'` |
+| `main-app` | `common-lib` | `src/utils.ts` | `import { helpers } from '@company/common'` |
+| `auth-service` | `common-lib` | `src/index.ts` | `require('@company/common').crypto` |
+
+## Cross-Repo Dependency Graph
+
+```
+main-app ───► auth-service (runtime dep)
+    ├──► common-lib (build dep)
+    └──► analytics-service (async/event)
+
+auth-service ──► common-lib (build dep)
+              └──► crypto-lib (npm dep)
+
+analytics-service ──► main-app (webhook)
+                   └──► common-lib (shared types)
+```
+
+## Shared Code Detection
+
+| Code Pattern | Found In | Used By |
+|--------------|----------|---------|
+| `User` interface | `common-lib/src/types.ts` | `main-app`, `auth-service` |
+| `加密辅助函数` | `common-lib/src/crypto.ts` | `auth-service` |
+| `APIResponse` type | `common-lib/src/api.ts` | All services |
+
+## Cross-Repo TOC
+
+| Repo | TOC Link | Files Mapped | Last Updated |
+|------|----------|--------------|---------------|
+| main-app | [TOC](./main-repo/TOC.md) | 245 | 2026-05-03 |
+| auth-service | [TOC](./services/auth-service/TOC.md) | 89 | 2026-05-02 |
+| common-lib | [TOC](./shared/common-lib/TOC.md) | 34 | 2026-05-01 |
+```
+
+**Mapping Workflow for Pluralistic Repos:**
+
+```
+1. Phase0-Multi: Detect ALL repos
+   - Scan for .gitmodules, sibling dirs, package workspaces
+   - Build repo manifest (name, path, type, relationship)
+
+2. Phase1-Multi: Map each repo independently
+   - Spawn parallel agents per repo (category: quick)
+   - Each agent creates .discovery/{repo-name}/ subtree
+   - Track progress per repo
+
+3. Phase2-Multi: Cross-Repo analysis
+   - Scan for cross-repo imports/references
+   - Build cross-repo dependency graph
+   - Detect shared code patterns
+   - Identify API contracts between repos
+
+4. Phase3-Multi: Generate Master TOC
+   - Create top-level TOC.md linking all repos
+   - Include cross-repo dependency graph
+   - Add shared code map
+   - Add inter-repo API contract list
+```
+
+**Cross-Repo Search Example:**
+
+```bash
+# Find all cross-repo references
+find . -name "*.ts" -o -name "*.js" | while read f; do
+  # Check for imports referencing parent/sibling dirs
+  grep -H "from '\.\./\.\." "$f" 2>/dev/null
+  grep -H "require('\.\./\.\." "$f" 2>/dev/null
+done
+
+# Check Docker/compose cross-refs
+if [ -f "docker-compose.yml" ]; then
+  grep -H "context: \.\." docker-compose.yml
+fi
+```
+
+**Polyrepo + Monorepo Hybrid:**
+
+```
+If BOTH monorepo AND pluralistic:
+  1. Map each top-level repo (monorepo or single)
+  2. Within each monorepo, follow Phase1.75 (Monorepo Detection)
+  3. Add cross-repo links between monorepos
+  4. Generate unified dependency graph across all repos
+```

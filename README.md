@@ -76,6 +76,8 @@ AI agents can load specialized skills from the `SKILLS/` directory for common de
 | [SKILLS/github-triage.md](SKILLS/github-triage.md) | Read-only GitHub triage for issues and PRs |
 | [SKILLS/pre-publish-review.md](SKILLS/pre-publish-review.md) | Nuclear-grade 16-agent pre-publish release gate |
 | [SKILLS/work-with-pr.md](SKILLS/work-with-pr.md) | Full PR lifecycle: worktree → implement → PR → merge |
+| [SKILLS/agents-sdk.md](SKILLS/agents-sdk.md) | Build AI agents on Cloudflare Workers using Agents SDK |
+| [SKILLS/cloudflare.md](SKILLS/cloudflare.md) | Comprehensive Cloudflare platform skill (Workers, Pages, storage, AI, networking) |
 
 See [AGENTS_START_HERE.md](AGENTS_START_HERE.md) for the primary agent entry point and [SKILLS/README.md](SKILLS/README.md) for the complete skill index.
 
