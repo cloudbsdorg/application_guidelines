@@ -1179,29 +1179,9 @@ Create `.discovery/export.json`:
 }
 ```
 
-**Phase6.5.2: Graphviz DOT Output (Deprecated)**
+**Phase 6.5.2: Graphviz DOT Output (Deprecated)**
 
 > **Note:** DOT language is deprecated. Use Mermaid (Phase 6.5.3) for all new diagrams.
-
-Create `.discovery/deps.dot` (legacy format):
-
-```dot
-digraph Dependencies {
-  rankdir=LR;
-  node [shape=box, style=filled, fillcolor="#e1f5fe"];
-  
-  "src/main.ts" -> "src/config.ts";
-  "src/main.ts" -> "src/server.ts";
-  "src/server.ts" -> "src/routes.ts";
-  "src/routes.ts" -> "src/controllers/auth.ts";
-  
-  subgraph cluster_packages {
-    label="Packages";
-    "packages/core/src/index.ts";
-    "packages/ui/src/index.ts";
-  }
-}
-```
 
 **Migrated to Mermaid (preferred):**
 
@@ -1221,8 +1201,6 @@ graph LR
     style B fill:#fce4ec
     style C fill:#d4edda
 ```
-
-Render DOT: `dot -Tpng .discovery/deps.dot -o .discovery/deps.png` (legacy only)
 
 **Phase6.5.3: Mermaid Diagram**
 
