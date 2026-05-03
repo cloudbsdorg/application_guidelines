@@ -222,129 +222,13 @@ TOC_FILE=".discovery/TOC.md"
 
 > **CRITICAL:** EVERY file in the project MUST appear in this table.
 > NO file is "not interesting" — every file has a purpose.
-> For source files, we DECOMPOSE: imports, exports, functions, classes, variables, types.
+> Source file decomposition (imports, functions, classes, types) happens in Phase 2 individual reports.
 
-| File | Mapped (true/false) | Timestamp (UTC) | Where Used | Purpose (with code structure for source files) |
-|------|----------------------|-------------------|-------------|--------------------------------------------------------|" > /tmp/master_table.txt
+| File | Mapped (true/false) | Timestamp (UTC) | Where Used | Purpose |
+|------|----------------------|-------------------|-------------|---------|" > /tmp/master_table.txt
 
-# Function to decompose source files - extract real code structure
-decompose_source() {
-  local file="$1"
-  local ext="${file##*.}"
-  local structure=""
-  
-  case "$ext" in
-    js|jsx|ts|tsx)
-      # Extract imports
-      IMPORTS=$(grep -E "^import |^const .* = require\(|^let .* = require\(|^var .* = require\(" "$file" 2>/dev/null | head -10 | tr '\n' '; ')
-      [[ -n "$IMPORTS" ]] && structure="${structure}Imports: ${IMPORTS:0:100}...; "
-      
-      # Extract exports (functions, classes, const)
-      EXPORTS=$(grep -E "^export |^module.exports" "$file" 2>/dev/null | head -10 | tr '\n' '; ')
-      [[ -n "$EXPORTS" ]] && structure="${structure}Exports: ${EXPORTS:0:100}...; "
-      
-      # Extract function names
-      FUNCTIONS=$(grep -oE "(function|const) [a-zA-Z0-9_]+" "$file" 2>/dev/null | sed 's/function //; s/const //' | head -10 | tr '\n' ', ')
-      [[ -n "$FUNCTIONS" ]] && structure="${structure}Functions: $FUNCTIONS; "
-      
-      # Extract class names
-      CLASSES=$(grep -oE "class [a-zA-Z0-9_]+" "$file" 2>/dev/null | sed 's/class //' | tr '\n' ', ')
-      [[ -n "$CLASSES" ]] && structure="${structure}Classes: $CLASSES; "
-      
-      # Extract type/interface names (TypeScript)
-      TYPES=$(grep -oE "(type|interface) [a-zA-Z0-9_]+" "$file" 2>/dev/null | sed 's/type //; s/interface //' | tr '\n' ', ')
-      [[ -n "$TYPES" ]] && structure="${structure}Types: $TYPES; "
-      
-      # Extract global variables (const/let/var at top level, not in functions)
-      GLOBALS=$(grep -E "^(const|let|var) [A-Z_][A-Z0-9_]*" "$file" 2>/dev/null | head -5 | tr '\n' ', ')
-      [[ -n "$GLOBALS" ]] && structure="${structure}Globals: $GLOBALS; "
-      ;;
-      
-    c|cpp|cxx)
-      # Extract #includes
-      INCLUDES=$(grep -E "^#include " "$file" 2>/dev/null | head -10 | tr '\n' '; ')
-      [[ -n "$INCLUDES" ]] && structure="${structure}Includes: ${INCLUDES:0:100}...; "
-      
-      # Extract function signatures
-      FUNCTIONS=$(grep -E "^[a-zA-Z_].*\(.*\)\s*{" "$file" 2>/dev/null | sed 's/{//' | head -10 | tr '\n' ', ')
-      [[ -n "$FUNCTIONS" ]] && structure="${structure}Functions: $FUNCTIONS; "
-      
-      # Extract struct names
-      STRUCTS=$(grep -oE "struct [a-zA-Z0-9_]+" "$file" 2>/dev/null | sed 's/struct //' | tr '\n' ', ')
-      [[ -n "$STRUCTS" ]] && structure="${structure}Structs: $STRUCTS; "
-      
-      # Extract global variables (all caps or at file scope)
-      GLOBALS=$(grep -E "^(const |static )?(int|char|float|double|void|long) [A-Z_][A-Z0-9_]*" "$file" 2>/dev/null | head -5 | tr '\n' ', ')
-      [[ -n "$GLOBALS" ]] && structure="${structure}Globals: $GLOBALS; "
-      ;;
-      
-    py)
-      # Extract imports
-      IMPORTS=$(grep -E "^import |^from .* import" "$file" 2>/dev/null | head -10 | tr '\n' '; ')
-      [[ -n "$IMPORTS" ]] && structure="${structure}Imports: ${IMPORTS:0:100}...; "
-      
-      # Extract function defs
-      FUNCTIONS=$(grep -oE "^def [a-zA-Z0-9_]+" "$file" 2>/dev/null | sed 's/def //' | tr '\n' ', ')
-      [[ -n "$FUNCTIONS" ]] && structure="${structure}Functions: $FUNCTIONS; "
-      
-      # Extract class defs
-      CLASSES=$(grep -oE "^class [a-zA-Z0-9_]+" "$file" 2>/dev/null | sed 's/class //' | tr '\n' ', ')
-      [[ -n "$CLASSES" ]] && structure="${structure}Classes: $CLASSES; "
-      
-      # Extract global variables (all caps)
-      GLOBALS=$(grep -E "^[A-Z_][A-Z0-9_]*\s*=" "$file" 2>/dev/null | head -5 | tr '\n' ', ')
-      [[ -n "$GLOBALS" ]] && structure="${structure}Globals: $GLOBALS; "
-      ;;
-      
-    go)
-      # Extract imports
-      IMPORTS=$(grep -A 20 "^import (" "$file" 2>/dev/null | grep '"' | head -10 | tr '\n' '; ')
-      [[ -n "$IMPORTS" ]] && structure="${structure}Imports: ${IMPORTS:0:100}...; "
-      
-      # Extract function defs
-      FUNCTIONS=$(grep -oE "^func [a-zA-Z0-9_]+" "$file" 2>/dev/null | sed 's/func //' | tr '\n' ', ')
-      [[ -n "$FUNCTIONS" ]] && structure="${structure}Functions: $FUNCTIONS; "
-      
-      # Extract type/struct defs
-      TYPES=$(grep -oE "^(type|struct) [a-zA-Z0-9_]+" "$file" 2>/dev/null | sed 's/type //; s/struct //' | tr '\n' ', ')
-      [[ -n "$TYPES" ]] && structure="${structure}Types: $TYPES; "
-      ;;
-      
-    rs)
-      # Extract use/mod statements
-      IMPORTS=$(grep -E "^use |^mod " "$file" 2>/dev/null | head -10 | tr '\n' '; ')
-      [[ -n "$IMPORTS" ]] && structure="${structure}Imports: ${IMPORTS:0:100}...; "
-      
-      # Extract fn defs
-      FUNCTIONS=$(grep -oE "fn [a-zA-Z0-9_]+" "$file" 2>/dev/null | sed 's/fn //' | tr '\n' ', ')
-      [[ -n "$FUNCTIONS" ]] && structure="${structure}Functions: $FUNCTIONS; "
-      
-      # Extract struct/enum/trait defs
-      TYPES=$(grep -oE "^(struct|enum|trait) [a-zA-Z0-9_]+" "$file" 2>/dev/null | sed 's/struct //; s/enum //; s/trait //' | tr '\n' ', ')
-      [[ -n "$TYPES" ]] && structure="${structure}Types: $TYPES; "
-      ;;
-      
-    java)
-      # Extract imports
-      IMPORTS=$(grep -E "^import " "$file" 2>/dev/null | head -10 | tr '\n' '; ')
-      [[ -n "$IMPORTS" ]] && structure="${structure}Imports: ${IMPORTS:0:100}...; "
-      
-      # Extract class/interface defs
-      CLASSES=$(grep -oE "^(public |private |protected )?(class|interface) [a-zA-Z0-9_]+" "$file" 2>/dev/null | sed 's/class //; s/interface //; s/public //; s/private //; s/protected //' | tr '\n' ', ')
-      [[ -n "$CLASSES" ]] && structure="${structure}Classes: $CLASSES; "
-      
-      # Extract method defs
-      FUNCTIONS=$(grep -oE "(public|private|protected).*\(.*\)" "$file" 2>/dev/null | head -10 | tr '\n' ', ')
-      [[ -n "$FUNCTIONS" ]] && structure="${structure}Methods: $FUNCTIONS; "
-      ;;
-      
-    *)
-      structure="Source file ($(wc -l < "$file" 2>/dev/null || echo 0) lines)"
-      ;;
-  esac
-  
-  echo "${structure:-No structure extracted}"
-}
+# (Decomposition happens in Phase 2 — see decompose_source() in Phase 2 mapping section)
+# The Tracking Table only records brief purpose, NOT the full decomposition
 
 # Process ALL files (not just orphans — we want EVERY file)
 while read f; do
@@ -367,8 +251,7 @@ while read f; do
     *test*/*|*__tests__*/*|*.test.*|*.spec.*)
       PURPOSE="Test file - $(wc -l < "$f" 2>/dev/null || echo "0") lines" ;;
     *src/*|*lib/*|*app/*)
-      # DECOMPOSE the source file - extract real code structure
-      PURPOSE="Source: $(decompose_source "$f")" ;;
+      PURPOSE="Source code ($(wc -l < "$f" 2>/dev/null || echo 0) lines) — decomposed in Phase 2" ;;
     *.md|*docs/*)
       PURPOSE="Documentation - $(head -3 "$f" 2>/dev/null | grep -o '^#.*' | head -1 || echo "doc")" ;;
     *.png|*.jpg|*.gif|*.svg)
@@ -400,21 +283,150 @@ echo "=== Source files decomposed with imports, functions, classes, variables, t
 2. Mapped status is tracked (true/false)
 3. UTC timestamp recorded
 4. Where Used shows which source files reference it
-5. **Source files DECOMPOSED**: For `.js/.ts/.c/.py/.go/.rs/.java` etc., extracts:
-   - **Imports/Includes** — what this file depends on
-   - **Functions/Methods** — what this file defines
-   - **Classes/Structs/Types** — the data structures
-   - **Global Variables** — stateful elements
-   - **Interfaces/Traits** — contracts and abstractions
-6. Purpose is determined for every file (even PNGs know "where used and why")
+5. Purpose is determined for every file (even PNGs know "where used and why")
+6. Source files show "decomposed in Phase 2" — actual decomposition happens in the individual `.discovery/XXX-file.md` report
+
+**Phase 2 individual reports** contain the full decomposition:
+- **Imports/Includes** — what this file depends on
+- **Functions/Methods** — what this file defines  
+- **Classes/Structs/Types** — the data structures
+- **Global Variables** — stateful elements
+- **Interfaces/Traits** — contracts and abstractions
 
 Then systematically map each orphan file, updating the Mapped column to ✅ true as you go.
 
 ### Phase2: Recursive Component Mapping
 
+**Source File Decomposition (MANDATORY for source files):**
+
+Before generating the tree-view document, DECOMPOSE each source file to extract its structure:
+
+```bash
+# Function to decompose source files - extract real code structure
+decompose_source() {
+  local file="$1"
+  local ext="${file##*.}"
+  local structure=""
+
+  case "$ext" in
+    js|jsx|ts|tsx)
+      # Extract imports
+      IMPORTS=$(grep -E "^import |^const .* = require\(|^let .* = require\(|^var .* = require\(" "$file" 2>/dev/null | head -10)
+      [[ -n "$IMPORTS" ]] && structure="${structure}\n#### Imports\n\`\`\`javascript\n${IMPORTS}\n\`\`\`\n"
+
+      # Extract exports
+      EXPORTS=$(grep -E "^export |^module.exports" "$file" 2>/dev/null | head -10)
+      [[ -n "$EXPORTS" ]] && structure="${structure}\n#### Exports\n\`\`\`javascript\n${EXPORTS}\n\`\`\`\n"
+
+      # Extract function names
+      FUNCTIONS=$(grep -oE "(function|const|let|var) [a-zA-Z0-9_]+" "$file" 2>/dev/null | sed 's/function //; s/const //; s/let //; s/var //' | sort -u | tr '\n' ', ' | sed 's/, $//')
+      [[ -n "$FUNCTIONS" ]] && structure="${structure}\n#### Functions\n$FUNCTIONS\n"
+
+      # Extract class names
+      CLASSES=$(grep -oE "class [a-zA-Z0-9_]+" "$file" 2>/dev/null | sed 's/class //' | tr '\n' ', ' | sed 's/, $//')
+      [[ -n "$CLASSES" ]] && structure="${structure}\n#### Classes\n$CLASSES\n"
+
+      # Extract type/interface names (TypeScript)
+      TYPES=$(grep -oE "(type|interface) [a-zA-Z0-9_]+" "$file" 2>/dev/null | sed 's/type //; s/interface //' | tr '\n' ', ' | sed 's/, $//')
+      [[ -n "$TYPES" ]] && structure="${structure}\n#### Types/Interfaces\n$TYPES\n"
+
+      # Extract global variables (all caps or at file scope)
+      GLOBALS=$(grep -E "^(const|let|var) [A-Z_][A-Z0-9_]*" "$file" 2>/dev/null | head -5)
+      [[ -n "$GLOBALS" ]] && structure="${structure}\n#### Global Variables\n\`\`\`javascript\n${GLOBALS}\n\`\`\`\n"
+      ;;
+
+    c|cpp|cxx)
+      # Extract #includes
+      INCLUDES=$(grep -E "^#include " "$file" 2>/dev/null | head -10)
+      [[ -n "$INCLUDES" ]] && structure="${structure}\n#### Includes\n\`\`\`c\n${INCLUDES}\n\`\`\`\n"
+
+      # Extract function signatures
+      FUNCTIONS=$(grep -E "^[a-zA-Z_].*\(.*\)\s*{" "$file" 2>/dev/null | sed 's/{//' | head -10 | tr '\n' ', ' | sed 's/, $//')
+      [[ -n "$FUNCTIONS" ]] && structure="${structure}\n#### Functions\n$FUNCTIONS\n"
+
+      # Extract struct names
+      STRUCTS=$(grep -oE "struct [a-zA-Z0-9_]+" "$file" 2>/dev/null | sed 's/struct //' | tr '\n' ', ' | sed 's/, $//')
+      [[ -n "$STRUCTS" ]] && structure="${structure}\n#### Structs\n$STRUCTS\n"
+
+      # Extract global variables
+      GLOBALS=$(grep -E "^(const |static )?(int|char|float|double|void|long) [A-Z_][A-Z0-9_]*" "$file" 2>/dev/null | head -5)
+      [[ -n "$GLOBALS" ]] && structure="${structure}\n#### Global Variables\n\`\`\`c\n${GLOBALS}\n\`\`\`\n"
+      ;;
+
+    py)
+      # Extract imports
+      IMPORTS=$(grep -E "^import |^from .* import" "$file" 2>/dev/null | head -10)
+      [[ -n "$IMPORTS" ]] && structure="${structure}\n#### Imports\n\`\`\`python\n${IMPORTS}\n\`\`\`\n"
+
+      # Extract function defs
+      FUNCTIONS=$(grep -oE "^def [a-zA-Z0-9_]+" "$file" 2>/dev/null | sed 's/def //' | tr '\n' ', ' | sed 's/, $//')
+      [[ -n "$FUNCTIONS" ]] && structure="${structure}\n#### Functions\n$FUNCTIONS\n"
+
+      # Extract class defs
+      CLASSES=$(grep -oE "^class [a-zA-Z0-9_]+" "$file" 2>/dev/null | sed 's/class //' | tr '\n' ', ' | sed 's/, $//')
+      [[ -n "$CLASSES" ]] && structure="${structure}\n#### Classes\n$CLASSES\n"
+
+      # Extract global variables (all caps)
+      GLOBALS=$(grep -E "^[A-Z_][A-Z0-9_]*\s*=" "$file" 2>/dev/null | head -5)
+      [[ -n "$GLOBALS" ]] && structure="${structure}\n#### Global Variables\n\`\`\`python\n${GLOBALS}\n\`\`\`\n"
+      ;;
+
+    go)
+      # Extract imports
+      IMPORTS=$(grep -A 20 "^import (" "$file" 2>/dev/null | grep '"' | head -10)
+      [[ -n "$IMPORTS" ]] && structure="${structure}\n#### Imports\n\`\`\`go\n${IMPORTS}\n\`\`\`\n"
+
+      # Extract function defs
+      FUNCTIONS=$(grep -oE "^func [a-zA-Z0-9_]+" "$file" 2>/dev/null | sed 's/func //' | tr '\n' ', ' | sed 's/, $//')
+      [[ -n "$FUNCTIONS" ]] && structure="${structure}\n#### Functions\n$FUNCTIONS\n"
+
+      # Extract type/struct defs
+      TYPES=$(grep -oE "^(type|struct) [a-zA-Z0-9_]+" "$file" 2>/dev/null | sed 's/type //; s/struct //' | tr '\n' ', ' | sed 's/, $//')
+      [[ -n "$TYPES" ]] && structure="${structure}\n#### Types/Structs\n$TYPES\n"
+      ;;
+
+    rs)
+      # Extract use/mod statements
+      IMPORTS=$(grep -E "^use |^mod " "$file" 2>/dev/null | head -10)
+      [[ -n "$IMPORTS" ]] && structure="${structure}\n#### Imports\n\`\`\`rust\n${IMPORTS}\n\`\`\`\n"
+
+      # Extract fn defs
+      FUNCTIONS=$(grep -oE "fn [a-zA-Z0-9_]+" "$file" 2>/dev/null | sed 's/fn //' | tr '\n' ', ' | sed 's/, $//')
+      [[ -n "$FUNCTIONS" ]] && structure="${structure}\n#### Functions\n$FUNCTIONS\n"
+
+      # Extract struct/enum/trait defs
+      TYPES=$(grep -oE "^(struct|enum|trait) [a-zA-Z0-9_]+" "$file" 2>/dev/null | sed 's/struct //; s/enum //; s/trait //' | tr '\n' ', ' | sed 's/, $//')
+      [[ -n "$TYPES" ]] && structure="${structure}\n#### Types\n$TYPES\n"
+      ;;
+
+    java)
+      # Extract imports
+      IMPORTS=$(grep -E "^import " "$file" 2>/dev/null | head -10)
+      [[ -n "$IMPORTS" ]] && structure="${structure}\n#### Imports\n\`\`\`java\n${IMPORTS}\n\`\`\`\n"
+
+      # Extract class/interface defs
+      CLASSES=$(grep -oE "^(public |private |protected )?(class|interface) [a-zA-Z0-9_]+" "$file" 2>/dev/null | sed 's/class //; s/interface //; s/public //; s/private //; s/protected //' | tr '\n' ', ' | sed 's/, $//')
+      [[ -n "$CLASSES" ]] && structure="${structure}\n#### Classes/Interfaces\n$CLASSES\n"
+
+      # Extract method defs
+      FUNCTIONS=$(grep -oE "(public|private|protected).*\(.*\)" "$file" 2>/dev/null | head -10 | tr '\n' ', ' | sed 's/, $//')
+      [[ -n "$FUNCTIONS" ]] && structure="${structure}\n#### Methods\n$FUNCTIONS\n"
+      ;;
+
+    *)
+      structure="\n*Source file ($(wc -l < "$file" 2>/dev/null || echo 0) lines)*"
+      ;;
+  esac
+
+  echo -e "$structure"
+}
+```
+
 For each discovered item, generate a tree-view document following this structure:
 
 #### File-Level Tree
+
+**Source file decomposition** (run `decompose_source()` above, insert results here):
 
 ```markdown
 # Component: <filename>
@@ -424,6 +436,35 @@ For each discovered item, generate a tree-view document following this structure
 **Maps to:** `.discovery/<NNN>-<name>.md`
 **Dependencies:** [list of imported files with links]
 **Dependents:** [list of files that import this, with links]
+
+## Decomposition
+
+<INSERT decompose_source() output here — Imports, Functions, Classes, Types, Globals>
+
+Example for a TypeScript file:
+#### Imports
+```javascript
+import { UserService } from './services/user'
+import type { User } from './types'
+```
+
+#### Exports
+```javascript
+export function createUser()
+export class UserManager
+```
+
+#### Functions
+createUser, deleteUser, updateUser
+
+#### Classes
+UserManager, UserValidator
+
+#### Types/Interfaces
+User, CreateUserInput, UpdateUserInput
+
+#### Global Variables
+API_BASE_URL, DEFAULT_TIMEOUT
 
 ## Structure
 
