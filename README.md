@@ -55,6 +55,8 @@ When using AI tools (e.g., GitHub Copilot, Claude, ChatGPT) to generate code for
 
 ### AI Skills
 
+**🎨 Diagram Standard**: Mermaid is the preferred drawing methodology for all architecture diagrams, flowcharts, graphs, and visual documentation. All skills must use Mermaid syntax (`` ```mermaid `` code blocks) for diagrams. ASCII art, DOT, and PlantUML are deprecated in favor of Mermaid.
+
 AI agents can load specialized skills from the `SKILLS/` directory for common development tasks:
 
 | Skill | Purpose |

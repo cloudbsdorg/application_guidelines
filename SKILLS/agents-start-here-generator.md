@@ -1,3 +1,8 @@
+---
+name: agents start here generator
+description: Generate the AGENTS_START_HERE.md file for project root, serving as the primary entry point for autonomous agents.
+---
+
 # Skill: agents-start-here-generator
 
 **Purpose:** Generate the AGENTS_START_HERE.md file for project root, serving as the primary entry point for autonomous agents.

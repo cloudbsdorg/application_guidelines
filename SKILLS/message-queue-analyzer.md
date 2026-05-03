@@ -1,3 +1,8 @@
+---
+name: message queue analyzer
+description: Systematically analyze message brokers, queues, and event-driven architectures to understand message flow, patterns, and integration points.
+---
+
 # Skill: message-queue-analyzer
 
 **Purpose:** Systematically analyze message brokers, queues, and event-driven architectures to understand message flow, patterns, and integration points.

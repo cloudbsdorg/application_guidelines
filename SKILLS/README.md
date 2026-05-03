@@ -1,3 +1,8 @@
+---
+name: README
+description: Enforce the claiming and completion protocols...
+---
+
 # CloudBSD Application Guidelines — Skills Index
 
 This directory contains AI skills for CloudBSD project development.
@@ -45,6 +50,16 @@ This directory contains AI skills for CloudBSD project development.
 | [work-with-pr](work-with-pr.md) | Full PR lifecycle: worktree → implement → PR → merge | When implementation work needs to land as a PR |
 | [agents-sdk](agents-sdk.md) | Build AI agents on Cloudflare Workers using Agents SDK | When creating stateful agents, durable workflows, real-time WebSocket apps |
 | [cloudflare](cloudflare.md) | Comprehensive Cloudflare platform skill covering Workers, Pages, storage, AI, networking, security | When developing on Cloudflare platform |
+
+## 🎨 Diagram Standard
+
+**Mermaid is the preferred drawing methodology** for all diagrams in CloudBSD documentation.
+
+- Use `` ```mermaid `` code blocks for all architecture diagrams, flowcharts, sequence diagrams, class diagrams, and graphs.
+- ASCII art diagrams (e.g., `+---+`, `|   |`) are deprecated and must be converted to Mermaid.
+- DOT language (`digraph`, `graph {`) is deprecated and must be converted to Mermaid.
+- PlantUML (`@startuml`) is deprecated and must be converted to Mermaid.
+- See [ascii-diagrammer](ascii-diagrammer.md) for the Mermaid diagram generation skill.
 
 ## Skill Invocation Format
 

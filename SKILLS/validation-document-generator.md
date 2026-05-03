@@ -1,3 +1,8 @@
+---
+name: validation document generator
+description: Create validation reports and validation corrections reports following the CloudBSD standard format.
+---
+
 # Skill: validation-document-generator
 
 **Purpose:** Create validation reports and validation corrections reports following the CloudBSD standard format.

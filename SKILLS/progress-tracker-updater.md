@@ -1,3 +1,8 @@
+---
+name: progress tracker updater
+description: Create and maintain TODO Tracker Summary tables for project phase progress tracking.
+---
+
 # Skill: progress-tracker-updater
 
 **Purpose:** Create and maintain TODO Tracker Summary tables for project phase progress tracking.

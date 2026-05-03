@@ -1,3 +1,8 @@
+---
+name: network stack analyzer
+description: Systematically analyze application networking code to understand socket usage, protocol handling, and network APIs for cross-platform porting.
+---
+
 # Skill: network-stack-analyzer
 
 **Purpose:** Systematically analyze application networking code to understand socket usage, protocol handling, and network APIs for cross-platform porting.

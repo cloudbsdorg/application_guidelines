@@ -1,3 +1,8 @@
+---
+name: feature task generator
+description: Generate implementation tasks from actual feature discovery, avoiding over-generation by only capturing reachable, used functionality.
+---
+
 # Skill: feature-task-generator
 
 **Purpose:** Generate implementation tasks from actual feature discovery, avoiding over-generation by only capturing reachable, used functionality.

@@ -1,3 +1,8 @@
+---
+name: process model analyzer
+description: Systematically analyze application process models, threading, and inter-process communication patterns for cross-platform porting.
+---
+
 # Skill: process-model-analyzer
 
 **Purpose:** Systematically analyze application process models, threading, and inter-process communication patterns for cross-platform porting.

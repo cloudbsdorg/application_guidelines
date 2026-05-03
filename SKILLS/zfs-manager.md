@@ -1,3 +1,8 @@
+---
+name: zfs manager
+description: Create, manage, and safely operate ZFS pools and datasets on FreeBSD, with emphasis on preventing destructive operations.
+---
+
 # Skill: zfs-manager
 
 **Purpose:** Create, manage, and safely operate ZFS pools and datasets on FreeBSD, with emphasis on preventing destructive operations.

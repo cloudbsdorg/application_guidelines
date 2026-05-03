@@ -1,3 +1,8 @@
+---
+name: test planner
+description: Generate testing documentation including test case matrices, test plans, and testing scope documents.
+---
+
 # Skill: test-planner
 
 **Purpose:** Generate testing documentation including test case matrices, test plans, and testing scope documents.
@@ -57,19 +62,13 @@ Load this skill when the user asks you to:
 
 ## Test Pyramid
 
-```
-                        +---------------+
-                        |    Stress     |
-                        |    Testing    |
-                        +---------------+
-                      +-------------------+
-                      |  Integration     |
-                      |  Testing         |
-                      +-------------------+
-                    +-----------------------+
-                    |     Unit Testing     |
-                    |  (per component)     |
-                    +-----------------------+
+```mermaid
+graph TD
+    S[Stress Testing] --> I[Integration Testing]
+    I --> U[Unit Testing<br/>per component]
+    style S fill:#ff9999
+    style I fill:#ffcc99
+    style U fill:#99ff99
 ```
 
 ## Unit Testing Document Structure (401)
@@ -177,11 +176,12 @@ static int mock_if_input(struct ifnet *, struct mbuf *);
 
 ## Network Topology
 
-```
-+------+     +------+     +------+
-| VM1  |-----| SW1  |-----| VM2  |
-|Test  |     | Vlan |     |Test |
-+------+     +------+     +------+
+```mermaid
+graph LR
+    VM1[VM1<br/>Test] --- SW1[SW1<br/>Vlan] --- VM2[VM2<br/>Test]
+    style VM1 fill:#e1f5fe
+    style SW1 fill:#fce4ec
+    style VM2 fill:#d4edda
 ```
 
 ---

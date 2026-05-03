@@ -1,3 +1,8 @@
+---
+name: security document generator
+description: Create security documentation following the CloudBSD security series standard (1.1-1.6).
+---
+
 # Skill: security-document-generator
 
 **Purpose:** Create security documentation following the CloudBSD security series standard (1.1-1.6).

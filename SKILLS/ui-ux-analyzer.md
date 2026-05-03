@@ -1,3 +1,8 @@
+---
+name: ui ux analyzer
+description: Systematically analyze user interfaces to understand objects, states, actions, and data flow - producing implementation-ready specifications.
+---
+
 # Skill: ui-ux-analyzer
 
 **Purpose:** Systematically analyze user interfaces to understand objects, states, actions, and data flow - producing implementation-ready specifications.

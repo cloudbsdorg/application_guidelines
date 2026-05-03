@@ -1,3 +1,8 @@
+---
+name: service manager
+description: Manage FreeBSD services using rc.d, service command, and sysrc. Also covers Linux systemd services for Linuxulator binaries.
+---
+
 # Skill: service-manager
 
 **Purpose:** Manage FreeBSD services using rc.d, service command, and sysrc. Also covers Linux systemd services for Linuxulator binaries.

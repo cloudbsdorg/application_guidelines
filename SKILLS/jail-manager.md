@@ -1,3 +1,8 @@
+---
+name: jail manager
+description: Create, configure, start, stop, and manage FreeBSD jails using common tools like `jail(8)`, `ezjail`, `iocage`, `bastille`, and `pot` (Prison on Trust).
+---
+
 # Skill: jail-manager
 
 **Purpose:** Create, configure, start, stop, and manage FreeBSD jails using common tools like `jail(8)`, `ezjail`, `iocage`, `bastille`, and `pot` (Prison on Trust).

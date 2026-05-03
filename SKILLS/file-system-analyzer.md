@@ -1,3 +1,8 @@
+---
+name: file system analyzer
+description: Systematically analyze application file system usage, paths, permissions, and operations for cross-platform porting.
+---
+
 # Skill: file-system-analyzer
 
 **Purpose:** Systematically analyze application file system usage, paths, permissions, and operations for cross-platform porting.

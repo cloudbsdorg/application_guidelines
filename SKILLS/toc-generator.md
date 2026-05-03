@@ -1,3 +1,8 @@
+---
+name: toc generator
+description: Create and maintain Table of Contents documents for project planning.
+---
+
 # Skill: toc-generator
 
 **Purpose:** Create and maintain Table of Contents documents for project planning.

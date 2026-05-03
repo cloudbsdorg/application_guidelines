@@ -1,3 +1,8 @@
+---
+name: risk assessor
+description: Create and maintain risk registers following CloudBSD risk management conventions.
+---
+
 # Skill: risk-assessor
 
 **Purpose:** Create and maintain risk registers following CloudBSD risk management conventions.

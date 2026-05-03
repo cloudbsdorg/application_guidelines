@@ -1,3 +1,8 @@
+---
+name: plan document generator
+description: Create new plan documents following the CloudBSD Planning Guidelines standard template.
+---
+
 # Skill: plan-document-generator
 
 **Purpose:** Create new plan documents following the CloudBSD Planning Guidelines standard template.
@@ -179,10 +184,11 @@ source-analysis-orchestrator
 
 ## High-Level Architecture
 
-```
-+------------------+     +------------------+
-|   Component A    |---->|   Component B    |
-+------------------+     +------------------+
+```mermaid
+graph LR
+    A[Component A] --> B[Component B]
+    style A fill:#e1f5fe
+    style B fill:#fce4ec
 ```
 
 ## Implementation Phases

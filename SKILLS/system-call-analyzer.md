@@ -1,3 +1,8 @@
+---
+name: system call analyzer
+description: Systematically analyze application system calls to understand OS-level dependencies and enable cross-platform porting.
+---
+
 # Skill: system-call-analyzer
 
 **Purpose:** Systematically analyze application system calls to understand OS-level dependencies and enable cross-platform porting.

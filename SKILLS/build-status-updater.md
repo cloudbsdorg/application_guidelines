@@ -1,3 +1,8 @@
+---
+name: build status updater
+description: Maintain the build-status.md file for CI/CD tracking and status reporting.
+---
+
 # Skill: build-status-updater
 
 **Purpose:** Maintain the build-status.md file for CI/CD tracking and status reporting.

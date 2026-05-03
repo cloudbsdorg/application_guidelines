@@ -1,3 +1,8 @@
+---
+name: rc script writer
+description: Write FreeBSD rc.d startup scripts for services, following FreeBSD conventions for service management.
+---
+
 # Skill: rc-script-writer
 
 **Purpose:** Write FreeBSD rc.d startup scripts for services, following FreeBSD conventions for service management.

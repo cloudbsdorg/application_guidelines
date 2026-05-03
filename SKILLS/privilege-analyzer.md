@@ -1,3 +1,8 @@
+---
+name: privilege analyzer
+description: Systematically analyze application privilege requirements, user/group handling, and security mechanisms for cross-platform porting.
+---
+
 # Skill: privilege-analyzer
 
 **Purpose:** Systematically analyze application privilege requirements, user/group handling, and security mechanisms for cross-platform porting.

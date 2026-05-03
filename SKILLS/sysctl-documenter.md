@@ -1,3 +1,8 @@
+---
+name: sysctl documenter
+description: Document sysctl MIB hierarchies in the standard CloudBSD format.
+---
+
 # Skill: sysctl-documenter
 
 **Purpose:** Document sysctl MIB hierarchies in the standard CloudBSD format.

@@ -1,3 +1,8 @@
+---
+name: task workflow
+description: Enforce the claiming and completion protocols defined in the Planning Guidelines.
+---
+
 # Skill: task-workflow
 
 **Purpose:** Enforce the claiming and completion protocols defined in the Planning Guidelines.

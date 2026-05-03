@@ -1,3 +1,8 @@
+---
+name: plan validator
+description: Validate that plan documents follow the CloudBSD Planning Guidelines standard.
+---
+
 # Skill: plan-validator
 
 **Purpose:** Validate that plan documents follow the CloudBSD Planning Guidelines standard.

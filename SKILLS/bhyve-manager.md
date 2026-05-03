@@ -1,3 +1,8 @@
+---
+name: bhyve manager
+description: Create, configure, start, stop, and manage bhyve virtual machines on FreeBSD.
+---
+
 # Skill: bhyve-manager
 
 **Purpose:** Create, configure, start, stop, and manage bhyve virtual machines on FreeBSD.

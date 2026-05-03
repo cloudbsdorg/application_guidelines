@@ -1,3 +1,8 @@
+---
+name: quick reference generator
+description: Create and maintain Quick Reference sections for agent entry point documents.
+---
+
 # Skill: quick-reference-generator
 
 **Purpose:** Create and maintain Quick Reference sections for agent entry point documents.

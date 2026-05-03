@@ -1,3 +1,8 @@
+---
+name: reverse engineer for port
+description: Systematically analyze source code to understand actual behavior before porting, avoiding assumptions based on names or structure.
+---
+
 # Skill: reverse-engineer-for-port
 
 **Purpose:** Systematically analyze source code to understand actual behavior before porting, avoiding assumptions based on names or structure.
