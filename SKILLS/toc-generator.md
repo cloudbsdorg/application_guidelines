@@ -47,35 +47,38 @@ Load this skill when the user asks you to:
 
 ## Dependency Graph Format
 
-Use ASCII art to show document relationships:
+Use Mermaid to show document relationships:
 
 ```markdown
 ## Dependency Graph
 
-```
-000 (TOC) ──────────────────────────┐
-   │                                   │
-   ▼                                   │
-001 (Workflow) ◄──────┐                │
-   │                  │                │
-   ▼                  │                │
-100 (Overview) ───────┼──► 200 (Architecture)
-   │                                   │
-   ├──► 101 (Current Arch)            │
-   │                                   │
-   ▼                                   │
-300 (Implementation) ◄─────────────────┘
-   │
-   ├──► 301 (Kernel Module)
-   │
-   ├──► 302 (Userland Tools)
-   │
-   ▼
-400 (Testing) ◄─────────────────────────┘
-   │
-   ├──► 401 (Unit Tests)
-   ├──► 402 (Integration Tests)
-   └──► 403 (Code Validation)
+```mermaid
+graph TD
+    000["000 (TOC)"]
+    001["001 (Workflow)"]
+    100["100 (Overview)"]
+    101["101 (Current Arch)"]
+    200["200 (Architecture)"]
+    300["300 (Implementation)"]
+    301["301 (Kernel Module)"]
+    302["302 (Userland Tools)"]
+    400["400 (Testing)"]
+    401["401 (Unit Tests)"]
+    402["402 (Integration Tests)"]
+    403["403 (Code Validation)"]
+
+    000 --> 001
+    000 --> 100
+    001 --> 100
+    100 --> 101
+    100 --> 200
+    200 --> 300
+    300 --> 301
+    300 --> 302
+    300 --> 400
+    400 --> 401
+    400 --> 402
+    400 --> 403
 ```
 ```
 
