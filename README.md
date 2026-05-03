@@ -63,7 +63,7 @@ AI agents can load specialized skills from the `SKILLS/` directory for common de
 |-------|---------|
 | [SKILLS/workflow/task-workflow.md](SKILLS/workflow/task-workflow.md) | Task claiming, completion, and status management |
 | [SKILLS/planning/plan-document-generator.md](SKILLS/planning/plan-document-generator.md) | Create new plan documents and `.plan/` structure |
-| [SKILLS/plan-validator.md](SKILLS/plan-validator.md) | Validate plan document compliance |
+| [SKILLS/planning/plan-validator.md](SKILLS/planning/plan-validator.md) | Validate plan document compliance |
 | [SKILLS/planning/toc-generator.md](SKILLS/planning/toc-generator.md) | Generate table of contents documents |
 | [SKILLS/planning/agents-start-here-generator.md](SKILLS/planning/agents-start-here-generator.md) | Create agent entry point documents |
 | [SKILLS/planning/sysctl-documenter.md](SKILLS/planning/sysctl-documenter.md) | Document sysctl MIB hierarchies |
@@ -71,15 +71,15 @@ AI agents can load specialized skills from the `SKILLS/` directory for common de
 | [SKILLS/security/risk-assessor.md](SKILLS/security/risk-assessor.md) | Create and maintain risk registers |
 | [SKILLS/testing/test-planner.md](SKILLS/testing/test-planner.md) | Generate testing documentation |
 | [SKILLS/workflow/build-status-updater.md](SKILLS/workflow/build-status-updater.md) | Maintain CI/CD build status |
-| [SKILLS/validation-document-generator.md](SKILLS/validation-document-generator.md) | Create validation reports and corrections |
-| [SKILLS/security-document-generator.md](SKILLS/security-document-generator.md) | Create security documents (threat model, access control, etc.) |
-| [SKILLS/codebase-mapper.md](SKILLS/codebase-mapper.md) | Map any codebase into exhaustive tree-view markdown documents |
-| [SKILLS/effect.md](SKILLS/effect.md) | Work with Effect v4 / effect-smol TypeScript code |
-| [SKILLS/github-triage.md](SKILLS/github-triage.md) | Read-only GitHub triage for issues and PRs |
-| [SKILLS/pre-publish-review.md](SKILLS/pre-publish-review.md) | Nuclear-grade 16-agent pre-publish release gate |
-| [SKILLS/work-with-pr.md](SKILLS/work-with-pr.md) | Full PR lifecycle: worktree → implement → PR → merge |
-| [SKILLS/agents-sdk.md](SKILLS/agents-sdk.md) | Build AI agents on Cloudflare Workers using Agents SDK |
-| [SKILLS/cloudflare.md](SKILLS/cloudflare.md) | Comprehensive Cloudflare platform skill (Workers, Pages, storage, AI, networking) |
+| [SKILLS/testing/validation-document-generator.md](SKILLS/testing/validation-document-generator.md) | Create validation reports and corrections |
+| [SKILLS/security/security-document-generator.md](SKILLS/security/security-document-generator.md) | Create security documents (threat model, access control, etc.) |
+| [SKILLS/analysis/codebase-mapper.md](SKILLS/analysis/codebase-mapper.md) | Map any codebase into exhaustive tree-view markdown documents |
+| [SKILLS/platform/opencode/effect.md](SKILLS/platform/opencode/effect.md) | Work with Effect v4 / effect-smol TypeScript code |
+| [SKILLS/platform/opencode/github-triage.md](SKILLS/platform/opencode/github-triage.md) | Read-only GitHub triage for issues and PRs |
+| [SKILLS/platform/opencode/pre-publish-review.md](SKILLS/platform/opencode/pre-publish-review.md) | Nuclear-grade 16-agent pre-publish release gate |
+| [SKILLS/platform/opencode/work-with-pr.md](SKILLS/platform/opencode/work-with-pr.md) | Full PR lifecycle: worktree → implement → PR → merge |
+| [SKILLS/platform/cloudflare/agents-sdk.md](SKILLS/platform/cloudflare/agents-sdk.md) | Build AI agents on Cloudflare Workers using Agents SDK |
+| [SKILLS/platform/cloudflare/cloudflare.md](SKILLS/platform/cloudflare/cloudflare.md) | Comprehensive Cloudflare platform skill (Workers, Pages, storage, AI, networking) |
 
 See [AGENTS_START_HERE.md](AGENTS_START_HERE.md) for the primary agent entry point and [SKILLS/README.md](SKILLS/README.md) for the complete skill index.
 
