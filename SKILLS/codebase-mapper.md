@@ -2832,3 +2832,302 @@ graph TD
     B --> C[Java: build jar]
     C --> D[Bundle: package]
 ```
+
+### Phase26: Infrastructure as Code (IaC) Mapping=
+
+Map Terraform, Pulumi, CloudFormation, Kubernetes manifests.
+
+**Detection:**
+
+```bash
+# Find IaC files
+find . -type f \( -name "*.tf" -o -name "*.tfvars" -o -name "Pulumi.yaml" -o -name "*.cf" -o -name "*.yaml" \) \
+  ! -path "./node_modules/*" ! -path "./.git/*" | while read f; do
+    case "$f" in
+      *.tf) echo "Terraform: $f" ;;
+      *Pulumi*) echo "Pulumi: $f" ;;
+      *.cf) echo "CloudFormation: $f" ;;
+      *k8s*/*.yaml|*kubernetes*/*.yaml) echo "Kubernetes: $f" ;;
+    esac
+  done
+```
+
+**Terraform Resource Mapping:**
+
+```markdown
+## Terraform Resources (infra/)
+
+### `infra/main.tf`
+
+| Resource | Type | Purpose |
+|-----------|------|---------|
+| `aws_instance.web` | `aws_instance` | EC2 web server |
+| `aws_db_instance.db` | `aws_db_instance` | RDS PostgreSQL |
+| `aws_s3_bucket.assets` | `aws_s3_bucket` | S3 bucket for uploads |
+
+**Dependencies:**
+- `aws_vpc.main` → VPC for all resources
+- `aws_security_group.web` → Firewall rules for web
+```
+
+**Kubernetes Manifest Mapping:**
+
+```markdown
+## Kubernetes Manifests (k8s/)
+
+### `k8s/deployment.yaml`
+
+| Resource | Kind | Replicas | Image |
+|----------|------|-----------|-------|
+| `web-app` | Deployment | 3 | `myapp:v1.2.3` |
+| `redis` | StatefulSet | 1 | `redis:7-alpine` |
+
+**Relationships:**
+- `web-app` → depends on `redis` Service
+- `web-app` → mounts `config-map` ConfigMap
+- Ingress → routes to `web-app` Service
+```
+
+**Pulumi/CloudFormation (Code-Based IaC):**
+
+```markdown
+## Pulumi Program (infra/index.ts)
+
+```
+infra/index.ts
+├── [import] @pulumi/aws
+│   └── AWS provider
+├── const vpc = new aws.ec2.Vpc("main")
+│   ├── CIDR: 10.0.0.0/16
+│   └── Enables DNS support
+├── const webServer = new aws.ec2.Instance("web", {
+│   ├── InstanceType: "t2.micro"
+│   ├── SubnetId: vpc.subnets[0].id
+│   └── UserData: bootstraap script
+└── export const webUrl = `http://${webServer.publicIp}`
+    └── Output: public URL
+```
+```
+
+### Phase27: Serverless & Function-as-a-Service Mapping=
+
+Map AWS Lambda, Azure Functions, GCP Cloud Functions, Cloudflare Workers.
+
+**Detection:**
+
+```bash
+# Find serverless function handlers
+grep -r "exports.handler\|export const handler\|def handler\|function handler" . \
+  ! -path "./node_modules/*" ! -path "./.git/*" | head -20
+
+# Find serverless config
+[ -f "serverless.yml" ] && echo "Serverless Framework detected"
+[ -f "sam.yaml" ] && echo "AWS SAM detected"
+[ -f "wrangler.toml" ] && echo "Cloudflare Workers detected"
+```
+
+**Lambda Function Mapping:**
+
+```markdown
+## AWS Lambda Functions (src/lambda/)
+
+### `src/lambda/auth.ts` → `authHandler`
+
+```
+auth.ts
+├── [export] export const handler = async (event) => { ... }
+│   ├── Parses JWT from event.headers.Authorization
+│   ├── Verifies token with jwt.verify()
+│   ├── Returns policy document (Allow/Deny)
+│   └── Logs to CloudWatch via console.log
+└── [function] function verifyToken(token: string)
+    ├── Calls jwt.verify(token, secret)
+    ├── Returns decoded payload or throws
+    └── Used by: handler, refreshHandler
+```
+
+**Event-Driven Relationships:**
+
+| Trigger | Function | Event Source | Discovery |
+|---------|----------|--------------|------------|
+| `api-gateway` | `authHandler` | HTTP request | [View](.discovery/lambda-auth.md) |
+| `s3:ObjectCreated:*` | `imageProcessor` | S3 bucket upload | [View](.discovery/lambda-image.md) |
+| `sqs` | `queueWorker` | Message queue | [View](.discovery/lambda-queue.md) |
+```
+
+**Cold Start Analysis:**
+
+| Function | Runtime | Memory | Cold Start (ms) | Discovery |
+|-----------|----------|---------|-----------------|------------|
+| `authHandler` | Node.js 18.x | 128MB | 320ms | [View](.discovery/lambda-auth.md) |
+| `imageProcessor` | Python 3.9 | 512MB | 890ms | [View](.discovery/lambda-image.md) |
+```
+
+### Phase28: Message Queue & Event Streaming Mapping=
+
+Map Kafka, RabbitMQ, SQS, EventBridge, Pub/Sub.
+
+**Detection:**
+
+```bash
+# Find message queue usage
+grep -r "kafka\|rabbitmq\|sqs\|eventbridge\|pubsub" package.json 2>/dev/null | head -10
+
+# Find queue client imports
+grep -r "from 'kafkajs'\|require('amqplib'\|from '@aws-sdk/sqs'" src/ 2>/dev/null
+```
+
+**Kafka Topic Mapping:**
+
+```markdown
+## Kafka Topics & Consumers (src/events/)
+
+### Topics
+
+| Topic | Producers | Consumers | Purpose |
+|-------|-----------|-----------|---------|
+| `user-events` | `auth-service` | `email-service`, `analytics-service` | User lifecycle events |
+| `order-events` | `order-service` | `inventory-service`, `shipping-service` | Order processing |
+
+### Consumer Groups
+
+```
+src/events/email-consumer.ts
+├── [const] consumer = kafka.consumer({ groupId: 'email-group' })
+│   └── Subscribes to: user-events, order-events
+├── [method] consumer.run()
+│   ├── Each message: { topic, partition, message }
+│   ├── Parses event payload
+│   ├── Sends email via SendGrid API
+│   └── Commits offset (acks)
+└── [error-handler] consumer.on('consumer.crash', ...)
+    └── Logs crash, attempts restart
+```
+```
+
+**EventBridge Rules:**
+
+| Rule | Source | Detail Type | Target | Discovery |
+|------|--------|-------------|--------|------------|
+| `user-signup` | `auth-service` | `UserSignedUp` | SQS queue → [View](.discovery/events.md) |
+| `order-placed` | `order-service` | `OrderPlaced` | Lambda → [View](.discovery/lambda-order.md) |
+```
+
+### Phase29: GraphQL Schema & Resolver Mapping=
+
+Map GraphQL schemas, resolvers, and type relationships.
+
+**Detection:**
+
+```bash
+# Find GraphQL files
+find . -type f \( -name "*.graphql" -o -name "schema.graphql" -o -name "resolvers.ts" \) \
+  ! -path "./node_modules/*" ! -path "./.git/*"
+
+# Check for GraphQL libraries
+grep -q "graphql\|apollo-server\|mercurius" package.json && echo "GraphQL detected"
+```
+
+**Schema Mapping:**
+
+```markdown
+## GraphQL Schema (src/schema.graphql)
+
+### Types
+
+| Type | Fields | Resolvers | Discovery |
+|------|--------|-----------|------------|
+| `User` | id, email, posts | `src/resolvers/user.ts` | [View](.discovery/schema-user.md) |
+| `Post` | id, title, content, author | `src/resolvers/post.ts` | [View](.discovery/schema-post.md) |
+
+### Queries
+
+| Query | Resolver | Returns | Discovery |
+|--------|----------|---------|------------|
+| `users` | `Query.users()` | [User] | [View](.discovery/schema-query.md) |
+| `user(id: ID!)` | `Query.user()` | User | [View](.discovery/schema-query.md) |
+
+### Mutations
+
+| Mutation | Resolver | Input | Discovery |
+|-----------|----------|-------|------------|
+| `createUser` | `Mutation.createUser()` | CreateUserInput | [View](.discovery/schema-mutation.md) |
+| `updateUser` | `Mutation.updateUser()` | UpdateUserInput | [View](.discovery/schema-mutation.md) |
+```
+
+**Resolver Call Graph:**
+
+```mermaid
+graph TD
+    A[Query.users] --> B[UserService.findAll]
+    A --> C[UserService.findById]
+    B --> D[(PostgreSQL)]
+    C --> D
+    E[Mutation.createUser] --> F[UserService.create]
+    F --> D
+    F --> G[EventEmitter.emit]
+    G --> H[Kafka: user-events]
+```
+```
+
+### Phase30: WebAssembly (WASM) & Native Module Mapping=
+
+Map WASM binaries, Emscripten output, native Node modules.
+
+**Detection:**
+
+```bash
+# Find WASM files
+find . -type f \( -name "*.wasm" -o -name "*.wasm.js" \) \
+  ! -path "./node_modules/*" ! -path "./.git/*"
+
+# Find native module bindings
+grep -r "require('.*\\.node')" src/ 2>/dev/null
+grep -r "import '\\.wasm'" src/ 2>/dev/null
+```
+
+**WASM Module Mapping:**
+
+```markdown
+## WebAssembly Modules (src/wasm/)
+
+### `src/wasm/image-processor.wasm`
+
+| Property | Value |
+|-----------|-------|
+| **Source** | `rust/src/lib.rs` (compiled with wasm-pack) |
+| **Exports** | `process_image()`, `get_version()` |
+| **Memory** | 64MB initial, 128MB max |
+| **Used by** | `src/utils/image.ts` |
+
+**Integration Point:**
+
+```
+src/utils/image.ts
+├── [import] init, process_image from './wasm/image-processor.wasm'
+│   └── WASM module import (async)
+├── [function] async function loadWasm()
+│   ├── Calls init() from WASM module
+│   ├── Validates WASM runtime support
+│   └── Caches instance for reuse
+└── [export] export async function resizeImage(input: Buffer)
+    ├── Loads WASM module (if not loaded)
+    ├── Passes Buffer to process_image()
+    ├── WASM processes in native speed (C/Rust)
+    └── Returns processed image Buffer
+```
+
+**Native Module Mapping:**
+
+| Module | Language | Binding | Used By |
+|---------|----------|---------|---------|
+| `bcrypt.node` | C++ | `node-gyp` | `src/auth.ts` |
+| `canvas.node` | C++ | `node-canvas` | `src/graphics.ts` |
+| `sqlite3.node` | C | `node-sqlite3` | `src/db.ts` |
+
+**Performance Note:**
+
+| Module | JS Equivalent | Speedup | Discovery |
+|---------|---------------|---------|------------|
+| `image-processor.wasm` | `image-processor.js` | 4.2x | [View](.discovery/wasm-image.md) |
+| `crypto-native.node` | `crypto-js` | 8.7x | [View](.discovery/native-crypto.md) |
