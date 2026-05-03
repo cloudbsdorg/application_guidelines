@@ -170,9 +170,9 @@ done
 | **Build/CI tooling** | `.github/workflows/*`, `Jenkinsfile`, `docker-compose.yml`, `Makefile` | 5 | Map build steps, dependencies, triggers |
 | **Documentation** | `docs/*`, `*.md` (except .discovery/), `README*` | 6 | Map doc structure, cross-references |
 | **i18n/l10n** | `locales/*`, `translations/*`, `*.po`, `*.mo`, `i18n/*` | 7 | Map languages, coverage, framework |
-| **Generated files** | `.min.js`, `.bundle.js`, compiled outputs, `dist/*` | 8 | Skip with `[GENERATED]` note in TOC |
-| **Binary assets** | `.png`, `.jpg`, `.pdf`, executables, `.ico` | 9 | Skip with `[BINARY]` note in TOC |
-| **IDE/Editor config** | `.vscode/*`, `.zed/*`, `.idea/*`, `.editorconfig` | 10 | Note presence, skip detailed mapping |
+| **Generated files** | `.min.js`, `.bundle.js`, compiled outputs, `dist/*` | 8 | Map with `[GENERATED]` tag in TOC, DO NOT decompose content |
+| **Binary assets** | `.png`, `.jpg`, `.pdf`, executables, `.ico` | 9 | Map with `[BINARY]` tag in TOC, DO NOT decompose content |
+| **IDE/Editor config** | `.vscode/*`, `.zed/*`, `.idea/*`, `.editorconfig` | 10 | Map with note in TOC, DO NOT decompose content |
 | **Linting/Formatting** | `.eslintrc*`, `.prettierrc*`, `.editorconfig` | 11 | Map rules, inherited configs |
 | **Type definitions** | `*.d.ts`, `*.d.tsx`, `@types/*` | 12 | Map interfaces, augmentations |
 | **Git hooks** | `.git/hooks/*`, `hooks/*`, `githooks/*` | 13 | Map hook purpose, triggered events |
@@ -185,7 +185,7 @@ For each orphan file:
   2. Categorize using table above
   3. If IN a directory already being mapped → add to parent directory's discovery doc
   4. If STANDALONE file → create new discovery doc with appropriate number
-  5. If GENERATED/BINARY → add to TOC with [GENERATED] or [BINARY] tag
+   5. If GENERATED/BINARY → MAP to TOC with [GENERATED] or [BINARY] tag (DO NOT decompose content, but ALWAYS list the file)
   6. Update the master TOC immediately after mapping
 ```
 
@@ -949,12 +949,12 @@ Handle errors gracefully during mapping:
 
 | Error | Detection | Recovery Action |
 |-------|-----------|------------------|
-| **Unreadable files** | Binary, encoding issues, permissions | Skip with `[UNREADABLE]` note in TOC |
-| **Parse errors** | Syntax errors, invalid JSON/YAML | Note error, skip decomposition, document as-is |
-| **Circular imports** | Import cycle detected | Document cycle, don't infinite recurse |
-| **Missing files** | Import/require points to non-existent file | Note `[MISSING]` in dependency list |
-| **Network dependencies** | Dynamic imports from URLs | Note `[EXTERNAL]` with URL |
-| **Generated content** | Minified, compiled, bundled | Skip decomposition, note `[GENERATED]` |
+| **Unreadable files** | Binary, encoding issues, permissions | MAP with `[UNREADABLE]` note in TOC (do NOT decompose) |
+| **Parse errors** | Syntax errors, invalid JSON/YAML | Note error in TOC, MAP as-is (do NOT decompose) |
+| **Circular imports** | Import cycle detected | Document cycle in TOC, do NOT recurse infinitely |
+| **Missing files** | Import/require points to non-existent file | Note `[MISSING]` in dependency list (MAP the reference) |
+| **Network dependencies** | Dynamic imports from URLs | Note `[EXTERNAL]` with URL in TOC (MAP the reference) |
+| **Generated content** | Minified, compiled, bundled | MAP with `[GENERATED]` tag in TOC (do NOT decompose) |
 
 **Error Logging:**
 
@@ -977,7 +977,7 @@ ERROR: Missing file referenced
   Referenced by: packages/api/src/server.ts:42
   Action: Noted [MISSING] in dependency list
 
-UNREADABLE: Binary file skipped
+UNREADABLE: Binary file noted in TOC [UNREADABLE]
   File: packages/web/public/logo.png
   Action: Noted [BINARY] in TOC
 ```
@@ -1306,7 +1306,7 @@ jobs:
           git push
 ```
 
-**Smart Skip Logic:**
+**Incremental Mapping Logic:**
 
 ```bash
 # Skip files that haven't changed
@@ -1316,7 +1316,7 @@ for file in $(git diff --name-only HEAD~1); do
     DISCOVERY_TIME=$( stat -f "%m" ".discovery/..." 2>/dev/null || stat -c "%Y" ".discovery/..." 2>/dev/null)
     
     if [ "$MOD_TIME" -le "$DISCOVERY_TIME" ]; then
-      echo "SKIP: $file (unchanged)"
+      echo "MAP (cached): $file (unchanged)"
       continue
     fi
   fi
@@ -1594,13 +1594,16 @@ for f in $(find . -name "*.ts" ! -path "./node_modules/*"); do
     echo "CACHE HIT: $f"
     # Reuse cached discovery
   else
-    echo "CACHE MISS: $f"
-    # Generate discovery, save to cache
-    # ... mapping logic ...
-    cp ".discovery/$(basename $f .ts)-discovery.md" "$CACHE_FILE"
-  fi
-done
+      echo "CACHE MISS: $f"
+      # Generate discovery, save to cache
+      # ... mapping logic ...
+      cp ".discovery/$(basename $f .ts)-discovery.md" "$CACHE_FILE"
+    fi
+  done
 ```
+
+> **CRITICAL**: "Skip" in this context means "do NOT decompose the file content into tree nodes." 
+> ALL files MUST still be listed in the TOC — use tags like `[GENERATED]`, `[BINARY]`, `[UNREADABLE]` to indicate no decomposition.
 
 **Change Impact Analysis:**
 
