@@ -6,42 +6,36 @@
 
 ---
 
-## ASCII Diagram Conventions
+## Diagram Conventions
 
-Use box-drawing characters for architecture diagrams:
+**Mermaid is the preferred drawing methodology** for all CloudBSD documentation diagrams.
 
+Use Mermaid syntax (`` ```mermaid `` code blocks) for all architecture diagrams, state machines, flowcharts, and visual documentation.
+
+### Component Diagram Example
+
+```mermaid
+graph LR
+    A[Component A] --> B[Component B]
+    A --> C[Component C]
+    B --> D[Component D]
+    D --> C
+    style A fill:#e1f5fe
+    style B fill:#fce4ec
+    style C fill:#d4edda
+    style D fill:#fff3cd
 ```
-+------------------+     +------------------+
-|   Component A    |---->|   Component B    |
-+------------------+     +------------------+
-         |                        |
-         v                        v
-+------------------+     +------------------+
-|   Component C    |<----|   Component D    |
-+------------------+     +------------------+
-```
 
-State machines:
+### State Machine Example
 
-```
-          +-----------+
-          |   IDLE    |
-          +-----------+
-              |
-              v (start)
-         +-----------+
-    +--->|  ACTIVE   |<---+
-    |    +-----------+    |
-    |         |           |
-    |         v (stop)    |
-    |    +-----------+    |
-    +----|  DRAINING |----+
-         +-----------+
-              |
-              v (complete)
-         +-----------+
-         |  REMOVED  |
-         +-----------+
+```mermaid
+stateDiagram-v2
+    [*] --> IDLE
+    IDLE --> ACTIVE: start
+    ACTIVE --> DRAINING: stop
+    DRAINING --> REMOVED: complete
+    REMOVED --> [*]
+    ACTIVE --> IDLE: error
 ```
 
 ---
