@@ -30,9 +30,9 @@ This directory contains AI skills for CloudBSD project development.
 | [code-quality-analyzer](analysis/code-quality-analyzer.md) | Find duplication and plan refactoring | When reviewing ported code quality |
 | [ui-ux-analyzer](analysis/ui-ux-analyzer.md) (modular — load `wireframing.md`, `objects.md`, etc.) | Document UI objects, states, actions, and data flow | When analyzing interfaces for implementation |
 | [api-analyzer](analysis/api-analysis/api-analyzer.md) (modular — load `http-fundamentals.md`, `rest-endpoints.md`, etc.) | Document REST endpoints, HTTP protocols, request/response formats | When analyzing APIs for implementation |
-| [message-queue-analyzer](analysis/message-queue-analyzer.md) | Document message brokers, queues, pub/sub patterns, event streaming | When analyzing queue systems (RabbitMQ, Kafka, MQTT, etc.) |
-| [system-call-analyzer](analysis/os-analysis/system-call-analyzer.md) | Analyze syscalls, file I/O, memory ops, signals, debugging | When porting low-level system code |
-| [process-model-analyzer](analysis/os-analysis/process-model-analyzer.md) | Document threads, processes, IPC, synchronization patterns | When analyzing concurrent applications |
+| [message-queue-analyzer](analysis/message-queue-analyzer.md) (modular — load `rabbitmq.md`, `kafka.md`, etc.) | Document message brokers, queues, pub/sub patterns, event streaming | When analyzing queue systems (RabbitMQ, Kafka, MQTT, etc.) |
+| [system-call-analyzer](analysis/os-analysis/system-call-analyzer.md) (modular — load `file-io.md`, `signals.md`, etc.) | Analyze syscalls, file I/O, memory ops, signals, debugging | When porting low-level system code |
+| [process-model-analyzer](analysis/os-analysis/process-model-analyzer.md) (modular — load `threads.md`, `synchronization.md`, etc.) | Document threads, processes, IPC, synchronization patterns | When analyzing concurrent applications |
 | [network-stack-analyzer](analysis/os-analysis/network-stack-analyzer.md) | Document sockets, TCP/UDP, epoll/kqueue, SSL/TLS | When analyzing network-heavy applications |
 | [file-system-analyzer](analysis/os-analysis/file-system-analyzer.md) | Document paths, permissions, locking, extended attributes | When analyzing file system dependencies |
 | [privilege-analyzer](analysis/os-analysis/privilege-analyzer.md) | Document UID/GID, capabilities, ACLs, chroot, securelevel | When analyzing privilege requirements |

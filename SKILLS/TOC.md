@@ -21,7 +21,7 @@
 | `jail`, `iocage`, `bastille`, `pot` | `freebsd-admin/jail-manager.md` | Manage FreeBSD jails |
 | `Linuxulator`, `Linux binary` | `freebsd-admin/linuxulator-runner.md` | Run Linux binaries on FreeBSD |
 | `map codebase`, `discovery`, `.discovery/` | `analysis/codebase-mapper.md` (modular — load `phases-0-1.md`, `phases-2-3.md`, etc.) | Map codebase to tree-view documents |
-| `message queue`, `RabbitMQ`, `Kafka`, `MQTT` | `analysis/message-queue-analyzer.md` | Document message brokers and queues |
+| `message queue`, `RabbitMQ`, `Kafka`, `MQTT` | `analysis/message-queue-analyzer.md` (modular — load `rabbitmq.md`, `kafka.md`, etc.) | Document message brokers and queues |
 | `migrate`, `port`, `convert`, `legacy`, `DOS`, `Pascal`, `retro` | `migration/codebase-migrator.md` | Migrate legacy apps to modern platforms |
 | `orchestrate`, `pre-planning`, `coordinate` | `analysis/source-analysis-orchestrator.md` | Coordinate all analysis skills |
 | `plan`, `document`, `initialize` | `planning/plan-document-generator.md` | Create plan documents and `.plan/` structure |
@@ -36,11 +36,11 @@
 | `security`, `threat model`, `access control`, `1.1-1.6` | `security/security-document-generator.md` | Create security documents |
 | `service`, `rc.d`, `sysrc` | `freebsd-admin/service-manager.md` | Manage FreeBSD services |
 | `socket`, `TCP`, `UDP`, `epoll`, `kqueue` | `analysis/os-analysis/network-stack-analyzer.md` | Document network stack dependencies |
-| `syscall`, `file I/O`, `memory`, `signal` | `analysis/os-analysis/system-call-analyzer.md` | Analyze syscalls for porting |
+| `syscall`, `file I/O`, `memory`, `signal` | `analysis/os-analysis/system-call-analyzer.md` (modular — load `file-io.md`, `signals.md`, etc.) | Analyze syscalls for porting |
 | `sysctl`, `MIB`, `kernel parameter` | `planning/sysctl-documenter.md` | Document sysctl MIB hierarchies |
 | `task`, `claim`, `complete` | `workflow/task-workflow.md` | Task claiming and completion |
 | `test`, `401`, `402`, `1101` | `testing/test-planner.md` | Generate testing documentation |
-| `thread`, `process`, `IPC`, `synchronization` | `analysis/os-analysis/process-model-analyzer.md` | Document threads and IPC patterns |
+| `thread`, `process`, `IPC`, `synchronization` | `analysis/os-analysis/process-model-analyzer.md` (modular — load `threads.md`, `synchronization.md`, etc.) | Document threads and IPC patterns |
 | `TOC`, `table of contents`, `000` | `planning/toc-generator.md` | Create table of contents documents |
 | `UI`, `UX`, `interface`, `wireframe` | `analysis/ui-analysis/ui-ux-analyzer.md` (modular — load `wireframing.md`, `objects.md`, `actions.md`, etc.) | Document UI objects, states, actions |
 | `validation report`, `corrections` | `testing/validation-document-generator.md` | Create validation reports |
