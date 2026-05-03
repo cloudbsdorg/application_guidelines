@@ -42,7 +42,7 @@
 | `test`, `401`, `402`, `1101` | `testing/test-planner.md` | Generate testing documentation |
 | `thread`, `process`, `IPC`, `synchronization` | `analysis/os-analysis/process-model-analyzer.md` | Document threads and IPC patterns |
 | `TOC`, `table of contents`, `000` | `planning/toc-generator.md` | Create table of contents documents |
-| `UI`, `UX`, `interface`, `wireframe` | `analysis/ui-analysis/ui-ux-analyzer.md` | Document UI objects, states, actions |
+| `UI`, `UX`, `interface`, `wireframe` | `analysis/ui-analysis/ui-ux-analyzer.md` (modular — load `wireframing.md`, `objects.md`, `actions.md`, etc.) | Document UI objects, states, actions |
 | `validation report`, `corrections` | `testing/validation-document-generator.md` | Create validation reports |
 | `ZFS`, `pool`, `snapshot` | `freebsd-admin/zfs-manager.md` | ZFS pool management and snapshots |
 
