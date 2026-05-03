@@ -61,16 +61,16 @@ AI agents can load specialized skills from the `SKILLS/` directory for common de
 
 | Skill | Purpose |
 |-------|---------|
-| [SKILLS/task-workflow.md](SKILLS/task-workflow.md) | Task claiming, completion, and status management |
-| [SKILLS/plan-document-generator.md](SKILLS/plan-document-generator.md) | Create new plan documents and `.plan/` structure |
+| [SKILLS/workflow/task-workflow.md](SKILLS/workflow/task-workflow.md) | Task claiming, completion, and status management |
+| [SKILLS/planning/plan-document-generator.md](SKILLS/planning/plan-document-generator.md) | Create new plan documents and `.plan/` structure |
 | [SKILLS/plan-validator.md](SKILLS/plan-validator.md) | Validate plan document compliance |
-| [SKILLS/toc-generator.md](SKILLS/toc-generator.md) | Generate table of contents documents |
-| [SKILLS/agents-start-here-generator.md](SKILLS/agents-start-here-generator.md) | Create agent entry point documents |
-| [SKILLS/sysctl-documenter.md](SKILLS/sysctl-documenter.md) | Document sysctl MIB hierarchies |
-| [SKILLS/ascii-diagrammer.md](SKILLS/ascii-diagrammer.md) | Generate architecture diagrams |
-| [SKILLS/risk-assessor.md](SKILLS/risk-assessor.md) | Create and maintain risk registers |
-| [SKILLS/test-planner.md](SKILLS/test-planner.md) | Generate testing documentation |
-| [SKILLS/build-status-updater.md](SKILLS/build-status-updater.md) | Maintain CI/CD build status |
+| [SKILLS/planning/toc-generator.md](SKILLS/planning/toc-generator.md) | Generate table of contents documents |
+| [SKILLS/planning/agents-start-here-generator.md](SKILLS/planning/agents-start-here-generator.md) | Create agent entry point documents |
+| [SKILLS/planning/sysctl-documenter.md](SKILLS/planning/sysctl-documenter.md) | Document sysctl MIB hierarchies |
+| [SKILLS/diagramming/ascii-diagrammer.md](SKILLS/diagramming/ascii-diagrammer.md) | Generate architecture diagrams |
+| [SKILLS/security/risk-assessor.md](SKILLS/security/risk-assessor.md) | Create and maintain risk registers |
+| [SKILLS/testing/test-planner.md](SKILLS/testing/test-planner.md) | Generate testing documentation |
+| [SKILLS/workflow/build-status-updater.md](SKILLS/workflow/build-status-updater.md) | Maintain CI/CD build status |
 | [SKILLS/validation-document-generator.md](SKILLS/validation-document-generator.md) | Create validation reports and corrections |
 | [SKILLS/security-document-generator.md](SKILLS/security-document-generator.md) | Create security documents (threat model, access control, etc.) |
 | [SKILLS/codebase-mapper.md](SKILLS/codebase-mapper.md) | Map any codebase into exhaustive tree-view markdown documents |

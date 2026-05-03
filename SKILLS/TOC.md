@@ -1,0 +1,143 @@
+# Skills Table of Contents
+
+> **For Agents**: Scan this TOC to identify relevant skills by trigger. Load ONLY the skill you need — do NOT load all skills.
+
+## Quick-Scan Index (Triggers → Skill Path)
+
+| Trigger Keyword | Skill Path | One-Line Description |
+|----------------|-----------|----------------------|
+| `task`, `claim`, `complete` | `workflow/task-workflow.md` | Task claiming and completion |
+| `plan`, `document`, `initialize` | `planning/plan-document-generator.md` | Create plan documents and `.plan/` structure |
+| `validate`, `compliance`, `PR review` | `planning/plan-validator.md` | Validate plan document compliance |
+| `sysctl`, `MIB`, `kernel parameter` | `planning/sysctl-documenter.md` | Document sysctl MIB hierarchies |
+| `diagram`, `architecture`, `flowchart` | `diagramming/ascii-diagrammer.md` | Generate Mermaid diagrams |
+| `risk`, `threat`, `700 document` | `security/risk-assessor.md` | Create and maintain risk registers |
+| `test`, `401`, `402`, `1101` | `testing/test-planner.md` | Generate testing documentation |
+| `TOC`, `table of contents`, `000` | `planning/toc-generator.md` | Create table of contents documents |
+| `agent start`, `entry point`, `AGENTS_START_HERE` | `planning/agents-start-here-generator.md` | Generate agent entry point document |
+| `build status`, `CI`, `0002` | `workflow/build-status-updater.md` | Maintain CI/CD build status |
+| `validation report`, `corrections` | `testing/validation-document-generator.md` | Create validation reports |
+| `security`, `threat model`, `access control`, `1.1-1.6` | `security/security-document-generator.md` | Create security documents |
+| `progress`, `tracker`, `TODO` | `workflow/progress-tracker-updater.md` | Create TODO Tracker Summary tables |
+| `quick reference`, `AGENTS_START_HERE` | `planning/quick-reference-generator.md` | Create Quick Reference sections |
+| `reverse engineer`, `port`, `analyze source` | `analysis/reverse-engineer-for-port.md` | Analyze source code for porting |
+| `feature`, `task generation` | `planning/feature-task-generator.md` | Generate tasks from feature analysis |
+| `code quality`, `duplication`, `refactor` | `analysis/code-quality-analyzer.md` | Find duplication and plan refactoring |
+| `UI`, `UX`, `interface`, `wireframe` | `analysis/ui-ux-analyzer.md` | Document UI objects, states, actions |
+| `API`, `REST`, `endpoint`, `HTTP` | `analysis/api-analyzer.md` | Document REST endpoints and HTTP protocols |
+| `message queue`, `RabbitMQ`, `Kafka`, `MQTT` | `analysis/message-queue-analyzer.md` | Document message brokers and queues |
+| `syscall`, `file I/O`, `memory`, `signal` | `analysis/os-analysis/system-call-analyzer.md` | Analyze syscalls for porting |
+| `thread`, `process`, `IPC`, `synchronization` | `analysis/os-analysis/process-model-analyzer.md` | Document threads and IPC patterns |
+| `socket`, `TCP`, `UDP`, `epoll`, `kqueue` | `analysis/os-analysis/network-stack-analyzer.md` | Document network stack dependencies |
+| `file system`, `path`, `permission`, `locking` | `analysis/os-analysis/file-system-analyzer.md` | Document filesystem dependencies |
+| `privilege`, `UID`, `GID`, `capability`, `chroot` | `analysis/os-analysis/privilege-analyzer.md` | Document privilege requirements |
+| `orchestrate`, `pre-planning`, `coordinate` | `analysis/source-analysis-orchestrator.md` | Coordinate all analysis skills |
+| `bhyve`, `VM`, `virtual machine` | `freebsd-admin/bhyve-manager.md` | Create and manage bhyve VMs |
+| `jail`, `iocage`, `bastille`, `pot` | `freebsd-admin/jail-manager.md` | Manage FreeBSD jails |
+| `ZFS`, `pool`, `snapshot` | `freebsd-admin/zfs-manager.md` | ZFS pool management and snapshots |
+| `Linuxulator`, `Linux binary` | `freebsd-admin/linuxulator-runner.md` | Run Linux binaries on FreeBSD |
+| `rc.d`, `startup script`, `rc script` | `freebsd-admin/rc-script-writer.md` | Write FreeBSD rc.d startup scripts |
+| `service`, `rc.d`, `sysrc` | `freebsd-admin/service-manager.md` | Manage FreeBSD services |
+| `map codebase`, `discovery`, `.discovery/` | `analysis/codebase-mapper.md` | Map codebase to tree-view documents |
+| `Effect`, `Effect v4`, `effect-smol` | `platform/opencode/effect.md` | Work with Effect-based TypeScript |
+| `GitHub`, `triage`, `issue`, `PR` | `platform/opencode/github-triage.md` | Read-only GitHub triage |
+| `pre-publish`, `release gate`, `npm publish` | `platform/opencode/pre-publish-review.md` | Nuclear-grade 16-agent release gate |
+| `PR`, `pull request`, `worktree`, `merge` | `platform/opencode/work-with-pr.md` | Full PR lifecycle |
+| `agent SDK`, `Cloudflare Agent`, `stateful agent` | `platform/cloudflare/agents-sdk.md` | Build AI agents on Cloudflare Workers |
+| `Cloudflare`, `Worker`, `Pages`, `KV`, `R2` | `platform/cloudflare/cloudflare.md` | Comprehensive Cloudflare platform skill |
+
+## Skill Categories
+
+### Planning (`planning/`)
+| Skill | Path | Purpose |
+|-------|------|---------|
+| task-workflow | `workflow/task-workflow.md` | Task claiming and completion |
+| plan-document-generator | `planning/plan-document-generator.md` | Create plan documents |
+| plan-validator | `planning/plan-validator.md` | Validate plan compliance |
+| sysctl-documenter | `planning/sysctl-documenter.md` | Document sysctl MIBs |
+| toc-generator | `planning/toc-generator.md` | Create TOC documents |
+| agents-start-here-generator | `planning/agents-start-here-generator.md` | Generate entry points |
+| quick-reference-generator | `planning/quick-reference-generator.md` | Create Quick Reference |
+| feature-task-generator | `planning/feature-task-generator.md` | Generate tasks from features |
+
+### Analysis (`analysis/`)
+| Skill | Path | Purpose |
+|-------|------|---------|
+| reverse-engineer-for-port | `analysis/reverse-engineer-for-port.md` | Analyze source for porting |
+| code-quality-analyzer | `analysis/code-quality-analyzer.md` | Find duplication |
+| ui-ux-analyzer | `analysis/ui-ux-analyzer.md` | Document UI/UX |
+| api-analyzer | `analysis/api-analyzer.md` | Document REST APIs |
+| message-queue-analyzer | `analysis/message-queue-analyzer.md` | Document message queues |
+| codebase-mapper | `analysis/codebase-mapper.md` | Map codebase structure |
+| source-analysis-orchestrator | `analysis/source-analysis-orchestrator.md` | Coordinate analysis |
+
+#### OS Analysis (`analysis/os-analysis/`)
+| Skill | Path | Purpose |
+|-------|------|---------|
+| system-call-analyzer | `analysis/os-analysis/system-call-analyzer.md` | Analyze syscalls |
+| process-model-analyzer | `analysis/os-analysis/process-model-analyzer.md` | Document threads/IPC |
+| network-stack-analyzer | `analysis/os-analysis/network-stack-analyzer.md` | Document network stack |
+| file-system-analyzer | `analysis/os-analysis/file-system-analyzer.md` | Document filesystem |
+| privilege-analyzer | `analysis/os-analysis/privilege-analyzer.md` | Document privileges |
+
+### FreeBSD Admin (`freebsd-admin/`)
+| Skill | Path | Purpose |
+|-------|------|---------|
+| bhyve-manager | `freebsd-admin/bhyve-manager.md` | Manage bhyve VMs |
+| jail-manager | `freebsd-admin/jail-manager.md` | Manage FreeBSD jails |
+| zfs-manager | `freebsd-admin/zfs-manager.md` | ZFS pool management |
+| linuxulator-runner | `freebsd-admin/linuxulator-runner.md` | Run Linux binaries |
+| rc-script-writer | `freebsd-admin/rc-script-writer.md` | Write rc.d scripts |
+| service-manager | `freebsd-admin/service-manager.md` | Manage services |
+
+### Workflow (`workflow/`)
+| Skill | Path | Purpose |
+|-------|------|---------|
+| task-workflow | `workflow/task-workflow.md` | Task claiming/completion |
+| build-status-updater | `workflow/build-status-updater.md` | Maintain build status |
+| progress-tracker-updater | `workflow/progress-tracker-updater.md` | Update TODO trackers |
+
+### Security (`security/`)
+| Skill | Path | Purpose |
+|-------|------|---------|
+| risk-assessor | `security/risk-assessor.md` | Create risk registers |
+| security-document-generator | `security/security-document-generator.md` | Create security docs |
+
+### Testing (`testing/`)
+| Skill | Path | Purpose |
+|-------|------|---------|
+| test-planner | `testing/test-planner.md` | Generate test documents |
+| validation-document-generator | `testing/validation-document-generator.md` | Create validation reports |
+
+### Diagramming (`diagramming/`)
+| Skill | Path | Purpose |
+|-------|------|---------|
+| ascii-diagrammer | `diagramming/ascii-diagrammer.md` | Generate Mermaid diagrams |
+
+### Platform - OpenCode (`platform/opencode/`)
+| Skill | Path | Purpose |
+|-------|------|---------|
+| effect | `platform/opencode/effect.md` | Work with Effect TypeScript |
+| github-triage | `platform/opencode/github-triage.md` | GitHub triage |
+| pre-publish-review | `platform/opencode/pre-publish-review.md` | Release gate |
+| work-with-pr | `platform/opencode/work-with-pr.md` | PR lifecycle |
+
+### Platform - Cloudflare (`platform/cloudflare/`)
+| Skill | Path | Purpose |
+|-------|------|---------|
+| agents-sdk | `platform/cloudflare/agents-sdk.md` | Build Cloudflare Agents |
+| cloudflare | `platform/cloudflare/cloudflare.md` | Cloudflare platform |
+
+## Agent Consumption Pattern
+
+```
+1. Agent receives task → scans Quick-Scan Index above
+2. Finds matching trigger → identifies skill path
+3. Loads ONLY that skill file:
+   ===SKILL:task-workflow===
+   [reads workflow/task-workflow.md]
+   ===END SKILL===
+4. Executes skill instructions
+```
+
+**DO NOT** load all skills. Load only what you need.
