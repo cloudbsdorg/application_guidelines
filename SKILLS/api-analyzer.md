@@ -1,4 +1,4 @@
-# Skill: api-analyzer
+441113# Skill: api-analyzer
 
 **Purpose:** Systematically analyze REST APIs and web services to understand endpoints, request/response formats, authentication, and data flow.
 
