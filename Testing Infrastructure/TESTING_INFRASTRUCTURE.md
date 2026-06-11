@@ -44,28 +44,27 @@ This document establishes how to create testing machines, collect output properl
 
 ### 3.1 High-Level Design
 
-```
-+-------------------------------------------------------------+
-|                    CI/CD Controller (GitHub Actions / Jenkins)  |
-|                      (Linux or FreeBSD host)                  |
-+----------------------------+--------------------------------+
-                             |
-              +--------------+--------------+
-              |                             |
-              v                             v
-+-------------------------------------------------------------+
-|              Testing Orchestration Layer (FreeBSD host)         |
-|  - Manages VM lifecycle (create, start, stop, destroy)        |
-|  - Manages jail lifecycle (create, start, stop, destroy)    |
-|  - Collects output (console, logs, crash dumps, test results) |
-|  - Exposes structured API for CI and AI agents               |
-+--+-----------+-----------+-----------+-----------+----------+
-   |           |           |           |           |
-   v           v           v           v           v
-+------+   +------+   +------+   +------+   +------+
-|bhyve |   |bhyve |   |bhyve |   | Jail |   | Jail |
-| VM 0 |   | VM 1 |   | VM 2 |   |  #0  |   |  #1  |
-+------+   +------+   +------+   +------+   +------+
+```mermaid
+graph TD
+    CI[CI/CD Controller<br/>GitHub Actions / Jenkins<br/>Linux or FreeBSD host]
+    
+    CI --> ORC[Testing Orchestration Layer<br/>FreeBSD host]
+    
+    subgraph Orchestration
+        ORC --- VM0[bhyve VM 0]
+        ORC --- VM1[bhyve VM 1]
+        ORC --- VM2[bhyve VM 2]
+        ORC --- J0[Jail #0]
+        ORC --- J1[Jail #1]
+    end
+    
+    style CI fill:#e1f5fe
+    style ORC fill:#fce4ec
+    style VM0 fill:#d4edda
+    style VM1 fill:#d4edda
+    style VM2 fill:#d4edda
+    style J0 fill:#fff3cd
+    style J1 fill:#fff3cd
 ```
 
 ### 3.2 Key Design Principles

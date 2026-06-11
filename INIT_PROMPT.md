@@ -40,15 +40,15 @@ For common development tasks, AI agents should load relevant skills from the `SK
 
 | Skill | Purpose |
 |-------|---------|
-| `SKILLS/task-workflow.md` | Task claiming and completion |
-| `SKILLS/plan-document-generator.md` | Create plan documents |
-| `SKILLS/sysctl-documenter.md` | Document sysctl interfaces |
-| `SKILLS/ascii-diagrammer.md` | Generate architecture diagrams |
-| `SKILLS/risk-assessor.md` | Risk register management |
-| `SKILLS/test-planner.md` | Testing documentation |
-| `SKILLS/toc-generator.md` | Table of contents creation |
-| `SKILLS/agents-start-here-generator.md` | Agent entry point creation |
-| `SKILLS/build-status-updater.md` | CI/CD status updates |
+| `SKILLS/workflow/task-workflow.md` | Task claiming and completion |
+| `SKILLS/planning/plan-document-generator.md` | Create plan documents |
+| `SKILLS/planning/sysctl-documenter.md` | Document sysctl interfaces |
+| `SKILLS/diagramming/ascii-diagrammer.md` | Generate architecture diagrams |
+| `SKILLS/security/risk-assessor.md` | Risk register management |
+| `SKILLS/testing/test-planner.md` | Testing documentation |
+| `SKILLS/planning/toc-generator.md` | Table of contents creation |
+| `SKILLS/planning/agents-start-here-generator.md` | Agent entry point creation |
+| `SKILLS/workflow/build-status-updater.md` | CI/CD status updates |
 
 To load a skill, read the skill file and follow its specifications for your current task.
 

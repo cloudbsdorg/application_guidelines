@@ -58,15 +58,15 @@ AI agents should load relevant skills from the `SKILLS/` directory:
 
 | Skill | When to Load |
 |-------|--------------|
-| `SKILLS/task-workflow.md` | When claiming or completing tasks |
-| `SKILLS/plan-document-generator.md` | When creating new plan documents |
-| `SKILLS/sysctl-documenter.md` | When documenting sysctl interfaces |
-| `SKILLS/ascii-diagrammer.md` | When creating architecture diagrams |
-| `SKILLS/risk-assessor.md` | When creating risk registers |
-| `SKILLS/test-planner.md` | When creating test plans |
-| `SKILLS/toc-generator.md` | When creating TOC documents |
-| `SKILLS/agents-start-here-generator.md` | When initializing projects |
-| `SKILLS/build-status-updater.md` | When updating build status |
+| `SKILLS/workflow/task-workflow.md` | When claiming or completing tasks |
+| `SKILLS/planning/plan-document-generator.md` | When creating new plan documents |
+| `SKILLS/planning/sysctl-documenter.md` | When documenting sysctl interfaces |
+| `SKILLS/diagramming/ascii-diagrammer.md` | When creating architecture diagrams |
+| `SKILLS/security/risk-assessor.md` | When creating risk registers |
+| `SKILLS/testing/test-planner.md` | When creating test plans |
+| `SKILLS/planning/toc-generator.md` | When creating TOC documents |
+| `SKILLS/planning/agents-start-here-generator.md` | When initializing projects |
+| `SKILLS/workflow/build-status-updater.md` | When updating build status |
 
 ## Workflow Summary
 
@@ -102,7 +102,7 @@ When creating or updating a project based on these guidelines:
 | File | Purpose |
 |------|---------|
 | `Planning/PLANNING.md` | `.plan/` directory standard |
-| `SKILLS/task-workflow.md` | Task management |
+| `SKILLS/workflow/task-workflow.md` | Task management |
 | `INIT_PROMPT.md` | System prompt for AI sessions |
 
 ### Core Principles

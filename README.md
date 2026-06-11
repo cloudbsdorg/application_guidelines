@@ -55,22 +55,31 @@ When using AI tools (e.g., GitHub Copilot, Claude, ChatGPT) to generate code for
 
 ### AI Skills
 
+**🎨 Diagram Standard**: Mermaid is the preferred drawing methodology for all architecture diagrams, flowcharts, graphs, and visual documentation. All skills must use Mermaid syntax (`` ```mermaid `` code blocks) for diagrams. ASCII art, DOT, and PlantUML are deprecated in favor of Mermaid.
+
 AI agents can load specialized skills from the `SKILLS/` directory for common development tasks:
 
 | Skill | Purpose |
 |-------|---------|
-| [SKILLS/task-workflow.md](SKILLS/task-workflow.md) | Task claiming, completion, and status management |
-| [SKILLS/plan-document-generator.md](SKILLS/plan-document-generator.md) | Create new plan documents and `.plan/` structure |
-| [SKILLS/plan-validator.md](SKILLS/plan-validator.md) | Validate plan document compliance |
-| [SKILLS/toc-generator.md](SKILLS/toc-generator.md) | Generate table of contents documents |
-| [SKILLS/agents-start-here-generator.md](SKILLS/agents-start-here-generator.md) | Create agent entry point documents |
-| [SKILLS/sysctl-documenter.md](SKILLS/sysctl-documenter.md) | Document sysctl MIB hierarchies |
-| [SKILLS/ascii-diagrammer.md](SKILLS/ascii-diagrammer.md) | Generate architecture diagrams |
-| [SKILLS/risk-assessor.md](SKILLS/risk-assessor.md) | Create and maintain risk registers |
-| [SKILLS/test-planner.md](SKILLS/test-planner.md) | Generate testing documentation |
-| [SKILLS/build-status-updater.md](SKILLS/build-status-updater.md) | Maintain CI/CD build status |
-| [SKILLS/validation-document-generator.md](SKILLS/validation-document-generator.md) | Create validation reports and corrections |
-| [SKILLS/security-document-generator.md](SKILLS/security-document-generator.md) | Create security documents (threat model, access control, etc.) |
+| [SKILLS/workflow/task-workflow.md](SKILLS/workflow/task-workflow.md) | Task claiming, completion, and status management |
+| [SKILLS/planning/plan-document-generator.md](SKILLS/planning/plan-document-generator.md) | Create new plan documents and `.plan/` structure |
+| [SKILLS/planning/plan-validator.md](SKILLS/planning/plan-validator.md) | Validate plan document compliance |
+| [SKILLS/planning/toc-generator.md](SKILLS/planning/toc-generator.md) | Generate table of contents documents |
+| [SKILLS/planning/agents-start-here-generator.md](SKILLS/planning/agents-start-here-generator.md) | Create agent entry point documents |
+| [SKILLS/planning/sysctl-documenter.md](SKILLS/planning/sysctl-documenter.md) | Document sysctl MIB hierarchies |
+| [SKILLS/diagramming/ascii-diagrammer.md](SKILLS/diagramming/ascii-diagrammer.md) | Generate architecture diagrams |
+| [SKILLS/security/risk-assessor.md](SKILLS/security/risk-assessor.md) | Create and maintain risk registers |
+| [SKILLS/testing/test-planner.md](SKILLS/testing/test-planner.md) | Generate testing documentation |
+| [SKILLS/workflow/build-status-updater.md](SKILLS/workflow/build-status-updater.md) | Maintain CI/CD build status |
+| [SKILLS/testing/validation-document-generator.md](SKILLS/testing/validation-document-generator.md) | Create validation reports and corrections |
+| [SKILLS/security/security-document-generator.md](SKILLS/security/security-document-generator.md) | Create security documents (threat model, access control, etc.) |
+| [SKILLS/analysis/codebase-mapper.md](SKILLS/analysis/codebase-mapper.md) | Map any codebase into exhaustive tree-view markdown documents |
+| [SKILLS/platform/opencode/effect.md](SKILLS/platform/opencode/effect.md) | Work with Effect v4 / effect-smol TypeScript code |
+| [SKILLS/platform/opencode/github-triage.md](SKILLS/platform/opencode/github-triage.md) | Read-only GitHub triage for issues and PRs |
+| [SKILLS/platform/opencode/pre-publish-review.md](SKILLS/platform/opencode/pre-publish-review.md) | Nuclear-grade 16-agent pre-publish release gate |
+| [SKILLS/platform/opencode/work-with-pr.md](SKILLS/platform/opencode/work-with-pr.md) | Full PR lifecycle: worktree → implement → PR → merge |
+| [SKILLS/platform/cloudflare/agents-sdk.md](SKILLS/platform/cloudflare/agents-sdk.md) | Build AI agents on Cloudflare Workers using Agents SDK |
+| [SKILLS/platform/cloudflare/cloudflare.md](SKILLS/platform/cloudflare/cloudflare.md) | Comprehensive Cloudflare platform skill (Workers, Pages, storage, AI, networking) |
 
 See [AGENTS_START_HERE.md](AGENTS_START_HERE.md) for the primary agent entry point and [SKILLS/README.md](SKILLS/README.md) for the complete skill index.
 
