@@ -38,7 +38,7 @@ Guidelines for building interfaces that follow the CloudBSD aesthetic and usabil
 - [**Desktop and native UI**](Desktop/DESKTOP.md)
   - Short note for GTK/Qt/native GUIs; same agy polish law as all UIs.
 - [**Web User Interfaces (Web UI)**](Web%20User%20Interfaces/WEBUI.md)
-  - Guidelines for modern, secure, and accessible web-based frontends.
+  - Guidelines for modern, secure, and accessible web-based frontends. Login at `/`; username or email; show/hide; remember username; factory first-login wizard; REVYTECH product brand.
 - [**Markdown viewer and editor**](Web%20User%20Interfaces/MARKDOWN.md)
   - In-app GitHub-flavored markdown, sanitized, with a real editor.
 

@@ -36,6 +36,7 @@ Small static admin pages (a login form and a few screens with no build step) are
 ### Authentication and Session Management
 - **Root Path (`/`)**: The root path of the application server MUST present the **login page**, or **redirect to login**. A public landing page is not a substitute. Login at `/` is law.
 - **Session Redirects**: Automatically redirect users to the login page when a session is invalid or has expired.
+- **Login UX**: Identifier, show/hide password, remember username, factory bootstrap wizard, and password-manager rules are law. See [Login UX (LAW)](#8-login-ux-law).
 
 ### Input Validation
 - **Sanitization**: Never trust user input. Sanitize all data before displaying it in the browser to prevent XSS.
@@ -69,6 +70,7 @@ A Web UI task is not complete until there is evidence the UI works. Compile-only
 - **Viewports:** Desktop and mobile. Tailwind breakpoints (`sm`/`md`/`lg`) must be covered.
 - **Artifacts:** Save screenshots, traces, and the HTML report. Commit representative screenshots for UI proof, or store the report as a CI artifact or clearly named path (`artifacts/playwright/`).
 - Login at `/` must be in the suite.
+- Login UX must be in the suite: identifier accepts a regular username **and** an email address; show/hide on password fields; remember-username checkbox plus `autocomplete=username`; factory path does not prompt the browser to save `admin:admin`; first-login wizard fields (login id, display name, new password + confirm, optional tenant/org name) and `autocomplete=new-password` / `autocomplete=name`; wizard can rename the factory `admin` login id; wizard reappears when setup is incomplete, the factory password is still in use, or required config is still placeholder. Wizard MUST NOT collect street address, phone, country, or birthday.
 
 ## 6. Visual identity (LAW)
 
@@ -104,3 +106,47 @@ When Mark has granted access to Google Antigravity (`agy` CLI, Gemini), typicall
 - **Theme stays CloudBSD/REVYTECH:** navy `#001a33` / `#002a55` / `#013a73`, blue `#0066cc` / `#004a99`, cyan accent `#00d4ff`, light `#f8fafc`, Outfit headings, Inter body, CloudBSD brand blue `#00529B`. Do not invent a new palette.
 
 This is the same single law as in `AGENTS.md`, `TUI/TUI.md`, and `Desktop/DESKTOP.md`.
+
+## 8. Login UX (LAW)
+
+The product brand on the login screen is **top-level REVYTECH** (looks like https://revytechinc.com). CloudBSD is the platform; do not put CloudBSD as the product kicker. Use REVYTECH tokens (navy `#001a33` / `#002a55` / `#013a73`, blue `#0066cc` / `#004a99`, cyan accent `#00d4ff`, light `#f8fafc`, Outfit headings, Inter body). See [Visual identity](#6-visual-identity-law).
+
+This is the same login law as `AGENTS.md`.
+
+### Identifier
+
+- The login identifier MAY be a **regular username OR an email address**, like most sites.
+- Do not require email-only. Do not reject a valid username because it is not an email. Do not reject a valid email because it is not a "username" token.
+
+### Password fields
+
+- Every password field MUST have a **show/hide** control (toggle visibility).
+- The control is keyboard-accessible and labeled (WCAG 2.1 AA).
+
+### Remember username
+
+- The login screen MUST offer remember/save username: a **checkbox** plus `autocomplete="username"` on the identifier field.
+- Do **not** remember the factory password. Never persist `admin`/`admin` as a saved password (password manager, local storage, or any credential-save API).
+
+### Factory bootstrap and first-login wizard
+
+- Factory bootstrap credentials MAY be `admin` / `admin` for a one-box install. That pair boots the box; it is not the lasting operator identity.
+- After that factory sign-in, the app MUST force a **first-login wizard** that changes the password, lets the operator rename the login id away from `admin`, and completes required setup **BEFORE** the browser password manager is invited to save credentials.
+
+Wizard fields (this product; usual SaaS collect — email or username, password, optional display name):
+
+| Field | Required | Rules |
+|-------|----------|-------|
+| Login id | Yes | Username **OR** email, like most sites. Not locked to `admin`. Operator MAY rename the factory admin to anything (`mark`, `mark@revytechinc.com`, etc.). `autocomplete="username"`. |
+| Display / real name | Yes | One field. `autocomplete="name"`. |
+| New password | Yes | Show/hide control. `autocomplete="new-password"`. |
+| Confirm password | Yes | Show/hide control. `autocomplete="new-password"`. |
+| Tenant / org display name | Optional | Org label only. |
+
+- **Do not collect** street address, phone, country, or birthday. Address is later/never for this product.
+- Wizard password fields use `autocomplete="new-password"`. Never put `autocomplete="current-password"` on the factory password field.
+- Detect and **re-show the wizard** when any of these is true:
+  - setup is incomplete
+  - the factory password is still in use
+  - required config is still a placeholder
+- Browsers MUST NOT be prompted to save `admin:admin`. That pair is a well-known leaked password and triggers browser leaked-password warnings. Do not use `autocomplete="current-password"` on factory login; do not call a credential-save API; complete the wizard first. Invite the password manager only after the wizard has set the new login id and new password.
