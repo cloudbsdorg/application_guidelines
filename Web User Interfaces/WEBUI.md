@@ -2,6 +2,10 @@
 
 This document provides guidelines for developing modern, secure, and accessible Web UIs for CloudBSD applications.
 
+## 0. Role of the Web UI
+
+The web UI is the **view**. It presents state and passes messages to a backend controller. It does not contain domain logic, secrets, or direct access to databases, queues, or LLM providers. See [MVC and Isolation](../Architecture/MVC.md). Backends are not publicly reachable unless you are deliberately exposing an API.
+
 ## 1. Frontend Standards
 
 ### Modern Languages and Frameworks

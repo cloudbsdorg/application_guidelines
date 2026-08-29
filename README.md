@@ -26,6 +26,10 @@ The fundamental building blocks of every CloudBSD application.
 - [**Planning**](Planning/PLANNING.md)
   - Standards for `.plan/` directories, task tracking, and multi-agent coordination in all CloudBSD projects.
 
+### 🧩 Architecture
+- [**MVC and Isolation**](Architecture/MVC.md)
+  - Views present and send messages. Backends stay private unless you expose an API.
+
 ### 🖼️ User Interfaces
 Guidelines for building interfaces that follow the CloudBSD aesthetic and usability standards.
 
