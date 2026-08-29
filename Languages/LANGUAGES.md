@@ -17,16 +17,16 @@ This document outlines the recommended programming languages for developing Clou
 - **Why**: Memory safety without a garbage collector, excellent package management (Cargo), and high performance.
 
 ### Go
-- **Use Case**: Network services, distributed systems, and modern TUI/Web-integrated tools.
-- **Why**: Built-in concurrency support (goroutines), fast compilation, and simple deployment (static binaries).
+- **Use Case**: Network services, distributed systems, application backends, and modern TUI/Web-integrated tools. A CloudBSD product with an Angular UI still uses Go (or another systems language from this list) for the backend.
+- **Why**: Built-in concurrency support (goroutines), fast compilation, and simple deployment (static binaries). Choosing Angular for the view does not move the controller or domain into Node or TypeScript.
 
 ### Python
 - **Use Case**: Automation scripts, non-critical management tools, and high-level application logic.
 - **Why**: Excellent readability, vast ecosystem of libraries, and rapid development speed.
 
 ### JavaScript / TypeScript
-- **Use Case**: Web-based user interfaces and modern cloud-native service frontends.
-- **Why**: The standard for web development; TypeScript provides type safety for large-scale frontend projects.
+- **Use Case**: Web-based user interfaces only. **Angular** (TypeScript) is the CloudBSD web UI framework. It is not the application backend.
+- **Why**: TypeScript provides type safety for large-scale frontends; Angular is the standard application framework. React is not the CloudBSD standard.
 
 ## 2. Selection Criteria
 

@@ -8,13 +8,15 @@ The web UI is the **view**. It presents state and passes messages to a backend c
 
 ## 1. Frontend Standards
 
-### Modern Languages and Frameworks
-- **React**: The primary frontend framework for building interactive user interfaces.
-- **Tailwind CSS**: The utility-first CSS framework for consistent styling and responsive design.
-- **TypeScript**: The mandatory programming language for frontend development to ensure type safety and maintainability.
+### Framework
+- **Angular**: The primary frontend framework for CloudBSD web user interfaces (the view). React is not the standard. The backend stays Go or another allowed systems language; see `Languages/LANGUAGES.md`.
+- **TypeScript**: The programming language for that frontend. Do not ship a new CloudBSD web UI in plain JavaScript when Angular/TypeScript can be used.
+- **Styling**: **Tailwind CSS** is required for layout, spacing, and breakpoints so every UI is desktop and mobile friendly. Do not ship a desktop-only layout with no small-screen treatment. Component styles may add what Tailwind cannot, but breakpoints and page chrome go through Tailwind.
+
+Small static admin pages (a login form and a few screens with no build step) are allowed when a full Angular app would be disproportionate. They must still use responsive Tailwind (or equivalent utility breakpoints), accessibility, security, and HTTPS. Prefer Angular once the UI has real application state (multiple views, forms, live data).
 
 ### Progressive Enhancement
-- **Responsive Design**: Interfaces must be fully responsive across mobile, tablet, and desktop devices.
+- **Responsive Design**: Every UI must work on phone, tablet, and desktop. Use Tailwind breakpoints (`sm`/`md`/`lg`). Stack navigation and tables on small screens; do not rely on horizontal scroll as the only mobile story.
 - **Progressive Enhancement**: Ensure core functionality is available to all users, regardless of browser capabilities.
 
 ## 2. Accessibility (A11y)
@@ -54,5 +56,5 @@ The web UI is the **view**. It presents state and passes messages to a backend c
 ### Core Web Vitals
 - **Metrics**: Optimize for the following key metrics:
   - **LCP (Largest Contentful Paint)**: Measure loading performance.
-  - **FID (First Input Delay)**: Measure interactivity.
+  - **INP (Interaction to Next Paint)**: Measure interactivity.
   - **CLS (Cumulative Layout Shift)**: Measure visual stability.
