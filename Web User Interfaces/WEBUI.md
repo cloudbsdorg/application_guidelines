@@ -9,7 +9,7 @@ The web UI is the **view**. It presents state and passes messages to a backend c
 ## 1. Frontend Standards
 
 ### Framework
-- **Angular**: The primary frontend framework for CloudBSD web user interfaces. React is not the standard.
+- **Angular**: The primary frontend framework for CloudBSD web user interfaces (the view). React is not the standard. The backend stays Go or another allowed systems language; see `Languages/LANGUAGES.md`.
 - **TypeScript**: The programming language for that frontend. Do not ship a new CloudBSD web UI in plain JavaScript when Angular/TypeScript can be used.
 - **Styling**: **Tailwind CSS** is required for layout, spacing, and breakpoints so every UI is desktop and mobile friendly. Do not ship a desktop-only layout with no small-screen treatment. Component styles may add what Tailwind cannot, but breakpoints and page chrome go through Tailwind.
 
