@@ -39,6 +39,18 @@ The view talks to the controller over HTTP(S) (and SSE/WebSocket when streaming)
 
 Commands are explicit (create bot, send chat, refresh models). Queries are explicit (list bots, job status). The view does not embed SQL, NATS subjects, or provider URLs.
 
+## 3.1 Re-wrap everything
+
+Even when the backend is "just a proxy" to Ollama, Anthropic, or another LLM, **it still re-wraps every payload**.
+
+- The browser never speaks a provider protocol. Not OpenAI `/v1/chat/completions`, not Anthropic Messages, not Ollama `/api/chat`, not raw provider SSE.
+- Adapters translate inbound provider data into **application DTOs** (chat events, model lists, jobs, errors). The controller returns only those types.
+- Streaming is the application's own event stream. Do not reverse-proxy a provider's byte stream to the client.
+- Provider URLs, API keys, request IDs, and native error bodies stay on the server. The view gets a stable app error (`provider_exhausted`, `unauthorized`, `invalid_prompt`), not a dumped upstream JSON.
+- A public API, when you deliberately expose one, is still *your* API. Wrapping does not stop at the UI.
+
+Pass-through is not isolation.
+
 ## 4. Isolation checks
 
 Before shipping:
