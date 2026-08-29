@@ -37,19 +37,19 @@ else
 fi
 echo ""
 
-# Check 3: INIT_PROMPT.md starts with a Level 1 header
-echo "[Check 3] INIT_PROMPT.md Level 1 header..."
-if [ -f "INIT_PROMPT.md" ]; then
-    FIRST_LINE=$(head -n 1 INIT_PROMPT.md)
+# Check 3: AGENTS.md starts with a Level 1 header
+echo "[Check 3] AGENTS.md Level 1 header..."
+if [ -f "AGENTS.md" ]; then
+    FIRST_LINE=$(head -n 1 AGENTS.md)
     if echo "$FIRST_LINE" | grep -qE '^# .+'; then
-        echo "  PASS: INIT_PROMPT.md starts with a Level 1 header."
+        echo "  PASS: AGENTS.md starts with a Level 1 header."
     else
-        echo "  FAIL: INIT_PROMPT.md does not start with a Level 1 header."
+        echo "  FAIL: AGENTS.md does not start with a Level 1 header."
         echo "    First line: $FIRST_LINE"
         ERRORS=$((ERRORS + 1))
     fi
 else
-    echo "  FAIL: INIT_PROMPT.md not found."
+    echo "  FAIL: AGENTS.md not found."
     ERRORS=$((ERRORS + 1))
 fi
 echo ""

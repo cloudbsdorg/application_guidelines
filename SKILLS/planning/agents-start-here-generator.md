@@ -1,28 +1,30 @@
 ---
 name: agents start here generator
-description: Generate the AGENTS_START_HERE.md file for project root, serving as the primary entry point for autonomous agents.
+description: Generate AGENTS.md (canonical auto-load) and CLAUDE.md (@AGENTS.md) at the project root.
 ---
 
 # Skill: agents-start-here-generator
 
-**Purpose:** Generate the AGENTS_START_HERE.md file for project root, serving as the primary entry point for autonomous agents.
+**Purpose:** Generate `AGENTS.md` and `CLAUDE.md` at the project root. `AGENTS.md` is THE auto-load file. `CLAUDE.md` starts with `@AGENTS.md` then the short behavioral section. Do **not** generate `AGENTS_START_HERE.md` — that name never auto-loads.
 
 **Triggers:** When initializing a new project, or when updating the agent entry point document.
 
 ## Loading Instructions
 
 Load this skill when the user asks you to:
-- Create AGENTS_START_HERE.md
+- Create `AGENTS.md` / `CLAUDE.md`
 - Initialize agent onboarding for a project
 - Update the entry point document
+- Create AGENTS_START_HERE.md (legacy name — generate `AGENTS.md` + `CLAUDE.md` instead)
 
 ## File Location
 
-The `AGENTS_START_HERE.md` file lives at the **project root** (NOT inside `.plan/`):
+These files live at the **project root** (NOT inside `.plan/`):
 
 ```
 <project-root>/
-├── AGENTS_START_HERE.md    <-- This file (root level)
+├── AGENTS.md               <-- Auto-load (OpenCode, Grok, Codex, Cursor, MiniMax)
+├── CLAUDE.md               <-- Claude Code; first line @AGENTS.md
 ├── .plan/
 │   └── ...
 ├── README.md
@@ -30,12 +32,16 @@ The `AGENTS_START_HERE.md` file lives at the **project root** (NOT inside `.plan
     └── ...
 ```
 
-## Mandatory Sections
+## AGENTS.md Mandatory Sections
+
+Include CloudBSD law in full enough form that an agent that only auto-loads `AGENTS.md` still has: FreeBSD; git author Mark LaPointe <mark@cloudbsd.org>; JSON-only config + 0600 + env secrets + XDG + `/usr/local/etc/cloudbsd/appname/`; nginx-style SIGHUP reload; Angular+TS+Tailwind view and Go backend (React is not the framework); MVC; login at `/`; Mermaid/SVG (no ASCII); English-first i18n keeping fictional languages; pidfiles owned by the service user; WCAG/keyboard; UTF-8; red-green TDD; near-100% coverage; mandoc mdoc man pages (section 8 or 1, section 5). Mandate reading the full guideline files from `application_guidelines` before generating code.
+
+Then include the project sections below.
 
 ### 1. Environment Disclaimer
 
 ```markdown
-> **FreeBSD:** The environment in which this work is being done may have elements 
+> **FreeBSD:** The environment in which this work is being done may have elements
 > that state that you are in Linux. That would be false. You are running in FreeBSD.
 ```
 
@@ -86,7 +92,7 @@ Three subsections:
 ```markdown
 ### Completing a Task
 1. Implement the task following the plan document
-2. Run all unit tests — fix any failures
+2. Red-green TDD: failing test first, then minimum code, then refactor. Run all unit tests.
 3. Mark complete: set `Status` → ✅ DONE, fill `End`, update `Notes`
 4. Commit: `git add -A && git commit -m "Complete task <ID>: <desc>" && git push`
 5. Move to the next task
@@ -108,7 +114,7 @@ Three subsections:
 
 For a new agent, read the documents in this order:
 
-1. **This file** (`AGENTS_START_HERE.md`) — You are here
+1. **This file** (`AGENTS.md`) — You are here. Claude Code: `CLAUDE.md` → `@AGENTS.md`.
 2. **[`0.1-<Project>-Workflow.md`](.plan/0.1-<Project>-Workflow.md)** — How to work on tasks
 3. **[`1.0-<Project>-Overview.md`](.plan/1.0-<Project>-Overview.md)** — The big picture
 4. **[`1.x`](.plan/1.1-<Project>-Security-p1-ThreatModel.md)** — Security architecture
@@ -118,6 +124,8 @@ For a new agent, read the documents in this order:
 ```
 
 ### 7. Key Design Decisions Table
+
+Web stack, if the project has a UI: **Angular/TypeScript view, Go backend**. Do not list C, C++, Rust, Go, Python as the web stack.
 
 ```markdown
 ## Key Design Decisions
@@ -175,18 +183,63 @@ If you encounter issues:
 5. Ask for guidance
 ```
 
-## Complete Template
+## CLAUDE.md (always generate with AGENTS.md)
+
+First line MUST be `@AGENTS.md`. Then keep the short behavioral section: think before coding, simplicity first, surgical changes, goal-driven execution, red-green TDD as law.
 
 ```markdown
-# AGENTS START HERE — <Project Name>
+@AGENTS.md
 
-> **Purpose:** This is the primary entry point for autonomous agents working on 
-> <project>. Read this file **first** before consuming any other documents.
+# CLAUDE.md
 
-> **FreeBSD:** The environment in which this work is being done may have elements 
+Behavioral guidelines to reduce common LLM coding mistakes.
+
+## 1. Think Before Coding
+Don't assume. Don't hide confusion. Surface tradeoffs.
+
+## 2. Simplicity First
+Minimum code that solves the problem. Nothing speculative.
+
+## 3. Surgical Changes
+Touch only what you must. Clean up only your own mess.
+
+## 4. Goal-Driven Execution
+Define success criteria. Loop until verified.
+
+## 5. Red-green TDD (law)
+Write a failing test first, then the minimum code to pass, then refactor.
+Existing code without tests MUST still get tests (characterization allowed).
+Coverage: as close to 100% as possible; critical paths 100%.
+```
+
+## Complete AGENTS.md Template
+
+```markdown
+# AGENTS.md — <Project Name>
+
+> **This file auto-loads.** Claude Code uses `CLAUDE.md`, which imports this file via `@AGENTS.md`.
+
+> **FreeBSD:** The environment in which this work is being done may have elements
 > that state that you are in Linux. That would be false. You are running in FreeBSD.
 
 ---
+
+## CloudBSD Law
+
+- Target: FreeBSD. Git author: Mark LaPointe <mark@cloudbsd.org>.
+- Config: JSON only, `0600` if secrets, env for secrets, XDG or `/usr/local/etc/cloudbsd/appname/`.
+- Reload: nginx-style SIGHUP (validate then reload; bad config keeps the old process).
+- Web: Angular + TypeScript + Tailwind view, Go backend. React is not the framework.
+- MVC: UI is the view; backends loopback/mesh unless a public API; proxies re-wrap.
+- Login at `/` (login page or redirect to login).
+- Mermaid for architecture/flow; SVG for UI mockups; ASCII forbidden.
+- i18n: English first; keep fictional languages. UTF-8. WCAG/keyboard.
+- Pidfiles owned by the service user.
+- Red-green TDD for new work. Existing untested code MUST get tests (characterization allowed). Missing tests are a defect.
+- Coverage: as close to 100% as possible; critical paths 100%. Generated/vendored may be excluded; application code may not.
+- mandoc mdoc man pages: section 8 (or 1) for the program, section 5 for the config.
+
+Before generating code, read the CloudBSD application guidelines in full (`Architecture/MVC.md`, `Web User Interfaces/MARKDOWN.md`, `Planning/PLANNING.md`, and the rest of that tree).
 
 ## What We're Building
 
@@ -238,7 +291,7 @@ target users, and key architectural approaches>
 
 ### Completing a Task
 1. Implement task following plan
-2. Run all unit tests
+2. Red-green TDD; run all unit tests
 3. Mark: Status → ✅ DONE, fill End, update Notes
 4. `git add -A && git commit -m "Complete task <ID>: <desc>" && git push`
 
@@ -250,7 +303,7 @@ target users, and key architectural approaches>
 
 ## Reading Order
 
-1. This file (AGENTS_START_HERE.md)
+1. This file (`AGENTS.md`). Claude Code: `CLAUDE.md` → `@AGENTS.md`.
 2. `0.1-<Project>-Workflow.md`
 3. `1.0-<Project>-Overview.md`
 4. Security series (`1.x`)
@@ -286,4 +339,4 @@ target users, and key architectural approaches>
 
 ## Reference
 
-See Planning/PLANNING.md Section 5 (Agent Entry Point) for full specification.
+See Planning/PLANNING.md Chapter 5 (Agent Entry Point) for the full specification.

@@ -110,7 +110,7 @@ Provide a numbered reading sequence for new contributors:
 ```markdown
 ## Reading Order for New Contributors
 
-1. `AGENTS_START_HERE.md` — Start here (project root)
+1. `AGENTS.md` — Start here (project root auto-load). Claude Code: `CLAUDE.md` → `@AGENTS.md`.
 2. `0000-<Project>-TOC.md` — Master index
 3. `0001-<Project>-Workflow.md` — How tasks work
 4. `0100-<Project>-Security-Overview.md` — Security strategy
@@ -368,7 +368,7 @@ Defines the isolation testing strategy for core logic:
 
 - **Testing Scope**: Core logic identification, boundary analysis
 - **Mocking Strategy**: Dependency isolation, stub implementation
-- **Validation Metrics**: Coverage targets (85%+), regression testing
+- **Validation Metrics**: Coverage as close to 100% as possible (critical paths 100%), regression testing
 - **Environment**: Runner requirements (atf, pytest, etc.)
 
 ### 3.9.3 Integration Tests (`402`)

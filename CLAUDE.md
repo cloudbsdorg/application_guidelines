@@ -1,6 +1,8 @@
+@AGENTS.md
+
 # CLAUDE.md
 
-Behavioral guidelines to reduce common LLM coding mistakes. Merge with project-specific instructions as needed.
+Behavioral guidelines to reduce common LLM coding mistakes. Merge with project-specific instructions as needed. CloudBSD law lives in `AGENTS.md` (imported above).
 
 **Tradeoff:** These guidelines bias toward caution over speed. For trivial tasks, use judgment.
 
@@ -60,6 +62,16 @@ For multi-step tasks, state a brief plan:
 
 Strong success criteria let you loop independently. Weak criteria ("make it work") require constant clarification.
 
+## 5. Red-green TDD (law)
+
+**Not optional. Not "aim for tests sometime."**
+
+- **New work:** write a failing test first (red), then the minimum production code to pass (green), then refactor.
+- **Existing code that shipped without tests:** missing tests are a defect. You MUST still add tests. Characterization / post-facto tests are allowed to lock current behavior before changing it.
+- **Coverage:** as close to 100% as possible; critical paths 100%. Generated/vendored code may be excluded; application code may not.
+
+See `Unit Testing/UNITTESTS.md` and `AGENTS.md`.
+
 ---
 
-**These guidelines are working if:** fewer unnecessary changes in diffs, fewer rewrites due to overcomplication, and clarifying questions come before implementation rather than after mistakes.
+**These guidelines are working if:** fewer unnecessary changes in diffs, fewer rewrites due to overcomplication, clarifying questions come before implementation rather than after mistakes, and new code never lands without a failing test written first.

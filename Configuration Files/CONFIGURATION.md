@@ -23,7 +23,7 @@ For system-wide defaults:
 
 - File extension: `.json`. Encoding: UTF-8. Syntax: strict JSON (RFC 8259).
 - No comments, no trailing commas, no JSONC, no `$comment` keys or other dialects.
-- Ship `config.example.json`. Install `config.json.sample`. Document every key in the README or a man page, not inside the JSON file.
+- Ship `config.example.json`. Install `config.json.sample`. Document every key in the **section 5 man page**, not inside the JSON file. README may point at the man page; it is not a substitute.
 - `appname init` (or equivalent) must emit valid JSON.
 
 ### Escape hatch
@@ -70,3 +70,17 @@ Human-edited files are still JSON when JSON works. Secrets still belong in envir
 - **Monitoring**: Applications should provide metrics and health checks to monitor their health and performance.
 - **Logging**: All log events should be made into an event object and sent to a logging service if possible, a file or database.
 - **Event Aggregation**: Implement a mechanism to aggregate and normalize log events for easier analysis and correlation.
+
+## 4. Manual Pages (mandoc mdoc) — LAW
+
+Every CloudBSD application that ships a **binary** or an **rc.d service** MUST include [mandoc](https://mandoc.bsd.lv/) **mdoc** man pages.
+
+- **Section 8** for daemons and administrative programs. **Section 1** for user commands.
+- **Section 5** for the configuration file.
+- Write **mdoc** macros, not groff-man, not Markdown-as-man.
+- Document: command-line flags, JSON keys, signals (including **SIGHUP reload**: validate then reload, bad config keeps the old process), files and directories (XDG and `/usr/local/etc/cloudbsd/appname/`), rc.d names, and examples.
+- Prefer man pages over stuffing documentation only in README. README may link to the man pages.
+- Install with the package (`share/man/man8/`, `share/man/man5/`, or the section-1 equivalent).
+
+See also `Languages/LANGUAGES.md` (Documentation).
+

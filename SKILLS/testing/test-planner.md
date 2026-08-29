@@ -121,8 +121,8 @@ static int mock_if_input(struct ifnet *, struct mbuf *);
 
 | Metric | Target |
 |--------|--------|
-| Line coverage | 85% |
-| Branch coverage | 80% |
+| Line coverage | As close to 100% as possible |
+| Branch coverage | As close to 100% as possible |
 | Critical path | 100% |
 
 ## Test Environment
@@ -258,10 +258,9 @@ graph LR
 
 | Component Type | Line Coverage | Branch Coverage |
 |----------------|--------------|----------------|
-| Core logic | 90% | 85% |
-| Error handlers | 80% | 75% |
-| Utilities | 70% | 65% |
-| UI/CLI | 60% | 50% |
+| Application code | As close to 100% as possible | As close to 100% as possible |
+| Critical paths | 100% | 100% |
+| Generated/vendored | May be excluded | May be excluded |
 
 ## Reference
 

@@ -139,8 +139,9 @@ When status changes:
 
 | Gate | Threshold | Current |
 |------|-----------|---------|
-| Line coverage | ≥ 85% | 87% ✅ |
-| Branch coverage | ≥ 80% | 82% ✅ |
+| Line coverage | as close to 100% as possible | 99% ✅ |
+| Branch coverage | as close to 100% as possible | 98% ✅ |
+| Critical paths | 100% | 100% ✅ |
 | Security findings | 0 Critical | 0 ✅ |
 | Lint errors | 0 | 2 ⚠️ |
 ```

@@ -176,7 +176,7 @@ Every document must end with:
 ## Recommendations
 
 1. Add `0002-<Project>-Build-Status.md` to `.plan/` directory
-2. Create `AGENTS_START_HERE.md` at project root
+2. Create `AGENTS.md` and `CLAUDE.md` (`@AGENTS.md`) at project root
 3. Update 0000-<Project>-TOC.md with link to 0002-<Project>-Build-Status.md
 
 ---

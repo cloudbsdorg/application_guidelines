@@ -41,8 +41,9 @@ my-project/
 │   ├── 0900-MyProject-Validation.md
 │   ├── 1000-MyProject-Testing-Framework.md
 │   ├── 1100-MyProject-Documentation.md
-│   ├── 1101-MyProject-Testing-Scope.md
-│   └── AGENTS_START_HERE.md
+│   └── 1101-MyProject-Testing-Scope.md
+├── AGENTS.md
+├── CLAUDE.md
 ├── README.md
 └── src/
     └── ...

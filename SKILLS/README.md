@@ -19,12 +19,12 @@ This directory contains AI skills for CloudBSD project development.
 | [risk-assessor](security/risk-assessor.md) | Create and maintain risk registers | When creating 700 document or risk review |
 | [test-planner](testing/test-planner.md) | Generate testing documentation | When creating 401/402/1101 documents |
 | [toc-generator](planning/toc-generator.md) | Create table of contents documents | When creating 000 document |
-| [agents-start-here-generator](planning/agents-start-here-generator.md) | Generate agent entry point document | When initializing a project |
+| [agents-start-here-generator](planning/agents-start-here-generator.md) | Generate `AGENTS.md` + `CLAUDE.md` (`@AGENTS.md`) | When initializing a project |
 | [build-status-updater](workflow/build-status-updater.md) | Maintain CI/CD build status | When updating build status |
 | [validation-document-generator](testing/validation-document-generator.md) | Create validation reports and corrections | When validating implementation tasks |
 | [security-document-generator](security/security-document-generator.md) | Create security documentation (threat model, access control, etc.) | When creating 1.1-1.6 security documents |
 | [progress-tracker-updater](workflow/progress-tracker-updater.md) | Create and maintain TODO Tracker Summary tables | When updating phase progress |
-| [quick-reference-generator](planning/quick-reference-generator.md) | Create Quick Reference sections for AGENTS_START_HERE | When creating agent entry points |
+| [quick-reference-generator](planning/quick-reference-generator.md) | Create Quick Reference sections for `AGENTS.md` | When creating agent entry points |
 | [reverse-engineer-for-port](analysis/reverse-engineer-for-port.md) | Analyze source code to understand actual behavior | When porting applications |
 | [feature-task-generator](planning/feature-task-generator.md) | Generate tasks from feature analysis | After reverse-engineering analysis |
 | [code-quality-analyzer](analysis/code-quality-analyzer.md) | Find duplication and plan refactoring | When reviewing ported code quality |
@@ -151,7 +151,7 @@ These skills create the initial project structure:
 
 - `plan-document-generator` — Create `.plan/` structure and document templates
 - `toc-generator` — Create 000 TOC document
-- `agents-start-here-generator` — Create `AGENTS_START_HERE.md`
+- `agents-start-here-generator` — Create `AGENTS.md` and `CLAUDE.md`
 - `build-status-updater` — Create `0002-<Project>-Build-Status.md`
 - `quick-reference-generator` — Create Quick Reference section
 - `progress-tracker-updater` — Create TODO Tracker Summary
@@ -401,5 +401,5 @@ privilege-analyzer
 ## Reference
 
 - [Planning/PLANNING.md](../Planning/PLANNING.md) — Full planning standard
-- [AGENTS_START_HERE.md](../AGENTS_START_HERE.md) — Primary agent entry point
-- [INIT_PROMPT.md](../INIT_PROMPT.md) — System prompt for AI sessions
+- [AGENTS.md](../AGENTS.md) — Canonical auto-load and agent entry point
+- [CLAUDE.md](../CLAUDE.md) — Claude Code auto-load (`@AGENTS.md`)

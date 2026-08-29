@@ -7,7 +7,7 @@
 | Trigger Keyword | Skill Path | One-Line Description |
 |----------------|-----------|----------------------|
 | `agent SDK`, `Cloudflare Agent`, `stateful agent` | `platform/cloudflare/agents-sdk.md` | Build AI agents on Cloudflare Workers |
-| `agent start`, `entry point`, `AGENTS_START_HERE` | `planning/agents-start-here-generator.md` | Generate agent entry point document |
+| `agent start`, `entry point`, `AGENTS.md`, `AGENTS_START_HERE` | `planning/agents-start-here-generator.md` | Generate `AGENTS.md` + `CLAUDE.md` |
 | `API`, `REST`, `endpoint`, `HTTP` | `analysis/api-analysis/api-analyzer.md` | Document REST endpoints and HTTP protocols |
 | `audit`, `vulnerability`, `OWASP`, `STRIDE` | `security/security-audit/security-audit.md` | Security audit with OWASP and STRIDE |
 | `bhyve`, `VM`, `virtual machine` | `freebsd-admin/bhyve-manager.md` | Create and manage bhyve VMs |
@@ -35,7 +35,7 @@
 | `PR`, `pull request`, `worktree`, `merge` | `platform/opencode/work-with-pr.md` | Full PR lifecycle |
 | `privilege`, `UID`, `GID`, `capability`, `chroot` | `analysis/os-analysis/privilege-analyzer.md` | Document privilege requirements |
 | `progress`, `tracker`, `TODO` | `workflow/progress-tracker-updater.md` | Create TODO Tracker Summary tables |
-| `quick reference`, `AGENTS_START_HERE` | `planning/quick-reference-generator.md` | Create Quick Reference sections |
+| `quick reference`, `AGENTS.md` | `planning/quick-reference-generator.md` | Create Quick Reference sections |
 | `rc.d`, `startup script`, `rc script` | `freebsd-admin/rc-script-writer.md` | Write FreeBSD rc.d startup scripts |
 | `review`, `code review`, `lgtm`, `approve` | `workflow/review/review.md` | Code review for correctness/security |
 | `reverse engineer`, `port`, `analyze source` | `analysis/reverse-engineer-for-port.md` | Analyze source code for porting |
