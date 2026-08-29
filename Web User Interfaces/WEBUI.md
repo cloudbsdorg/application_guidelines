@@ -8,10 +8,12 @@ The web UI is the **view**. It presents state and passes messages to a backend c
 
 ## 1. Frontend Standards
 
-### Modern Languages and Frameworks
-- **React**: The primary frontend framework for building interactive user interfaces.
-- **Tailwind CSS**: The utility-first CSS framework for consistent styling and responsive design.
-- **TypeScript**: The mandatory programming language for frontend development to ensure type safety and maintainability.
+### Framework
+- **Angular**: The primary frontend framework for CloudBSD web user interfaces. React is not the standard.
+- **TypeScript**: The programming language for that frontend. Do not ship a new CloudBSD web UI in plain JavaScript when Angular/TypeScript can be used.
+- **Styling**: Use Angular’s usual styling (component styles, global stylesheet, or a design system you already maintain). Tailwind CSS is not required.
+
+Small static admin pages (a login form and a few screens with no build step) are allowed when a full Angular app would be disproportionate. They must still follow accessibility, security, and HTTPS rules below. Prefer Angular once the UI has real application state (multiple views, forms, live data).
 
 ### Progressive Enhancement
 - **Responsive Design**: Interfaces must be fully responsive across mobile, tablet, and desktop devices.
@@ -54,5 +56,5 @@ The web UI is the **view**. It presents state and passes messages to a backend c
 ### Core Web Vitals
 - **Metrics**: Optimize for the following key metrics:
   - **LCP (Largest Contentful Paint)**: Measure loading performance.
-  - **FID (First Input Delay)**: Measure interactivity.
+  - **INP (Interaction to Next Paint)**: Measure interactivity.
   - **CLS (Cumulative Layout Shift)**: Measure visual stability.
