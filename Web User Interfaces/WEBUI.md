@@ -11,12 +11,12 @@ The web UI is the **view**. It presents state and passes messages to a backend c
 ### Framework
 - **Angular**: The primary frontend framework for CloudBSD web user interfaces. React is not the standard.
 - **TypeScript**: The programming language for that frontend. Do not ship a new CloudBSD web UI in plain JavaScript when Angular/TypeScript can be used.
-- **Styling**: Use Angular’s usual styling (component styles, global stylesheet, or a design system you already maintain). Tailwind CSS is not required.
+- **Styling**: **Tailwind CSS** is required for layout, spacing, and breakpoints so every UI is desktop and mobile friendly. Do not ship a desktop-only layout with no small-screen treatment. Component styles may add what Tailwind cannot, but breakpoints and page chrome go through Tailwind.
 
-Small static admin pages (a login form and a few screens with no build step) are allowed when a full Angular app would be disproportionate. They must still follow accessibility, security, and HTTPS rules below. Prefer Angular once the UI has real application state (multiple views, forms, live data).
+Small static admin pages (a login form and a few screens with no build step) are allowed when a full Angular app would be disproportionate. They must still use responsive Tailwind (or equivalent utility breakpoints), accessibility, security, and HTTPS. Prefer Angular once the UI has real application state (multiple views, forms, live data).
 
 ### Progressive Enhancement
-- **Responsive Design**: Interfaces must be fully responsive across mobile, tablet, and desktop devices.
+- **Responsive Design**: Every UI must work on phone, tablet, and desktop. Use Tailwind breakpoints (`sm`/`md`/`lg`). Stack navigation and tables on small screens; do not rely on horizontal scroll as the only mobile story.
 - **Progressive Enhancement**: Ensure core functionality is available to all users, regardless of browser capabilities.
 
 ## 2. Accessibility (A11y)
