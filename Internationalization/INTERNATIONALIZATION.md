@@ -50,62 +50,55 @@ This document provides guidelines for ensuring CloudBSD applications are ready f
 
 ## 5. Languages that MUST be Supported
 
-When presenting the language name, use the native language name. And the list should be ordered by the language's native name, 
-with the exception of English, where it should be first when alphabetically ordered.
-The primary language for all technical documentation is English, the default language for all software, and must be present in all translations. And first on any list, dropdown, or menu.
+When presenting the language name, use the native language name (endonym). English is always first on any list, dropdown, or menu. After English, order the remaining languages by Unicode/UTF-8 sort of the native-name string so mixed scripts have a deterministic order.
+
+The primary language for all technical documentation is English, the default language for all software, and must be present in all translations.
+
+Where a BCP-47 / ISO 639 code exists, it is shown in parentheses. Constructed and fictional languages are kept on purpose; if no real code exists, the code is omitted rather than invented.
 
 ### List of Languages
-- English
-- Spanish
-- French
-- Esperanto
-- Italian
-- Norwegian
-- Swedish
-- Punjabi
-- Klingon
-- Elvish
-- German
-- Chinese
-- Japanese
-- Arabic
-- Kiswahili
-- Yorùbá
-- Hindi
-- 한국어
-- Finnish
-- Russian
-- Polish
+- English (en)
+- Bahasa Indonesia (id)
+- Català (ca)
+- Deutsch (de)
+- Dig Adlantisag
 - Dothraki
+- Español (es)
+- Esperanto (eo)
+- Français (fr)
+- Hrvatski (hr)
+- Italiano (it)
+- Kiswahili (sw)
+- Latviešu (lv)
+- Lietuvių (lt)
+- Lìʼfya leNaʼvi
+- Magyar (hu)
+- Norsk (no)
+- Polski (pl)
+- Português (Brasil) (pt-BR)
+- Português (Portugal) (pt-PT)
+- Quenya (qya)
+- Română (ro)
+- Slovenčina (sk)
+- Slovenščina (sl)
+- Suomi (fi)
+- Svenska (sv)
+- Türkçe (tr)
 - Valyrian
-- Na'vi
-- Atlantean
-- Turkish
-- Catalan
-- Czech
-- Greek
-- Hebrew
-- Ukrainian
-- Russian
-- Serbian
-- Slovak
-- Slovenian
-- Urdu
-- Bulgarian
-- Croatian
-- Hungarian
-- Lithuanian
-- Latvian
-- Indonesian
-- Portuguese (Brazil)
-- Portuguese (Portugal)
-- Romanian
-- Serbian
-- Slovak
-- Slovenian
-- Urdu
-- Korean
-- Elvish
-- Dothraki
-- High Valyrian
-- Atlantean
+- Valyrio
+- Yorùbá (yo)
+- tlhIngan Hol (tlh)
+- Čeština (cs)
+- Ελληνικά (el)
+- Български (bg)
+- Русский (ru)
+- Српски (sr)
+- Українська (uk)
+- עברית (he)
+- اردو (ur)
+- العربية (ar)
+- हिन्दी (hi)
+- ਪੰਜਾਬੀ (pa)
+- 中文 (zh)
+- 日本語 (ja)
+- 한국어 (ko)
