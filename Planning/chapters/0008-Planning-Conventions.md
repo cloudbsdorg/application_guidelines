@@ -8,9 +8,13 @@
 
 ## Diagram Conventions
 
-**Mermaid is the preferred drawing methodology** for all CloudBSD documentation diagrams.
+**Mermaid is THE diagramming format** for all CloudBSD architecture, flowcharts, sequence diagrams, graphs, and documentation.
 
-Use Mermaid syntax (`` ```mermaid `` code blocks) for all architecture diagrams, state machines, flowcharts, and visual documentation.
+Use Mermaid syntax (`` ```mermaid `` code blocks) for architecture diagrams, state machines, flowcharts, and graphs.
+
+- **SVG** is additionally allowed for UI design and prototyping (wireframes, mockups, screens). Keep SVG in-repo as `.svg` files. Do not replace Mermaid with SVG for architecture.
+- ASCII art diagrams are **forbidden**. Do not produce them.
+- DOT and PlantUML remain deprecated.
 
 ### Component Diagram Example
 

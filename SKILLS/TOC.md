@@ -17,7 +17,7 @@
 | `codebase`, `explore`, `understand`, `find in code` | `analysis/codebase/codebase.md` | Read-only codebase exploration |
 | `consult`, `advice`, `opinion`, `should I` | `planning/office-hours/office-hours.md` | Direct consulting with recommendations |
 | `debug`, `investigate`, `root cause`, `trace` | `workflow/investigate/investigate.md` | Root cause debugging with evidence |
-| `diagram`, `architecture`, `flowchart` | `diagramming/ascii-diagrammer.md` | Generate Mermaid diagrams |
+| `diagram`, `architecture`, `flowchart`, `mermaid`, `svg`, `mockup` | `diagramming/mermaid-diagrammer.md` | Generate Mermaid diagrams; SVG for UI mockups |
 | `effect`, `Effect v4`, `effect-smol` | `platform/opencode/effect.md` | Work with Effect-based TypeScript |
 | `feature`, `task generation` | `planning/feature-task-generator.md` | Generate tasks from feature analysis |
 | `file system`, `path`, `permission`, `locking` | `analysis/os-analysis/file-system-analyzer.md` | Document filesystem dependencies |
@@ -51,7 +51,7 @@
 | `test`, `401`, `402`, `1101` | `testing/test-planner.md` | Generate testing documentation |
 | `thread`, `process`, `IPC`, `synchronization` | `analysis/os-analysis/process-model-analyzer.md` (modular — load `threads.md`, `synchronization.md`, etc.) | Document threads and IPC patterns |
 | `TOC`, `table of contents`, `000` | `planning/toc-generator.md` | Create table of contents documents |
-| `UI`, `UX`, `interface`, `wireframe` | `analysis/ui-analysis/ui-ux-analyzer.md` (modular — load `wireframing.md`, `objects.md`, `actions.md`, etc.) | Document UI objects, states, actions |
+| `UI`, `UX`, `interface`, `wireframe` | `analysis/ui-analysis/ui-ux-analyzer.md` (modular — load `wireframing.md`, `objects.md`, `actions.md`, etc.) | Document UI objects, states, actions; SVG wireframes |
 | `validation report`, `corrections` | `testing/validation-document-generator.md` | Create validation reports |
 | `ZFS`, `pool`, `snapshot` | `freebsd-admin/zfs-manager.md` | ZFS pool management and snapshots |
 
@@ -128,7 +128,7 @@
 ### Diagramming (`diagramming/`)
 | Skill | Path | Purpose |
 |-------|------|---------|
-| ascii-diagrammer | `diagramming/ascii-diagrammer.md` | Generate Mermaid diagrams |
+| mermaid-diagrammer | `diagramming/mermaid-diagrammer.md` | Generate Mermaid diagrams; SVG for UI mockups |
 
 ### Platform - OpenCode (`platform/opencode/`)
 | Skill | Path | Purpose |

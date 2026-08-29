@@ -16,7 +16,7 @@ This skill uses **modular sub-skills** — load only what you need.
 
 | Phase | Sub-Skill Path | Trigger When... |
 |-------|----------------|--------------|
-| **Wireframing** | `ui-analysis/ui-ux-analyzer/wireframing.md` | Need ASCII/Mermaid wireframes |
+| **Wireframing** | `ui-analysis/ui-ux-analyzer/wireframing.md` | Need SVG wireframes/mockups |
 | **Objects** | `ui-analysis/ui-ux-analyzer/objects.md` | Building UI object inventory |
 | **States** | `ui-analysis/ui-ux-analyzer/states.md` | Documenting object states |
 | **Actions** | `ui-analysis/ui-ux-analyzer/actions.md` | Mapping user interactions |
@@ -61,7 +61,7 @@ Load this skill when the user asks you to:
 - Understand user interaction flows
 - Generate UI specifications from existing code
 - Plan UI feature implementation
-- Draw wireframes with ASCII art or Mermaid
+- Draw wireframes and UI mockups as in-repo SVG files
 
 ---
 

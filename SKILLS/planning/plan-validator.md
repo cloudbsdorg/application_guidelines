@@ -168,8 +168,8 @@ Every document must end with:
 ### ⚠️ Warnings
 
 1. **File:** `100-Overview.md`
-   - **Warning:** No ASCII diagram in architecture section
-   - **Suggestion:** Add architecture diagram using box-drawing characters
+   - **Warning:** No Mermaid diagram in architecture section
+   - **Suggestion:** Add a `` ```mermaid `` architecture diagram
 
 ---
 
@@ -247,7 +247,7 @@ echo "Validation passed"
 | V006 | Footer block must have change log | ERROR |
 | V007 | Cross-references must point to existing files | ERROR |
 | V008 | Change logs must be updated | WARNING |
-| V009 | ASCII diagrams should be present in architecture docs | WARNING |
+| V009 | Mermaid diagrams should be present in architecture docs | WARNING |
 | V010 | 0002-<Project>-Build-Status.md should exist | WARNING |
 
 ## Reference

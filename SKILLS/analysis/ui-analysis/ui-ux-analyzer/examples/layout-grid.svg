@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 480" width="800" height="480" role="img" aria-label="Layout wireframe: header, content, footer">
+  <title>Layout grid wireframe</title>
+  <rect x="8" y="8" width="784" height="464" fill="#ffffff" stroke="#333333" stroke-width="2"/>
+  <rect x="8" y="8" width="784" height="56" fill="#eeeeee" stroke="#333333" stroke-width="2"/>
+  <text x="400" y="42" text-anchor="middle" font-family="sans-serif" font-size="18" fill="#222222">HEADER</text>
+  <text x="400" y="250" text-anchor="middle" font-family="sans-serif" font-size="18" fill="#222222">CONTENT</text>
+  <rect x="8" y="416" width="784" height="56" fill="#eeeeee" stroke="#333333" stroke-width="2"/>
+  <text x="400" y="450" text-anchor="middle" font-family="sans-serif" font-size="18" fill="#222222">FOOTER</text>
+</svg>

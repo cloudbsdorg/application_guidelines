@@ -61,46 +61,46 @@ The TOC must include:
 
 ### 3.1.1 Document Dependencies Tree
 
-Use a visual ASCII tree to show document relationships:
+Use a Mermaid graph to show document relationships:
 
 ```markdown
 ## Document Dependencies
-
 ```
-0000 (TOC) ──┬── 0001 (Workflow)
-             ├─── 0002 (Build Status)
-             │
-             ├──► 0100 (Security Overview)
-             │         │
-             │         ├──► 0101 (Threat Model)
-             │         ├──► 0102 (Access Control)
-             │         ├──► 0103 (Emulator Security)
-             │         ├──► 0104 (Runtime Safety)
-             │         ├──► 0105 (Additional Analysis)
-             │         └───► 0106 (Security Implementation)
-             │
-             ├──► 0200 (Overview)
-             │         │
-             │         ├──► 0201 (Current Architecture)
-             │         └───► 0210 (Architecture Design)
-             │
-             ├──► 0300 (Implementation Tasks)
-             │         │
-             │         ├──► 0301 (Kernel Module)
-             │         └───► 0302 (Userland Tools)
-             │
-             ├──► 0400 (Testing)
-             │         ├──► 0401 (Unit Tests)
-             │         ├──► 0402 (Integration Tests)
-             │         └───► 0403 (Code Validation)
-             │
-             └──► 0500 (Governance)
-                      ├──► 0501 (Sysctl Interface)
-                      ├──► 0510 (Tooling)
-                      └───► 0511 (Examples)
 
-Legend: ──┬── = references, ──► = depends on
-```
+```mermaid
+flowchart TD
+    TOC["0000 TOC"]
+    WF["0001 Workflow"]
+    BS["0002 Build Status"]
+    SEC["0100 Security Overview"]
+    OV["0200 Overview"]
+    IMP["0300 Implementation Tasks"]
+    TEST["0400 Testing"]
+    GOV["0500 Governance"]
+
+    TOC --> WF
+    TOC --> BS
+    TOC --> SEC
+    SEC --> TM["0101 Threat Model"]
+    SEC --> AC["0102 Access Control"]
+    SEC --> ES["0103 Emulator Security"]
+    SEC --> RS["0104 Runtime Safety"]
+    SEC --> AA["0105 Additional Analysis"]
+    SEC --> SI["0106 Security Implementation"]
+    TOC --> OV
+    OV --> CA["0201 Current Architecture"]
+    OV --> AD["0210 Architecture Design"]
+    TOC --> IMP
+    IMP --> KM["0301 Kernel Module"]
+    IMP --> UT["0302 Userland Tools"]
+    TOC --> TEST
+    TEST --> UNIT["0401 Unit Tests"]
+    TEST --> INT["0402 Integration Tests"]
+    TEST --> CV["0403 Code Validation"]
+    TOC --> GOV
+    GOV --> SYS["0501 Sysctl Interface"]
+    GOV --> TOOL["0510 Tooling"]
+    GOV --> EX["0511 Examples"]
 ```
 
 ### 3.1.2 Reading Order
@@ -195,7 +195,7 @@ The overview document (200) must cover:
 
 - Executive summary and motivation
 - Problem statement and target use cases
-- High-level architecture with ASCII diagrams
+- High-level architecture with Mermaid diagrams
 - Supported platforms or configurations
 - Implementation phases with milestones
 - Risk assessment summary
@@ -215,7 +215,7 @@ This document (201) analyzes the existing system (if applicable):
 
 The architecture document (210) provides detailed solution design:
 
-- ASCII architecture diagrams with box-drawing characters
+- Mermaid architecture diagrams (`` ```mermaid `` fences); never ASCII art
 - Component interactions and data flow
 - Interface specifications
 - State machines for complex components

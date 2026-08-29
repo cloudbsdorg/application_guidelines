@@ -15,7 +15,7 @@ This directory contains AI skills for CloudBSD project development.
 | [plan-document-generator](plan-document-generator.md) | Create plan documents following standard templates | When creating new documents or initializing projects |
 | [plan-validator](plan-validator.md) | Validate plan document compliance | On PR review or before commits |
 | [sysctl-documenter](sysctl-documenter.md) | Document sysctl MIB hierarchies | When defining configuration interfaces |
-| [ascii-diagrammer](diagramming/ascii-diagrammer.md) | Generate architecture diagrams | When writing architecture documents |
+| [mermaid-diagrammer](diagramming/mermaid-diagrammer.md) | Generate Mermaid diagrams; SVG for UI mockups | When writing architecture documents or UI wireframes |
 | [risk-assessor](security/risk-assessor.md) | Create and maintain risk registers | When creating 700 document or risk review |
 | [test-planner](testing/test-planner.md) | Generate testing documentation | When creating 401/402/1101 documents |
 | [toc-generator](planning/toc-generator.md) | Create table of contents documents | When creating 000 document |
@@ -60,13 +60,14 @@ This directory contains AI skills for CloudBSD project development.
 
 ## 🎨 Diagram Standard
 
-**Mermaid is the preferred drawing methodology** for all diagrams in CloudBSD documentation.
+**Mermaid is THE diagramming format** for architecture, flowcharts, sequence diagrams, class diagrams, graphs, and documentation.
 
 - Use `` ```mermaid `` code blocks for all architecture diagrams, flowcharts, sequence diagrams, class diagrams, and graphs.
-- ASCII art diagrams (e.g., `+---+`, `|   |`) are deprecated and must be converted to Mermaid.
+- **SVG** is additionally allowed for UI design and prototyping (wireframes, mockups, screens). Keep SVG in-repo as `.svg` files. Do not replace Mermaid with SVG for architecture.
+- ASCII art diagrams (e.g., `+---+`, `|   |`, box-drawing architecture or UI boxes) are **forbidden**. Do not produce them. Convert leftover ASCII to Mermaid (architecture) or SVG (UI).
 - DOT language (`digraph`, `graph {`) is deprecated and must be converted to Mermaid.
 - PlantUML (`@startuml`) is deprecated and must be converted to Mermaid.
-- See [ascii-diagrammer](ascii-diagrammer.md) for the Mermaid diagram generation skill.
+- See [mermaid-diagrammer](diagramming/mermaid-diagrammer.md) for the diagram generation skill.
 
 ## Skill Invocation Format
 
@@ -97,81 +98,51 @@ Assistant:
 
 Skills depend on each other as follows:
 
+```mermaid
+flowchart TD
+    ASH[agents-start-here-generator]
+    TOC[toc-generator]
+    PDG[plan-document-generator]
+    TW[task-workflow]
+    QR[quick-reference-generator]
+    PT[progress-tracker-updater]
+    BSU[build-status-updater]
+    MD[mermaid-diagrammer]
+    SD[sysctl-documenter]
+    RA[risk-assessor]
+    TP[test-planner]
+    RE[reverse-engineer-for-port]
+    FTG[feature-task-generator]
+    CQA[code-quality-analyzer]
+    SAO[source-analysis-orchestrator]
+    CBM[codebase-mapper]
+    PPR[pre-publish-review]
+    WPR[work-with-pr]
+
+    ASH --> TOC --> PDG
+    ASH --> TW
+    ASH --> PDG
+    PDG --> MD
+    PDG --> SD
+    PDG --> RA
+    PDG --> TP
+    PDG --> TOC
+    ASH --> QR
+    ASH --> PT
+    ASH --> BSU
+    RE --> FTG --> CQA
+    SAO --> RE
+    SAO --> FTG --> PDG
+    CBM --> MD
+    CBM --> TOC
+    PPR --> reviewWork[review-work]
+    PPR --> oracle[oracle]
+    WPR --> gitMaster[git-master]
+    WPR --> reviewWork
 ```
-agents-start-here-generator
-     │
-     ├──► toc-generator
-     │        └──► plan-document-generator
-     │
-     ├──► task-workflow
-     │
-     ├──► plan-document-generator
-     │        │
-     │        ├──► ascii-diagrammer
-     │        ├──► sysctl-documenter
-     │        ├──► risk-assessor
-     │        ├──► test-planner
-     │        └──► toc-generator
-     │
-     ├──► quick-reference-generator
-     │
-     ├──► progress-tracker-updater
-     │
-     └──► build-status-updater
 
-plan-validator (standalone - validates all of the above)
+Standalone skills (no graph edges): plan-validator, ui-ux-analyzer, api-analyzer, message-queue-analyzer, OS analysis skills, effect, github-triage.
 
-reverse-engineer-for-port
-     │
-     └──► feature-task-generator
-               │
-               └──► code-quality-analyzer (optional - for refactoring backlog)
-
-ui-ux-analyzer (standalone - analyzes UI for implementation)
-
-api-analyzer (standalone - analyzes REST APIs and HTTP protocols)
-
-message-queue-analyzer (standalone - analyzes message brokers and queues)
-
-system-call-analyzer ───────────┐
-                                │
-process-model-analyzer ─────────┼── (OS analysis skills)
-                                │
-network-stack-analyzer ─────────┤
-                                │
-file-system-analyzer ──────────┤
-                                │
-privilege-analyzer ────────────┘
-
-source-analysis-orchestrator
-     │
-     ├──► reverse-engineer-for-port
-     ├──► ui-ux-analyzer
-     ├──► api-analyzer
-     ├──► message-queue-analyzer
-     ├──► code-quality-analyzer
-     └──► OS skills (as needed)
-             │
-             ▼
-     feature-task-generator ──► plan-document-generator
-
-codebase-mapper (standalone - maps codebase to .discovery/ tree)
-     └──► References: ascii-diagrammer, toc-generator
-
-effect (standalone - Effect v4 / effect-smol workflows)
-
-github-triage (standalone - read-only GitHub analysis)
-
-pre-publish-review
-     │
-     ├──► review-work (5-agent holistic review)
-     └──► oracle (release synthesis)
-
-work-with-pr
-     │
-     ├──► git-master (atomic commits)
-     └──► review-work (post-implementation review)
-```
 
 ## Skill Categories
 
@@ -192,7 +163,7 @@ These skills create the initial project structure:
 These skills generate specific document types:
 
 - `sysctl-documenter` — Generate `501-*-Sysctl-Interface.md`
-- `ascii-diagrammer` — Generate architecture diagrams for any document
+- `mermaid-diagrammer` — Generate Mermaid architecture diagrams; SVG for UI mockups
 - `test-planner` — Generate `401/402/1101` test documents
 - `risk-assessor` — Generate `700-*-Risks.md`
 
@@ -263,31 +234,31 @@ These skills cover Cloudflare Workers, storage, AI, networking, and infrastructu
 
 For new projects or porting efforts, run the analysis workflow BEFORE generating any plan documents:
 
-```
-Source Code
-    │
-    ▼
-source-analysis-orchestrator (run first)
-    │
-    ├──► reverse-engineer-for-port
-    ├──► ui-ux-analyzer (if applicable)
-    ├──► api-analyzer (if applicable)
-    ├──► message-queue-analyzer (if applicable)
-    ├──► system-call-analyzer (if applicable)
-    ├──► process-model-analyzer (if applicable)
-    ├──► network-stack-analyzer (if applicable)
-    ├──► file-system-analyzer (if applicable)
-    ├──► privilege-analyzer (if applicable)
-    └──► code-quality-analyzer
-            │
-            ▼
-    Feature Inventory + Refactoring Backlog
-            │
-            ▼
-    feature-task-generator
-            │
-            ▼
-    plan-document-generator (informed by analysis)
+```mermaid
+flowchart TD
+    SRC[Source Code] --> SAO[source-analysis-orchestrator]
+    SAO --> RE[reverse-engineer-for-port]
+    SAO --> UI[ui-ux-analyzer]
+    SAO --> API[api-analyzer]
+    SAO --> MQ[message-queue-analyzer]
+    SAO --> SC[system-call-analyzer]
+    SAO --> PM[process-model-analyzer]
+    SAO --> NS[network-stack-analyzer]
+    SAO --> FS[file-system-analyzer]
+    SAO --> PR[privilege-analyzer]
+    SAO --> CQ[code-quality-analyzer]
+    RE --> INV[Feature Inventory + Refactoring Backlog]
+    UI --> INV
+    API --> INV
+    MQ --> INV
+    SC --> INV
+    PM --> INV
+    NS --> INV
+    FS --> INV
+    PR --> INV
+    CQ --> INV
+    INV --> FTG[feature-task-generator]
+    FTG --> PDG[plan-document-generator]
 ```
 
 This ensures plans reflect reality, not assumptions.
@@ -324,7 +295,7 @@ Task: "Create the complete .plan/ structure for my new project"
 Task: "Create the 200 architecture document"
 
 1. Load plan-document-generator — to get document structure
-2. Load ascii-diagrammer — to create architecture diagrams
+2. Load mermaid-diagrammer — to create architecture diagrams
 3. Load sysctl-documenter — to document sysctl interfaces
 ```
 
@@ -405,7 +376,7 @@ task-workflow
 plan-document-generator
 plan-validator
 sysctl-documenter
-ascii-diagrammer
+mermaid-diagrammer
 risk-assessor
 test-planner
 toc-generator
