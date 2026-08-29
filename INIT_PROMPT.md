@@ -22,6 +22,7 @@ Read every file listed below before generating any output:
 - `Testing Infrastructure/TESTING_INFRASTRUCTURE.md` — VMM/bhyve VMs and FreeBSD jails for safe, isolated kernel and userland testing.
 - `TUI/TUI.md` — Text-based user interface design and implementation guidelines.
 - `Web User Interfaces/WEBUI.md` — Web frontend standards, accessibility, and security guidelines.
+- `Architecture/MVC.md` — MVC layers; UI is the view; backends are not public unless you expose an API.
 - `LICENSE` — BSD 3-Clause License.
 
 ### Loading Instructions
@@ -99,7 +100,8 @@ Use this matrix to select the correct guideline document for your current task:
 | Unit testing | `Unit Testing/UNITTESTS.md` | Google Test, pytest, Jest, cargo test |
 | Testing infrastructure | `Testing Infrastructure/TESTING_INFRASTRUCTURE.md` | bhyve, FreeBSD jails, ZFS, vm-bhyve |
 | Console / terminal UI | `TUI/TUI.md` | ncurses, Bubble Tea, ratatui |
-| Web frontend | `Web User Interfaces/WEBUI.md` | React, Tailwind CSS, TypeScript |
+| Web frontend | `Web User Interfaces/WEBUI.md` | Angular, TypeScript |
+| Isolation | `Architecture/MVC.md` | View vs controller vs model; backends not public by default |
 
 ---
 
