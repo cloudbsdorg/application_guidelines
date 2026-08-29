@@ -25,8 +25,8 @@ This document outlines the recommended programming languages for developing Clou
 - **Why**: Excellent readability, vast ecosystem of libraries, and rapid development speed.
 
 ### JavaScript / TypeScript
-- **Use Case**: Web-based user interfaces and modern cloud-native service frontends.
-- **Why**: The standard for web development; TypeScript provides type safety for large-scale frontend projects.
+- **Use Case**: Web-based user interfaces. **Angular** (TypeScript) is the CloudBSD web UI framework.
+- **Why**: TypeScript provides type safety for large-scale frontends; Angular is the standard application framework. React is not the CloudBSD standard.
 
 ## 2. Selection Criteria
 
