@@ -36,7 +36,7 @@ Small static admin pages (a login form and a few screens with no build step) are
 ### Authentication and Session Management
 - **Root Path (`/`)**: The root path of the application server MUST present the **login page**, or **redirect to login**. A public landing page is not a substitute. Login at `/` is law.
 - **Session Redirects**: Automatically redirect users to the login page when a session is invalid or has expired.
-- **Login UX**: Identifier, show/hide password, remember username, factory bootstrap wizard, and password-manager rules are law. See [Login UX (LAW)](#8-login-ux-law).
+- **Login UX**: Identifier, eye-icon show/hide password (inside the field; not a Show/Hide text button), remember username, factory bootstrap wizard, and password-manager rules are law. See [Login UX (LAW)](#8-login-ux-law).
 
 ### Input Validation
 - **Sanitization**: Never trust user input. Sanitize all data before displaying it in the browser to prevent XSS.
@@ -70,7 +70,7 @@ A Web UI task is not complete until there is evidence the UI works. Compile-only
 - **Viewports:** Desktop and mobile. Tailwind breakpoints (`sm`/`md`/`lg`) must be covered.
 - **Artifacts:** Save screenshots, traces, and the HTML report. Commit representative screenshots for UI proof, or store the report as a CI artifact or clearly named path (`artifacts/playwright/`).
 - Login at `/` must be in the suite.
-- Login UX must be in the suite: identifier accepts a regular username **and** an email address; show/hide on password fields; remember-username checkbox plus `autocomplete=username`; factory path does not prompt the browser to save `admin:admin`; first-login wizard fields (login id, display name, new password + confirm, optional tenant/org name) and `autocomplete=new-password` / `autocomplete=name`; wizard can rename the factory `admin` login id; wizard reappears when setup is incomplete, the factory password is still in use, or required config is still placeholder. Wizard MUST NOT collect street address, phone, country, or birthday.
+- Login UX must be in the suite: identifier accepts a regular username **and** an email address; eye-icon show/hide on password fields (open eye = visible, slashed = hidden; not a Show/Hide text button); remember-username checkbox plus `autocomplete=username`; factory path does not prompt the browser to save `admin:admin`; first-login wizard fields (login id, display name, new password + confirm, optional tenant/org name) and `autocomplete=new-password` / `autocomplete=name`; wizard can rename the factory `admin` login id; wizard reappears when setup is incomplete, the factory password is still in use, or required config is still placeholder. Wizard MUST NOT collect street address, phone, country, or birthday.
 
 ## 6. Visual identity (LAW)
 
@@ -121,6 +121,7 @@ This is the same login law as `AGENTS.md`.
 ### Password fields
 
 - Every password field MUST have a **show/hide** control (toggle visibility).
+- That control is an **eye icon inside the password field**, not a Show/Hide text button. Open eye = password visible; slashed eye = password hidden.
 - The control is keyboard-accessible and labeled (WCAG 2.1 AA).
 
 ### Remember username
@@ -139,8 +140,8 @@ Wizard fields (this product; usual SaaS collect — email or username, password,
 |-------|----------|-------|
 | Login id | Yes | Username **OR** email, like most sites. Not locked to `admin`. Operator MAY rename the factory admin to anything (`mark`, `mark@revytechinc.com`, etc.). `autocomplete="username"`. |
 | Display / real name | Yes | One field. `autocomplete="name"`. |
-| New password | Yes | Show/hide control. `autocomplete="new-password"`. |
-| Confirm password | Yes | Show/hide control. `autocomplete="new-password"`. |
+| New password | Yes | Eye icon inside the field (open = visible, slashed = hidden); not a Show/Hide text button. `autocomplete="new-password"`. |
+| Confirm password | Yes | Same eye-icon show/hide. `autocomplete="new-password"`. |
 | Tenant / org display name | Optional | Org label only. |
 
 - **Do not collect** street address, phone, country, or birthday. Address is later/never for this product.
