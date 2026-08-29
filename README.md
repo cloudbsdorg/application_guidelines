@@ -35,6 +35,8 @@ Guidelines for building interfaces that follow the CloudBSD aesthetic and usabil
 
 - [**Text-based User Interfaces (TUI)**](TUI/TUI.md)
   - Design and implementation of modern, responsive console-based applications.
+- [**Desktop and native UI**](Desktop/DESKTOP.md)
+  - Short note for GTK/Qt/native GUIs; same agy polish law as all UIs.
 - [**Web User Interfaces (Web UI)**](Web%20User%20Interfaces/WEBUI.md)
   - Guidelines for modern, secure, and accessible web-based frontends.
 - [**Markdown viewer and editor**](Web%20User%20Interfaces/MARKDOWN.md)

@@ -45,14 +45,16 @@ Read every file listed below before generating any output:
 │       ├── 0008-Planning-Conventions.md
 │       ├── 0009-Planning-References.md
 │       └── 0010-Planning-ChangeLog.md
+├── Desktop/
+│   └── DESKTOP.md                                     — Native/desktop GUI note; same agy polish law as all UIs
 ├── TUI/
-│   └── TUI.md                                         — Terminal UI; operator recovery console
+│   └── TUI.md                                         — Terminal UI; operator recovery console; agy polish (all UIs)
 ├── Testing Infrastructure/
 │   └── TESTING_INFRASTRUCTURE.md                      — bhyve VMs and jails; store evidence
 ├── Unit Testing/
 │   └── UNITTESTS.md                                   — Red-green TDD; integration seams; evidence
 └── Web User Interfaces/
-    ├── WEBUI.md                                       — Angular + TS + Tailwind; login at `/`; Playwright; brand tokens
+    ├── WEBUI.md                                       — Angular + TS + Tailwind; login at `/`; Playwright; brand tokens; agy polish (all UIs)
     └── MARKDOWN.md                                    — In-app GFM viewer and editor, sanitized
 ```
 
@@ -61,7 +63,7 @@ Read every file listed below before generating any output:
 ### Loading instructions
 
 1. **Read `README.md` first** for structure and the documentation index.
-2. **Read all guideline documents in the tree above in full**, including `Architecture/MVC.md`, `Web User Interfaces/MARKDOWN.md`, and `Planning/PLANNING.md` (plus its chapters).
+2. **Read all guideline documents in the tree above in full**, including `Architecture/MVC.md`, `Web User Interfaces/MARKDOWN.md`, `Desktop/DESKTOP.md`, and `Planning/PLANNING.md` (plus its chapters).
 3. **Treat their contents as mandatory rules**, not optional best practices.
 4. **Before generating any code, configuration, or documentation**, verify compliance against the loaded guidelines.
 5. **When the Decision Matrix (Section 3) references a guideline**, consult that document in full before proceeding.
@@ -141,6 +143,7 @@ These rules override all other considerations. An agent that only auto-loads thi
 25. **Resource headroom is consumption-based.** Services that provision work MUST monitor the finite resources **that operation will consume** (RAM, CPU, disk, GPU/VRAM as applicable) and MUST NOT start or provision when there is no headroom for those resources. Do not require every resource on the host: if a job will not use disk or GPU, disk/GPU must not block it. Doctor still reports all finite resources. Missing optional devices (no GPU) is OK; exhausted required resources for that operation is a fail. Thresholds live in the JSON config. See `Configuration Files/CONFIGURATION.md`.
 26. **Visual identity.** CloudBSD apps look like https://cloudbsd.org. REVYTECH products look like https://revytechinc.com (same family). Angular+Tailwind UIs MUST use these tokens (taken from live CSS; do not invent): CloudBSD brand blue `#00529B`, slate `#0f172a`, error `#D32F2F`; REVYTECH navy `#001a33` / `#002a55` / `#013a73`, blue `#0066cc` / `#004a99`, cyan accent `#00d4ff`, light `#f8fafc`. Type: Outfit headings, Inter body (as on revytechinc.com). Screenshots used as evidence must look like those sites, not a generic admin theme. See `Web User Interfaces/WEBUI.md`.
 27. **License: BSD 3-Clause.** LICENSE file and source headers MUST be BSD 3-Clause (Copyright REVYTECH, Inc.), not MIT. See `LICENSE`.
+28. **agy for extra UI refinement (all UIs).** When Mark has granted access to Google Antigravity (`agy` CLI, Gemini), typically via agy-ui-mcp (`ui_implement` / `ui_review`), consult it for extra polish on **any user interface**. Web, TUI, desktop, mobile web, operator console, and a future GUI are examples, not a closed list. Screenshot, iterate, keep evidence. Purpose: prettier UI, closer to https://cloudbsd.org / https://revytechinc.com. Do not block shipping a working UI if agy is not connected yet. agy must not touch backend, APIs, or business logic (view layer only: CSS, components, widgets, layout, chrome). Playwright + visible text + theme tokens remain required where they apply; agy is extra refinement, not a substitute for tests or evidence. Theme stays CloudBSD/REVYTECH (navy, `#0066cc`, `#00d4ff`, Outfit/Inter, CloudBSD `#00529B`). See `Web User Interfaces/WEBUI.md`, `TUI/TUI.md`, and `Desktop/DESKTOP.md`.
 
 ---
 
@@ -154,8 +157,9 @@ These rules override all other considerations. An agent that only auto-loads thi
 | Internationalization | `Internationalization/INTERNATIONALIZATION.md` | English first; keep fictional languages; gettext, i18next, ICU; UTF-8 |
 | Unit testing | `Unit Testing/UNITTESTS.md` | Red-green TDD; integration on real seams; near-100% coverage; evidence |
 | Testing infrastructure | `Testing Infrastructure/TESTING_INFRASTRUCTURE.md` | bhyve, FreeBSD jails, ZFS, vm-bhyve; store evidence |
-| Console / terminal UI | `TUI/TUI.md` | ncurses, Bubble Tea, ratatui; operator recovery console |
-| Web frontend (the view) | `Web User Interfaces/WEBUI.md` | Angular, TypeScript, Tailwind CSS; login at `/`; Playwright evidence; CloudBSD/REVYTECH tokens |
+| Console / terminal UI | `TUI/TUI.md` | ncurses, Bubble Tea, ratatui; operator recovery console; agy polish (all UIs) |
+| Desktop / native GUI | `Desktop/DESKTOP.md` | GTK, Qt, native FreeBSD GUI; same agy polish law as all UIs |
+| Web frontend (the view) | `Web User Interfaces/WEBUI.md` | Angular, TypeScript, Tailwind CSS; login at `/`; Playwright evidence; CloudBSD/REVYTECH tokens; agy polish (all UIs) |
 | Markdown in-app | `Web User Interfaces/MARKDOWN.md` | GFM viewer + editor, sanitized |
 | Isolation | `Architecture/MVC.md` | View vs controller vs model; backends not public by default; re-wrap always |
 | Planning | `Planning/PLANNING.md` | `.plan/` directory, agent entry `AGENTS.md` |
@@ -186,6 +190,7 @@ These rules override all other considerations. An agent that only auto-loads thi
 - [ ] Integration tests exercise real seams (HTTP API + store, worker job commit, SIGHUP reload, tenant isolation). In-memory fakes only when the seam is under test. Compile-only is not evidence.
 - [ ] Evidence is stored with the change (test output, coverage, screenshots/traces, mandoc lint, check-config / reload / CLI / doctor capture, or a clearly named report path). "I ran it" is not evidence.
 - [ ] UI: Playwright (or equivalent) on desktop and mobile; elements asserted; screenshots, traces, and report saved. Screenshots must use CloudBSD/REVYTECH tokens and look like cloudbsd.org / revytechinc.com, not a generic admin theme.
+- [ ] Extra UI polish (all UIs): when Mark has granted `agy` access (agy-ui-mcp `ui_implement` / `ui_review`), consult it; screenshot, iterate, evidence. Do not block a working UI if agy is disconnected. agy does not touch backend, APIs, or business logic. Playwright, visible text, and CloudBSD/REVYTECH tokens remain required where they apply.
 - [ ] Man pages pass `mandoc -T lint`. Config/CLI: `--check-config` and reload tests with captured output.
 - [ ] Documentation is updated (man pages first; README points at them).
 - [ ] Log levels and health checks are configurable.
@@ -221,6 +226,7 @@ Do not send CloudBSD application guidelines to FreeBSD upstream.
 | Headroom | Consumption-based; refuse if that operation's resources are exhausted | Unused disk/GPU must not block; doctor still reports all |
 | Web stack | **Angular + TypeScript view, Go backend** | React is not the framework. C/C++/Rust/Python are not the web stack. |
 | Theme | CloudBSD/REVYTECH tokens from live CSS | UIs look like cloudbsd.org / revytechinc.com |
+| Extra UI polish | `agy` (Google Antigravity / Gemini) via agy-ui-mcp when Mark granted access | Any UI (not a closed list); view layer only; not a substitute for tests or tokens |
 | License | BSD 3-Clause (Copyright REVYTECH, Inc.) | Not MIT |
 | Isolation | MVC; backends loopback/mesh; re-wrap always | UI is the view only |
 | Login | `/` is login or redirect to login | Not a landing page |

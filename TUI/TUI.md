@@ -64,3 +64,15 @@ an unauthenticated web page.
 - Keyboard-first, as in Section 2. `?` for help. Destructive actions require confirmation.
 - Pair with `doctor`: the console should surface doctor findings (human form) and not hide JSON evidence.
 - See `Configuration Files/CONFIGURATION.md` (`doctor`, recovery, resource headroom).
+
+## 6. Extra UI refinement with agy (LAW)
+
+When Mark has granted access to Google Antigravity (`agy` CLI, Gemini), typically via **agy-ui-mcp** (`ui_implement` / `ui_review`), consult it for extra polish on **any user interface** — including this TUI (Bubble Tea, ratatui, ncurses, operator recovery console) and every other surface. Examples include web, TUI, desktop, mobile web, operator console, and a future GUI; those examples are not a closed list. Screenshot, iterate, keep evidence.
+
+- **When access exists:** consult agy for UI polish. Screenshot, iterate, store evidence with the change.
+- **When agy is not connected yet:** do not block shipping a working UI.
+- **Scope:** agy must not touch backend, APIs, or business logic. View layer only (widgets, layout, chrome). TUI view code is in scope; Go/Rust/C services, APIs, and domain logic are not.
+- **Not a substitute:** Keyboard-first behavior, help (`?`), SIGWINCH, and evidence remain required. agy is extra refinement, not a replacement for tests or evidence.
+- **Theme family:** CloudBSD/REVYTECH. Do not invent a competing palette.
+
+This is the same single law as in `AGENTS.md`, `Web User Interfaces/WEBUI.md`, and `Desktop/DESKTOP.md`.
