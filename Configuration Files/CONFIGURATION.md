@@ -61,7 +61,12 @@ Human-edited files are still JSON when JSON works. Secrets still belong in envir
 
 ### Observability
 - **Log Level**: Always include a configuration option for log levels (DEBUG, INFO, WARN, ERROR).
-- **Reloading**: Long-running services should support configuration reloading without restart (e.g., via `SIGHUP`).
+- **Reloading**: Long-running services must soft-reload configuration in place, nginx-style (`nginx -s reload`):
+  - Validate the new config first (`--check-config` or `--dry-run`).
+  - If valid, apply it without exiting the process (`SIGHUP` / `service name reload`).
+  - If validation fails, keep serving with the old config. Reload is a no-op failure, not a crash or restart.
+  - In-flight work finishes; new work uses the new config.
+  - Restart remains allowed for changes that cannot be applied live (binary upgrade, listen-address bind that cannot be swapped, and similar). Reload is the default for config.
 - **Monitoring**: Applications should provide metrics and health checks to monitor their health and performance.
 - **Logging**: All log events should be made into an event object and sent to a logging service if possible, a file or database.
 - **Event Aggregation**: Implement a mechanism to aggregate and normalize log events for easier analysis and correlation.
