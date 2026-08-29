@@ -92,3 +92,15 @@ Angular + Tailwind UIs MUST use these tokens, taken from live CSS. Do not invent
 
 Put tokens in Tailwind theme config (`colors`, `fontFamily`), not ad-hoc hex in templates.
 Screenshots stored as evidence MUST look like those sites, not a generic admin theme.
+
+## 7. Extra UI refinement with agy (LAW)
+
+When Mark has granted access to Google Antigravity (`agy` CLI, Gemini), typically via **agy-ui-mcp** (`ui_implement` / `ui_review`), consult it for extra polish on **any user interface** — not only this Angular + Tailwind view. Examples include web, TUI, desktop, mobile web, operator recovery console, and a future GUI; those examples are not a closed list. Screenshot, iterate, keep evidence. Purpose: prettier UI, closer to https://cloudbsd.org / https://revytechinc.com.
+
+- **When access exists:** consult agy for UI polish. Screenshot, iterate, store evidence with the change.
+- **When agy is not connected yet:** do not block shipping a working UI. Playwright, visible text, and theme tokens still apply.
+- **Scope:** agy must not touch backend, APIs, or business logic. View layer only (CSS, components, widgets, layout, chrome).
+- **Not a substitute:** Playwright + visible text + theme tokens remain required. agy is extra refinement, not a replacement for tests or evidence.
+- **Theme stays CloudBSD/REVYTECH:** navy `#001a33` / `#002a55` / `#013a73`, blue `#0066cc` / `#004a99`, cyan accent `#00d4ff`, light `#f8fafc`, Outfit headings, Inter body, CloudBSD brand blue `#00529B`. Do not invent a new palette.
+
+This is the same single law as in `AGENTS.md`, `TUI/TUI.md`, and `Desktop/DESKTOP.md`.

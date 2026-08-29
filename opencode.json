@@ -7,6 +7,7 @@
     "Languages/LANGUAGES.md",
     "Planning/PLANNING.md",
     "Planning/chapters/*.md",
+    "Desktop/DESKTOP.md",
     "TUI/TUI.md",
     "Testing Infrastructure/TESTING_INFRASTRUCTURE.md",
     "Unit Testing/UNITTESTS.md",
