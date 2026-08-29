@@ -33,6 +33,8 @@ Guidelines for building interfaces that follow the CloudBSD aesthetic and usabil
   - Design and implementation of modern, responsive console-based applications.
 - [**Web User Interfaces (Web UI)**](Web%20User%20Interfaces/WEBUI.md)
   - Guidelines for modern, secure, and accessible web-based frontends.
+- [**Markdown viewer and editor**](Web%20User%20Interfaces/MARKDOWN.md)
+  - In-app GitHub-flavored markdown, sanitized, with a real editor.
 
 ---
 
