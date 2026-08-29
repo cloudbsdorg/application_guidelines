@@ -256,24 +256,33 @@ run_rc_command "$1"
 
 ### 4.1 run_rc_command Options
 
+Long-running services must expose `reload` (nginx-style). Validate the new
+config first, then send `SIGHUP`. A failed check must not kill the running
+daemon: reload is a no-op failure, not a crash or restart.
+
 ```bash
 run_rc_command "$1"
 
 # Supports: start, stop, restart, status, poll, etc.
 
-# Custom commands
+# Custom commands. reload is required for long-running services:
+# --check-config, then SIGHUP. A failed check must not kill the daemon.
 extra_commands="reload configtest"
 reload_cmd="do_reload"
 configtest_cmd="do_configtest"
 
-do_reload() {
-    echo "Reloading ${name}..."
-    kill -HUP $(cat $pidfile)
-}
-
 do_configtest() {
     echo "Testing ${name} configuration..."
-    ${command} --config-test
+    ${command} --check-config
+}
+
+do_reload() {
+    if ! do_configtest; then
+        warn "${name}: config check failed; keeping old config (not sending SIGHUP)"
+        return 1
+    fi
+    echo "Reloading ${name}..."
+    kill -HUP $(cat $pidfile)
 }
 ```
 
@@ -365,7 +374,7 @@ sudo service myservice restart
 # Status
 sudo service myservice status
 
-# Reload (if supported)
+# Reload (validate with --check-config, then SIGHUP; failed check leaves the daemon running)
 sudo service myservice reload
 
 # Force start (even if not enabled)
@@ -402,11 +411,28 @@ required_files="/usr/local/etc/${name}.conf"
 # Custom pre-start check
 start_precmd="check_config"
 
+# nginx-style reload: validate, then SIGHUP. Failed check must not kill the daemon.
+extra_commands="reload configtest"
+reload_cmd="do_reload"
+configtest_cmd="do_configtest"
+
 check_config() {
     if [ ! -e /usr/local/etc/${name}.conf ]; then
         warn "${name} config not found at /usr/local/etc/${name}.conf"
         return 1
     fi
+}
+
+do_configtest() {
+    ${command} --check-config
+}
+
+do_reload() {
+    if ! do_configtest; then
+        warn "${name}: config check failed; keeping old config (not sending SIGHUP)"
+        return 1
+    fi
+    kill -HUP $(cat ${pidfile})
 }
 
 load_rc_config $name
@@ -460,7 +486,7 @@ myservice_pidfile="/var/run/myservice/myservice.pid"
 | stop | Stop service |
 | restart | Restart service |
 | status | Check if running |
-| reload | Send SIGHUP |
+| reload | Validate with `--check-config`, then send SIGHUP; failed check must not kill the daemon |
 ```
 
 ---
@@ -521,6 +547,8 @@ Before deploying rc script:
 - [ ] Service starts with `service name start`
 - [ ] Service stops with `service name stop`
 - [ ] Status shows correct state
+- [ ] extra_commands includes reload; do_reload runs `--check-config` then SIGHUP
+- [ ] A failed config check does not kill or restart the running daemon
 
 ## Reference
 
