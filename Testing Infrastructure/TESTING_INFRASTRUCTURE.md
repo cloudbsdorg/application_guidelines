@@ -15,6 +15,24 @@ CloudBSD applications must be tested in environments that match the production t
 
 This document establishes how to create testing machines, collect output properly for AI agents to act on, and integrate these environments into CI/CD pipelines.
 
+## 1.5 Evidence and integration seams (LAW)
+
+A task is not complete until there is evidence it works. Structured output from VM/jail runs
+(Sections 4.3 and 5.4) is evidence only when it records actual test results, not merely that the VM booted.
+
+**Integration tests are law.** They must exercise real seams:
+- HTTP API + store
+- Worker job commit
+- SIGHUP reload
+- Tenant isolation across gateway/worker
+
+In-memory fakes are OK when that seam is the thing under test. Compile-only is not enough.
+
+Store evidence with the change: CI artifacts, testdata, committed screenshots for UI proof,
+or a clearly named report path under `OUTPUT_DIR`. "I ran it" without output is not evidence.
+If a required tool is missing from the jail/VM image, add it to the golden image. Skipping
+validation because a tool is missing is a defect.
+
 ---
 
 ## 2. Current State Analysis

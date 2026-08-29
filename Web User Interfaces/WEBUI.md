@@ -59,3 +59,36 @@ Small static admin pages (a login form and a few screens with no build step) are
   - **LCP (Largest Contentful Paint)**: Measure loading performance.
   - **INP (Interaction to Next Paint)**: Measure interactivity.
   - **CLS (Cumulative Layout Shift)**: Measure visual stability.
+
+## 5. UI evidence (LAW)
+
+A Web UI task is not complete until there is evidence the UI works. Compile-only and "I ran it" are not evidence.
+
+- **Tool:** Playwright or equivalent. If the tool is not installed, find one or make one; skipping because a required tool is missing is a defect.
+- **Assertions:** Elements are where they belong (visible, labeled, at the expected route). Do not only screenshot; assert.
+- **Viewports:** Desktop and mobile. Tailwind breakpoints (`sm`/`md`/`lg`) must be covered.
+- **Artifacts:** Save screenshots, traces, and the HTML report. Commit representative screenshots for UI proof, or store the report as a CI artifact or clearly named path (`artifacts/playwright/`).
+- Login at `/` must be in the suite.
+
+## 6. Visual identity (LAW)
+
+CloudBSD apps look like https://cloudbsd.org. REVYTECH products look like https://revytechinc.com (same family).
+Angular + Tailwind UIs MUST use these tokens, taken from live CSS. Do not invent palettes.
+
+### CloudBSD
+- Brand blue: `#00529B`
+- Slate: `#0f172a`
+- Error: `#D32F2F`
+
+### REVYTECH
+- Navy: `#001a33` / `#002a55` / `#013a73`
+- Blue: `#0066cc` / `#004a99`
+- Cyan accent: `#00d4ff`
+- Light: `#f8fafc`
+
+### Type
+- Headings: Outfit
+- Body: Inter (as on revytechinc.com)
+
+Put tokens in Tailwind theme config (`colors`, `fontFamily`), not ad-hoc hex in templates.
+Screenshots stored as evidence MUST look like those sites, not a generic admin theme.

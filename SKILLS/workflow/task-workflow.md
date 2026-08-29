@@ -45,7 +45,7 @@ Execute these steps in order:
 
 ```
 1. Implement the task following the plan document specifications
-2. Run all unit tests and verify they pass
+2. Red-green TDD. Unit AND integration tests. Capture evidence (test output, coverage, screenshots/traces, mandoc lint, check-config/reload/CLI/doctor). "I ran it" is not evidence.
 3. Set Status → ✅ DONE
 4. Set End → current UTC timestamp
 5. Update Notes with a brief summary of changes

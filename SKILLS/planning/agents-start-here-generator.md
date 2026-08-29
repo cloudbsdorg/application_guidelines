@@ -34,7 +34,7 @@ These files live at the **project root** (NOT inside `.plan/`):
 
 ## AGENTS.md Mandatory Sections
 
-Include CloudBSD law in full enough form that an agent that only auto-loads `AGENTS.md` still has: FreeBSD; git author Mark LaPointe <mark@cloudbsd.org>; JSON-only config + 0600 + env secrets + XDG + `/usr/local/etc/cloudbsd/appname/`; nginx-style SIGHUP reload; Angular+TS+Tailwind view and Go backend (React is not the framework); MVC; login at `/`; Mermaid/SVG (no ASCII); English-first i18n keeping fictional languages; pidfiles owned by the service user; WCAG/keyboard; UTF-8; red-green TDD; near-100% coverage; mandoc mdoc man pages (section 8 or 1, section 5). Mandate reading the full guideline files from `application_guidelines` before generating code.
+Include CloudBSD law in full enough form that an agent that only auto-loads `AGENTS.md` still has: FreeBSD; git author Mark LaPointe <mark@cloudbsd.org>; JSON-only config + 0600 + env secrets + XDG + `/usr/local/etc/cloudbsd/appname/`; nginx-style SIGHUP reload; `doctor` + consumption-based resource headroom; Angular+TS+Tailwind view and Go backend (React is not the framework); CloudBSD/REVYTECH visual tokens; MVC; login at `/`; Mermaid/SVG (no ASCII); English-first i18n keeping fictional languages; pidfiles owned by the service user; WCAG/keyboard; UTF-8; red-green TDD; integration tests on real seams; evidence required; near-100% coverage; mandoc mdoc man pages (section 8 or 1, section 5) with `mandoc -T lint`; BSD 3-Clause (Copyright REVYTECH, Inc.), not MIT. Mandate reading the full guideline files from `application_guidelines` before generating code.
 
 Then include the project sections below.
 
@@ -92,7 +92,7 @@ Three subsections:
 ```markdown
 ### Completing a Task
 1. Implement the task following the plan document
-2. Red-green TDD: failing test first, then minimum code, then refactor. Run all unit tests.
+2. Red-green TDD: failing test first, then minimum code, then refactor. Unit AND integration tests. Capture evidence. "I ran it" is not evidence.
 3. Mark complete: set `Status` → ✅ DONE, fill `End`, update `Notes`
 4. Commit: `git add -A && git commit -m "Complete task <ID>: <desc>" && git push`
 5. Move to the next task

@@ -48,6 +48,18 @@ Human-edited files are still JSON when JSON works. Secrets still belong in envir
 - **Dry-run mode**: Applications should support a `--check-config` or `--dry-run` flag to validate the configuration file without starting the service.
 - **Strict Parsing**: Reject invalid configurations with clear, actionable error messages and non-zero exit codes.
 
+### Evidence (LAW)
+
+Config, rc.d, CLI, and man-page work is not complete until there is captured evidence:
+
+- `--check-config` / `--dry-run`: valid config exits 0; invalid config exits non-zero with an actionable message. Capture stdout/stderr.
+- Service reload: SIGHUP / `service name reload`; bad config keeps the old process; good config is applied. Capture command output.
+- CLI: capture command output for the flags you claim to have implemented.
+- Man pages: `mandoc -T lint` (or equivalent) must pass on every shipped page. Capture the lint output.
+
+If a required tool is not installed, find one or make one. Skipping because a tool is missing is a defect.
+Store evidence with the change (CI artifacts, testdata, or a clearly named report path). "I ran it" without output is not evidence.
+
 ### Defaults
 - **Safe Defaults**: Applications should have sensible, safe default values that allow them to run out-of-the-box when minimal configuration is provided.
 - **Template Generation**: Provide an example JSON configuration file or a command to generate one (e.g., `appname init`).
@@ -78,9 +90,46 @@ Every CloudBSD application that ships a **binary** or an **rc.d service** MUST i
 - **Section 8** for daemons and administrative programs. **Section 1** for user commands.
 - **Section 5** for the configuration file.
 - Write **mdoc** macros, not groff-man, not Markdown-as-man.
-- Document: command-line flags, JSON keys, signals (including **SIGHUP reload**: validate then reload, bad config keeps the old process), files and directories (XDG and `/usr/local/etc/cloudbsd/appname/`), rc.d names, and examples.
+- **`mandoc -T lint` (or equivalent) must pass** on every shipped page. Capture the lint output as evidence. A man page that was not linted is a defect.
+- Document: command-line flags (including `doctor` and `--check-config`), JSON keys (including resource-headroom thresholds), signals (including **SIGHUP reload**: validate then reload, bad config keeps the old process), files and directories (XDG and `/usr/local/etc/cloudbsd/appname/`), rc.d names, and examples.
 - Prefer man pages over stuffing documentation only in README. README may link to the man pages.
 - Install with the package (`share/man/man8/`, `share/man/man5/`, or the section-1 equivalent).
 
 See also `Languages/LANGUAGES.md` (Documentation).
 
+
+## 5. `doctor` and recovery (LAW)
+
+Every long-running CloudBSD service MUST ship a `doctor` command (or equivalent subcommand).
+
+Doctor MUST:
+- Check config (same rules as `--check-config` / `--dry-run`).
+- Check permissions (config files, pidfile directory, data dirs, `0600` where secrets live).
+- Check pidfiles (present when running, owned by the service user, not empty, not negative).
+- Check dependencies (required binaries, sockets, stores).
+- Check resource headroom (see Section 6). Doctor **reports all** finite resources even when a given job will not consume them.
+- Print evidence in **human-readable form and JSON**.
+- Exit **non-zero if unhealthy**.
+
+If the service has operator state to repair, it MUST also ship a **recovery console**.
+Recovery is operator-only (CLI or TUI). It is **not a public UI** and must not be reachable as an unauthenticated web page.
+See `TUI/TUI.md`.
+
+Document `doctor` and recovery in the section 8 (or 1) man page. Capture doctor JSON/human output as evidence for the change.
+## 6. Resource headroom (LAW)
+
+Headroom is **consumption-based**, not a blanket host checklist.
+
+Services that provision work MUST monitor the finite resources **that operation will consume**
+(RAM, CPU, disk, GPU/VRAM as applicable) and MUST NOT start or provision when there is no
+headroom for those resources.
+
+- If a job will not use disk or GPU, disk/GPU **must not block** it.
+- Doctor still **reports all** finite resources (present, missing, used, free).
+- Missing optional devices (no GPU) is OK.
+- Exhausted **required** resources for that operation is a fail: do not start or provision.
+- Thresholds live in the JSON config (RFC 8259). Document every key in the section 5 man page.
+
+Example keys (names may vary; JSON only): `resources.ram_min_free_bytes`, `resources.cpu_max_pct`,
+`resources.disk_min_free_bytes`, `resources.gpu_vram_min_free_bytes`. Omit or null a threshold
+when that resource is not consumed by the operation.
