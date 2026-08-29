@@ -100,7 +100,7 @@ Use this matrix to select the correct guideline document for your current task:
 | Unit testing | `Unit Testing/UNITTESTS.md` | Google Test, pytest, Jest, cargo test |
 | Testing infrastructure | `Testing Infrastructure/TESTING_INFRASTRUCTURE.md` | bhyve, FreeBSD jails, ZFS, vm-bhyve |
 | Console / terminal UI | `TUI/TUI.md` | ncurses, Bubble Tea, ratatui |
-| Web frontend | `Web User Interfaces/WEBUI.md` | Angular, TypeScript |
+| Web frontend | `Web User Interfaces/WEBUI.md` | Angular, TypeScript, Tailwind CSS |
 | Isolation | `Architecture/MVC.md` | View vs controller vs model; backends not public by default |
 
 ---
