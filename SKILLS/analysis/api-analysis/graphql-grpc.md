@@ -747,5 +747,5 @@ interface Money {
 - [ ] Pagination handling (hasNextPage)
 - [ ] Timeout configuration (30s default)
 - [ ] Request/response logging
-- [ ] Unit tests (>80% coverage)
+- [ ] Unit tests (as close to 100% coverage as possible; critical paths 100%)
 ```

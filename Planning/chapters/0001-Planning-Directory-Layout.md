@@ -56,8 +56,9 @@ Every CloudBSD project must have:
 │   ├── 0900-<Project>-Validation.md
 │   ├── 1000-<Project>-Testing-Framework.md
 │   ├── 1100-<Project>-Documentation.md
-│   ├── 1101-<Project>-Testing-Scope.md
-│   └── AGENTS_START_HERE.md (optional)
+│   └── 1101-<Project>-Testing-Scope.md
+├── AGENTS.md                 <-- auto-load (project root, not inside .plan/)
+├── CLAUDE.md                 <-- Claude Code; first line @AGENTS.md
 ├── README.md
 └── ...
 ```
@@ -150,7 +151,7 @@ All projects must include these documents:
 | `1000-<Project>-Testing-Framework.md` | Test framework (e.g., C++ harness) |
 | `1100-<Project>-Documentation.md` | Documentation plan |
 | `1101-<Project>-Testing-Scope.md` | Detailed test case inventory |
-| `AGENTS_START_HERE.md` | Agent entry point (project root) |
+| `AGENTS.md` | Agent auto-load and entry point (project root). Also ship `CLAUDE.md` with `@AGENTS.md`. |
 
 ---
 

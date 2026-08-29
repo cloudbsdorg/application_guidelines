@@ -15,7 +15,8 @@
 
 | Document | Location | Purpose |
 |----------|----------|---------|
-| AGENTS_START_HERE.md | Project Root | Primary agent entry point |
-| INIT_PROMPT.md | Project Root | System prompt for AI sessions |
+| AGENTS.md | Project Root | Canonical auto-load and agent entry point |
+| CLAUDE.md | Project Root | Claude Code auto-load; `@AGENTS.md` |
+| INIT_PROMPT.md | Project Root | Stub pointer; superseded by AGENTS.md |
 | SKILLS/README.md | SKILLS/ | AI skills index |
 | PLANNING.md | Planning/ | This document (overview) |

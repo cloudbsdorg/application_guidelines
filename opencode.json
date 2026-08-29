@@ -1,0 +1,16 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "instructions": [
+    "Architecture/MVC.md",
+    "Configuration Files/CONFIGURATION.md",
+    "Internationalization/INTERNATIONALIZATION.md",
+    "Languages/LANGUAGES.md",
+    "Planning/PLANNING.md",
+    "Planning/chapters/*.md",
+    "TUI/TUI.md",
+    "Testing Infrastructure/TESTING_INFRASTRUCTURE.md",
+    "Unit Testing/UNITTESTS.md",
+    "Web User Interfaces/WEBUI.md",
+    "Web User Interfaces/MARKDOWN.md"
+  ]
+}

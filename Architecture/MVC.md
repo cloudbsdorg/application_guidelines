@@ -4,17 +4,11 @@ CloudBSD applications separate presentation, control, and domain logic. A web UI
 
 ## 1. Layers
 
-```
-View (Angular UI)
-        |
-        |  HTTPS commands / queries only
-        v
-Controller (HTTP gateway)
-        |
-        v
-Model / domain services
-        |
-        +-- adapters (Postgres, NATS, LLM providers, …)
+```mermaid
+flowchart TD
+    View["View (Angular UI)"] -->|HTTPS commands / queries only| Controller["Controller (HTTP gateway)"]
+    Controller --> Model["Model / domain services"]
+    Model --> Adapters["adapters (Postgres, NATS, LLM providers, …)"]
 ```
 
 - **View**: Render what the backend already decided. Collect user input. Pass commands and queries to the controller. No provider API keys, no direct database or queue access, no failover or quota logic in the browser.

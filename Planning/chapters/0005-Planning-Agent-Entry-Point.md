@@ -6,15 +6,16 @@
 
 ---
 
-## AGENTS_START_HERE.md
+## AGENTS.md and CLAUDE.md
 
 ### 5.1 Purpose and Location
 
-The `AGENTS_START_HERE.md` file lives at the **project root** (not inside `.plan/`), serving as the primary entry point for autonomous agents. It is the first document an agent should read when joining a project.
+The `AGENTS.md` file lives at the **project root** (not inside `.plan/`). It is THE auto-load file (OpenCode, Grok-via-OpenCode, Codex, Cursor, MiniMax). Claude Code does not read `AGENTS.md` natively; also ship `CLAUDE.md` whose first line is `@AGENTS.md`, then the short behavioral section (think before coding, surgical changes, red-green TDD). Do not create `AGENTS_START_HERE.md`; it never auto-loads.
 
 ```
 <project-root>/
-├── AGENTS_START_HERE.md    <-- Primary agent entry point (root level)
+├── AGENTS.md              <-- Auto-load (root level)
+├── CLAUDE.md              <-- Claude Code: @AGENTS.md
 ├── .plan/
 │   └── ...
 ├── README.md
@@ -24,7 +25,7 @@ The `AGENTS_START_HERE.md` file lives at the **project root** (not inside `.plan
 
 ### 5.2 Mandatory Content
 
-Every `AGENTS_START_HERE.md` must include the following sections:
+Every `AGENTS.md` must include CloudBSD law (FreeBSD, git author Mark LaPointe <mark@cloudbsd.org>, JSON-only config, SIGHUP reload, Angular/TS view and Go backend, MVC, login at `/`, Mermaid/SVG, TDD, near-100% coverage, mandoc man pages) in full enough form that an agent that only auto-loads this file still has it — plus the following project sections:
 
 #### 5.2.1 Environment Disclaimer
 
@@ -72,7 +73,7 @@ Condensed instructions for:
 
 Recommended document sequence for new agents:
 
-1. `AGENTS_START_HERE.md` (this file)
+1. `AGENTS.md` (this file; Claude Code starts at `CLAUDE.md` → `@AGENTS.md`)
 2. `0.1-<Project>-Workflow.md` — How to work on tasks
 3. `1.0-<Project>-Overview.md` — The big picture
 4. Security series (`1.x`)
@@ -142,7 +143,7 @@ Guidance for blocked agents:
 ### 5.3 Example Structure
 
 ```markdown
-# AGENTS START HERE — <Project Name>
+# AGENTS.md — <Project Name>
 
 > **Purpose:** This is the primary entry point for autonomous agents working on
 > <project>. Read this file **first** before consuming any other documents.
@@ -189,7 +190,7 @@ Guidance for blocked agents:
 
 ## Reading Order
 
-1. This file (AGENTS_START_HERE.md)
+1. This file (AGENTS.md)
 2. ...
 
 ## Key Design Decisions
@@ -215,4 +216,4 @@ Guidance for blocked agents:
 
 ### 5.4 Reference Implementation
 
-See the [Kernel Emulation Framework](https://github.com/cloudbsdorg/freebsd-src-build-emulation/blob/main/AGENTS_START_HERE.md) for a complete example.
+See the [Kernel Emulation Framework](https://github.com/cloudbsdorg/freebsd-src-build-emulation/blob/main/AGENTS.md) for a complete example.

@@ -34,7 +34,7 @@ Small static admin pages (a login form and a few screens with no build step) are
 ## 3. Security
 
 ### Authentication and Session Management
-- **Root Path**: The root path of the application server must present a sensible entry point, such as a login page or public landing page.
+- **Root Path (`/`)**: The root path of the application server MUST present the **login page**, or **redirect to login**. A public landing page is not a substitute. Login at `/` is law.
 - **Session Redirects**: Automatically redirect users to the login page when a session is invalid or has expired.
 
 ### Input Validation

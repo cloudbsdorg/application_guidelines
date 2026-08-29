@@ -7,7 +7,7 @@ description: Create and maintain Quick Reference sections for agent entry point 
 
 **Purpose:** Create and maintain Quick Reference sections for agent entry point documents.
 
-**Triggers:** When creating AGENTS_START_HERE.md, or when key files/sysctls/commands change.
+**Triggers:** When creating `AGENTS.md`, or when key files/sysctls/commands change.
 
 ## Loading Instructions
 

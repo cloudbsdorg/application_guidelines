@@ -54,10 +54,12 @@ If you are new to CloudBSD development, follow these steps:
 
 ## 🤖 AI-Assisted Development
 
-When using AI tools (e.g., GitHub Copilot, Claude, ChatGPT) to generate code for CloudBSD projects, always start by loading the initialization prompt:
+Agents auto-load **`AGENTS.md`** at the repository root. That file is CloudBSD law. Do not inject `INIT_PROMPT.md` (it is a stub pointer).
 
-- [**INIT_PROMPT.md**](INIT_PROMPT.md)
-  - The mandatory system prompt to inject into any AI session. It ensures the AI remembers the CloudBSD standards, the mandatory git author, and the target platform (FreeBSD).
+- [**AGENTS.md**](AGENTS.md)
+  - Canonical auto-load file. OpenCode, Grok-via-OpenCode, Codex, Cursor, and MiniMax read it on project open.
+- [**CLAUDE.md**](CLAUDE.md)
+  - Claude Code auto-load. First line is `@AGENTS.md`; then short behavioral rules (think before coding, surgical changes, red-green TDD).
 
 ### AI Skills
 
@@ -87,7 +89,7 @@ AI agents can load specialized skills from the `SKILLS/` directory for common de
 | [SKILLS/platform/cloudflare/agents-sdk.md](SKILLS/platform/cloudflare/agents-sdk.md) | Build AI agents on Cloudflare Workers using Agents SDK |
 | [SKILLS/platform/cloudflare/cloudflare.md](SKILLS/platform/cloudflare/cloudflare.md) | Comprehensive Cloudflare platform skill (Workers, Pages, storage, AI, networking) |
 
-See [AGENTS_START_HERE.md](AGENTS_START_HERE.md) for the primary agent entry point and [SKILLS/README.md](SKILLS/README.md) for the complete skill index.
+See [AGENTS.md](AGENTS.md) for CloudBSD law and the agent entry point, and [SKILLS/README.md](SKILLS/README.md) for the complete skill index.
 
 ## 🎯 Purpose
 

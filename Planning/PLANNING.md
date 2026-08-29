@@ -20,7 +20,7 @@ This document has been split into focused chapters for easier navigation:
 | 2 | [0002-Planning-Document-Naming.md](chapters/0002-Planning-Document-Naming.md) | Document naming conventions |
 | 3 | [0003-Planning-Document-Structure.md](chapters/0003-Planning-Document-Structure.md) | Header/footer format, TOC, workflow, security docs |
 | 4 | [0004-Planning-Task-Tables.md](chapters/0004-Planning-Task-Tables.md) | Task table format, claiming protocol, TODO tracker |
-| 5 | [0005-Planning-Agent-Entry-Point.md](chapters/0005-Planning-Agent-Entry-Point.md) | `AGENTS_START_HERE.md` content requirements |
+| 5 | [0005-Planning-Agent-Entry-Point.md](chapters/0005-Planning-Agent-Entry-Point.md) | `AGENTS.md` (+ `CLAUDE.md` `@AGENTS.md`) content requirements |
 | 6 | [0006-Planning-Maintenance.md](chapters/0006-Planning-Maintenance.md) | Maintenance and update procedures |
 | 7 | [0007-Planning-Example-Layout.md](chapters/0007-Planning-Example-Layout.md) | Complete `.plan/` layout examples |
 | 8 | [0008-Planning-Conventions.md](chapters/0008-Planning-Conventions.md) | Mermaid diagrams, SVG for UI, sysctl conventions |
@@ -90,5 +90,5 @@ Every project must include:
 
 ## See Also
 
-- [AGENTS_START_HERE.md](../AGENTS_START_HERE.md) — Primary agent entry point
+- [AGENTS.md](../AGENTS.md) — Canonical agent auto-load and entry point
 - [SKILLS/README.md](../SKILLS/README.md) — AI skills for planning tasks

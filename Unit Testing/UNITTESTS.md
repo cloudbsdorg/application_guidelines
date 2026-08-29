@@ -6,9 +6,19 @@ This document describes the standards for unit testing to ensure the reliability
 
 ## 1. Testing Philosophy
 
-### Test-Driven Development (TDD)
-- **Small Iterations**: Developers are encouraged to write a test before the implementation of each small feature or bug fix.
-- **Fail First**: Ensure that the test fails before writing the code that makes it pass.
+### Test-Driven Development (TDD) — LAW
+
+Red-green TDD is **mandatory**, not optional, not "aim for tests sometime."
+
+For **new work** (features, bug fixes, new modules):
+
+1. **Red**: Write a failing test first. Confirm it fails for the right reason.
+2. **Green**: Write the minimum production code to make that test pass.
+3. **Refactor**: Clean up while tests stay green.
+
+Do not write production code before a failing test exists.
+
+For **existing code that shipped without tests**: missing tests are a **defect**. You MUST still add tests. Characterization / post-facto tests are allowed: lock current behavior with tests before changing it, then apply red-green for the change. Shipping or modifying untested application code without adding tests is a violation.
 
 ### Scope of Unit Tests
 - **Isolated**: Unit tests should test a single unit of work (e.g., a function or a method) in isolation.
@@ -22,7 +32,8 @@ This document describes the standards for unit testing to ensure the reliability
 - **Independence**: Tests must not depend on each other or on a specific execution order.
 
 ### Code Coverage
-- **Target Coverage**: Aim for at least 80% code coverage. For critical paths (e.g., security, data processing), 100% coverage is required.
+- **Target Coverage**: As close to **100%** code coverage as possible. Critical paths (e.g., security, data processing, auth, reload, config parsing) **must be 100%**. The old 80% target is withdrawn.
+- **Exclusions**: Generated and vendored code may be excluded from coverage. **Application code may not.**
 - **Meaningful Coverage**: Coverage percentage is not a substitute for high-quality, diverse test cases (including edge cases and negative cases).
 
 ### Mocking and Stubs
