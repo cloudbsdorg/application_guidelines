@@ -27,7 +27,7 @@ Read every file listed below before generating any output:
 ├── Architecture/
 │   └── MVC.md                                         — MVC; UI is the view; backends stay private
 ├── Configuration Files/
-│   └── CONFIGURATION.md                               — JSON-only config, XDG, SIGHUP, man pages
+│   └── CONFIGURATION.md                               — JSON-only config, XDG, SIGHUP, doctor, man pages
 ├── Internationalization/
 │   └── INTERNATIONALIZATION.md                        — i18n; English first; keep fictional languages
 ├── Languages/
@@ -46,13 +46,13 @@ Read every file listed below before generating any output:
 │       ├── 0009-Planning-References.md
 │       └── 0010-Planning-ChangeLog.md
 ├── TUI/
-│   └── TUI.md                                         — Terminal UI
+│   └── TUI.md                                         — Terminal UI; operator recovery console
 ├── Testing Infrastructure/
-│   └── TESTING_INFRASTRUCTURE.md                      — bhyve VMs and jails
+│   └── TESTING_INFRASTRUCTURE.md                      — bhyve VMs and jails; store evidence
 ├── Unit Testing/
-│   └── UNITTESTS.md                                   — Red-green TDD; near-100% coverage
+│   └── UNITTESTS.md                                   — Red-green TDD; integration seams; evidence
 └── Web User Interfaces/
-    ├── WEBUI.md                                       — Angular + TS + Tailwind; login at `/`
+    ├── WEBUI.md                                       — Angular + TS + Tailwind; login at `/`; Playwright; brand tokens
     └── MARKDOWN.md                                    — In-app GFM viewer and editor, sanitized
 ```
 
@@ -131,6 +131,16 @@ These rules override all other considerations. An agent that only auto-loads thi
 20. **Observability.** Configurable log levels, metrics, health checks, event aggregation.
 21. **Environment verification.** Do not trust container/VM/runtime `uname`. Verify the real target (`uname -s`, `/etc/os-release`) before platform-specific assumptions.
 22. **Host safety.** Untested or development kernel modules must never be loaded on the development or CI host. Kernel module work happens inside an isolated bhyve VM.
+23. **Evidence is required.** A task is not complete until there is evidence it works. "I ran it" without captured output is not evidence. Store evidence with the change: CI artifacts, testdata, committed screenshots for UI proof, or a clearly named report path. If a validation tool is not installed, find one or make one; skipping because a required tool is missing is a defect.
+    - **Unit and integration:** red-green tests; near-100% coverage (critical 100%). Characterization OK for already-shipped code. **Integration tests are law.** Exercise real seams: HTTP API + store, worker job commit, SIGHUP reload, tenant isolation across gateway/worker. In-memory fakes are OK when the seam itself is under test. APIs: tests against application DTOs, not "it compiled".
+    - **UI:** browser E2E (Playwright or equivalent); assert elements are where they belong; desktop and mobile viewports; save screenshots, traces, and the report.
+    - **Man pages:** `mandoc -T lint` (or equivalent) must pass.
+    - **Config / rc.d / CLI:** `--check-config`, service reload tests, command output captured.
+    See `Unit Testing/UNITTESTS.md`, `Web User Interfaces/WEBUI.md`, `Configuration Files/CONFIGURATION.md`, `Testing Infrastructure/TESTING_INFRASTRUCTURE.md`.
+24. **`doctor` is law for long-running services.** Every long-running CloudBSD service MUST ship a `doctor` command (or equivalent subcommand). Doctor checks config, permissions, pidfiles, dependencies, and resource headroom, and prints evidence in human-readable form and JSON. Exit non-zero if unhealthy. If the service has operator state to repair, it MUST also ship a recovery console. Recovery is operator-only (CLI/TUI), never a public UI. See `Configuration Files/CONFIGURATION.md` and `TUI/TUI.md`.
+25. **Resource headroom is consumption-based.** Services that provision work MUST monitor the finite resources **that operation will consume** (RAM, CPU, disk, GPU/VRAM as applicable) and MUST NOT start or provision when there is no headroom for those resources. Do not require every resource on the host: if a job will not use disk or GPU, disk/GPU must not block it. Doctor still reports all finite resources. Missing optional devices (no GPU) is OK; exhausted required resources for that operation is a fail. Thresholds live in the JSON config. See `Configuration Files/CONFIGURATION.md`.
+26. **Visual identity.** CloudBSD apps look like https://cloudbsd.org. REVYTECH products look like https://revytechinc.com (same family). Angular+Tailwind UIs MUST use these tokens (taken from live CSS; do not invent): CloudBSD brand blue `#00529B`, slate `#0f172a`, error `#D32F2F`; REVYTECH navy `#001a33` / `#002a55` / `#013a73`, blue `#0066cc` / `#004a99`, cyan accent `#00d4ff`, light `#f8fafc`. Type: Outfit headings, Inter body (as on revytechinc.com). Screenshots used as evidence must look like those sites, not a generic admin theme. See `Web User Interfaces/WEBUI.md`.
+27. **License: BSD 3-Clause.** LICENSE file and source headers MUST be BSD 3-Clause (Copyright REVYTECH, Inc.), not MIT. See `LICENSE`.
 
 ---
 
@@ -139,13 +149,13 @@ These rules override all other considerations. An agent that only auto-loads thi
 | Task domain | Guideline document | Key tech stack |
 |-------------|-------------------|----------------|
 | Choosing a language | `Languages/LANGUAGES.md` | **Web: Angular/TypeScript view, Go backend.** Systems: C, C++, Rust, Go, Python — not the web stack. React is not the framework. |
-| Configuration and settings | `Configuration Files/CONFIGURATION.md` | JSON only, XDG, `0600`, env secrets, `/usr/local/etc/cloudbsd/appname/`, rc.d, SIGHUP |
-| Manual pages | `Configuration Files/CONFIGURATION.md` | mandoc mdoc; section 8 (or 1) program; section 5 config |
+| Configuration and settings | `Configuration Files/CONFIGURATION.md` | JSON only, XDG, `0600`, env secrets, `/usr/local/etc/cloudbsd/appname/`, rc.d, SIGHUP, `doctor`, resource headroom |
+| Manual pages | `Configuration Files/CONFIGURATION.md` | mandoc mdoc; section 8 (or 1) program; section 5 config; `mandoc -T lint` |
 | Internationalization | `Internationalization/INTERNATIONALIZATION.md` | English first; keep fictional languages; gettext, i18next, ICU; UTF-8 |
-| Unit testing | `Unit Testing/UNITTESTS.md` | Red-green TDD; near-100% coverage; critical paths 100% |
-| Testing infrastructure | `Testing Infrastructure/TESTING_INFRASTRUCTURE.md` | bhyve, FreeBSD jails, ZFS, vm-bhyve |
-| Console / terminal UI | `TUI/TUI.md` | ncurses, Bubble Tea, ratatui |
-| Web frontend (the view) | `Web User Interfaces/WEBUI.md` | Angular, TypeScript, Tailwind CSS; login at `/` |
+| Unit testing | `Unit Testing/UNITTESTS.md` | Red-green TDD; integration on real seams; near-100% coverage; evidence |
+| Testing infrastructure | `Testing Infrastructure/TESTING_INFRASTRUCTURE.md` | bhyve, FreeBSD jails, ZFS, vm-bhyve; store evidence |
+| Console / terminal UI | `TUI/TUI.md` | ncurses, Bubble Tea, ratatui; operator recovery console |
+| Web frontend (the view) | `Web User Interfaces/WEBUI.md` | Angular, TypeScript, Tailwind CSS; login at `/`; Playwright evidence; CloudBSD/REVYTECH tokens |
 | Markdown in-app | `Web User Interfaces/MARKDOWN.md` | GFM viewer + editor, sanitized |
 | Isolation | `Architecture/MVC.md` | View vs controller vs model; backends not public by default; re-wrap always |
 | Planning | `Planning/PLANNING.md` | `.plan/` directory, agent entry `AGENTS.md` |
@@ -161,6 +171,8 @@ These rules override all other considerations. An agent that only auto-loads thi
 - [ ] All user-facing strings are externalized for i18n (no hardcoded strings). English first; fictional languages kept.
 - [ ] Configuration is JSON, XDG or `/usr/local/etc/cloudbsd/appname/`, secrets via env, files `0600` when they hold secrets.
 - [ ] Long-running services validate then SIGHUP-reload; bad config keeps the old process.
+- [ ] Long-running services ship `doctor` (config, permissions, pidfiles, dependencies, resource headroom; human + JSON; non-zero if unhealthy). Recovery console when there is operator state to repair; operator-only, not a public UI.
+- [ ] Services that provision work refuse when the resources **that operation will consume** have no headroom. Unused disk/GPU must not block. Doctor reports all finite resources. Thresholds in JSON config. Missing optional devices is OK; exhausted required resources for that operation is a fail.
 - [ ] Pidfile owned by the service user, valid, removed on stop.
 - [ ] Web UI is Angular + TypeScript + Tailwind. Backend is Go (or another systems language). React is not the framework.
 - [ ] MVC: view only in the UI; backends loopback/mesh unless a deliberate public API; proxies re-wrap.
@@ -171,10 +183,14 @@ These rules override all other considerations. An agent that only auto-loads thi
 - [ ] WCAG 2.1 AA (web) and keyboard access for the chosen UI.
 - [ ] UTF-8 everywhere.
 - [ ] Unit tests exist and pass. CI is present.
+- [ ] Integration tests exercise real seams (HTTP API + store, worker job commit, SIGHUP reload, tenant isolation). In-memory fakes only when the seam is under test. Compile-only is not evidence.
+- [ ] Evidence is stored with the change (test output, coverage, screenshots/traces, mandoc lint, check-config / reload / CLI / doctor capture, or a clearly named report path). "I ran it" is not evidence.
+- [ ] UI: Playwright (or equivalent) on desktop and mobile; elements asserted; screenshots, traces, and report saved. Screenshots must use CloudBSD/REVYTECH tokens and look like cloudbsd.org / revytechinc.com, not a generic admin theme.
+- [ ] Man pages pass `mandoc -T lint`. Config/CLI: `--check-config` and reload tests with captured output.
 - [ ] Documentation is updated (man pages first; README points at them).
 - [ ] Log levels and health checks are configurable.
 - [ ] Kernel modules are never loaded on the host; kernel-level testing runs in an isolated bhyve VM.
-- [ ] License header is present (BSD 3-Clause, Copyright CloudBSD).
+- [ ] LICENSE file and source headers are BSD 3-Clause (Copyright REVYTECH, Inc.), not MIT.
 
 ---
 
@@ -201,12 +217,17 @@ Do not send CloudBSD application guidelines to FreeBSD upstream.
 | Encoding | UTF-8 everywhere | Internationalization |
 | Config | JSON only; XDG or `/usr/local/etc/cloudbsd/appname/`; `0600`; env secrets | FreeBSD admin experience; no secrets in files |
 | Reload | nginx-style SIGHUP after validate | Bad config must not kill the process |
+| Doctor | `doctor` (+ recovery console when needed) | Operator evidence; not a public UI |
+| Headroom | Consumption-based; refuse if that operation's resources are exhausted | Unused disk/GPU must not block; doctor still reports all |
 | Web stack | **Angular + TypeScript view, Go backend** | React is not the framework. C/C++/Rust/Python are not the web stack. |
+| Theme | CloudBSD/REVYTECH tokens from live CSS | UIs look like cloudbsd.org / revytechinc.com |
+| License | BSD 3-Clause (Copyright REVYTECH, Inc.) | Not MIT |
 | Isolation | MVC; backends loopback/mesh; re-wrap always | UI is the view only |
 | Login | `/` is login or redirect to login | Not a landing page |
 | Diagrams | Mermaid; SVG for UI mockups | ASCII art diagrams are forbidden |
-| Tests | Red-green TDD; near-100% coverage | Missing tests are a defect |
-| Man pages | mandoc mdoc §8/§1 and §5 | Prefer man over README-only docs |
+| Tests | Red-green TDD; integration on real seams; near-100% coverage | Missing tests and missing evidence are defects |
+| Evidence | Captured output stored with the change | "I ran it" is not evidence |
+| Man pages | mandoc mdoc §8/§1 and §5; `mandoc -T lint` | Prefer man over README-only docs |
 | Testing kernel | bhyve VMs | Host safety |
 
 ---
@@ -226,4 +247,4 @@ Do not send CloudBSD application guidelines to FreeBSD upstream.
 
 All CloudBSD application guidelines and generated artifacts are licensed under the BSD 3-Clause License. See `LICENSE`.
 
-Copyright (c) 2026, CloudBSD.
+Copyright (c) 2026 REVYTECH, Inc.

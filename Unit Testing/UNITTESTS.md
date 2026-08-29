@@ -58,3 +58,35 @@ For **existing code that shipped without tests**: missing tests are a **defect**
 - **Coverage Reports**: Integrate coverage reports into the CI pipeline to monitor trends over time.
 - **Create Configurations**: Create separate configurations for different environments (e.g., development, staging, production) to ensure tests are run with the appropriate settings. Make Jenkinsfiles, TeamCity configurations, GitHub Actions workflows, Azure Pipelines, bazel if needed.
 
+
+## 5. Evidence and integration (LAW)
+
+A task is not complete until there is evidence it works. "I ran it" without captured output is not evidence.
+
+### What counts
+- Red-green unit and integration tests, with output (TAP, JUnit XML, JSON, or the runner log) stored with the change.
+- Coverage reports. Target near-100%; critical paths 100%.
+- Characterization tests for already-shipped untested code.
+
+### Integration tests are law
+
+Unit tests alone are not enough. Integration tests MUST exercise real seams, including:
+- HTTP API + store
+- Worker job commit
+- SIGHUP reload (validate then apply; bad config keeps the old process)
+- Tenant isolation across gateway/worker
+
+In-memory fakes are allowed when the seam itself is under test. Substituting a fake for the seam you claim to be testing is a defect. Compile-only is not evidence.
+
+### APIs
+
+API tests hit application DTOs (request/response shapes the product actually uses), not compiler success or generated stubs.
+
+### Missing tools
+
+If a test tool is not installed, find one. Make one if needed. Skipping validation because a required tool is missing is a defect.
+
+### Store evidence with the change
+
+CI artifacts, `testdata/`, committed screenshots for UI proof, or a clearly named report path (for example `artifacts/test-report/`). The path must be findable from the PR or commit.
+

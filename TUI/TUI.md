@@ -54,3 +54,13 @@ This document provides guidelines for designing and implementing high-quality te
 - **Mouse Support**: Ensure mouse support works across different terminal emulators and operating systems.
 - **Accessibility**: Test with screen readers and ensure keyboard-only navigation is possible.
 
+
+## 5. Operator recovery console (LAW)
+
+If a long-running service has operator state to repair, it MUST ship a recovery console.
+Recovery is **operator-only** (this TUI or a CLI). It is not a public UI and must not be
+an unauthenticated web page.
+
+- Keyboard-first, as in Section 2. `?` for help. Destructive actions require confirmation.
+- Pair with `doctor`: the console should surface doctor findings (human form) and not hide JSON evidence.
+- See `Configuration Files/CONFIGURATION.md` (`doctor`, recovery, resource headroom).

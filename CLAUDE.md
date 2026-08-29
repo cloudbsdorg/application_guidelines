@@ -62,13 +62,16 @@ For multi-step tasks, state a brief plan:
 
 Strong success criteria let you loop independently. Weak criteria ("make it work") require constant clarification.
 
-## 5. Red-green TDD (law)
+## 5. Red-green TDD and evidence (law)
 
-**Not optional. Not "aim for tests sometime."**
+**Not optional. Not "aim for tests sometime." A task is not complete until there is evidence it works.**
 
 - **New work:** write a failing test first (red), then the minimum production code to pass (green), then refactor.
 - **Existing code that shipped without tests:** missing tests are a defect. You MUST still add tests. Characterization / post-facto tests are allowed to lock current behavior before changing it.
 - **Coverage:** as close to 100% as possible; critical paths 100%. Generated/vendored code may be excluded; application code may not.
+- **Integration tests are law.** Exercise real seams (HTTP API + store, worker job commit, SIGHUP reload, tenant isolation). In-memory fakes OK when the seam is under test. Compile-only is not evidence.
+- **Store evidence** with the change. If a tool is missing, find or make one.
+- **License:** BSD 3-Clause (Copyright REVYTECH, Inc.), not MIT.
 
 See `Unit Testing/UNITTESTS.md` and `AGENTS.md`.
 
