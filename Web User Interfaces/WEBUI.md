@@ -12,6 +12,7 @@ The web UI is the **view**. It presents state and passes messages to a backend c
 - **Angular**: The primary frontend framework for CloudBSD web user interfaces (the view). React is not the standard. The backend stays Go or another allowed systems language; see `Languages/LANGUAGES.md`.
 - **TypeScript**: The programming language for that frontend. Do not ship a new CloudBSD web UI in plain JavaScript when Angular/TypeScript can be used.
 - **Styling**: **Tailwind CSS** is required for layout, spacing, and breakpoints so every UI is desktop and mobile friendly. Do not ship a desktop-only layout with no small-screen treatment. Component styles may add what Tailwind cannot, but breakpoints and page chrome go through Tailwind.
+- **Design and prototyping artifacts**: UI wireframes, mockups, and screens are **SVG**, kept in-repo as `.svg` files. The live product is the Angular + Tailwind application. Do not use ASCII art for UI mockups. Architecture diagrams remain Mermaid; do not replace those with SVG.
 
 Small static admin pages (a login form and a few screens with no build step) are allowed when a full Angular app would be disproportionate. They must still use responsive Tailwind (or equivalent utility breakpoints), accessibility, security, and HTTPS. Prefer Angular once the UI has real application state (multiple views, forms, live data).
 

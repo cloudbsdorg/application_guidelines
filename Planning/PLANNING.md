@@ -23,7 +23,7 @@ This document has been split into focused chapters for easier navigation:
 | 5 | [0005-Planning-Agent-Entry-Point.md](chapters/0005-Planning-Agent-Entry-Point.md) | `AGENTS_START_HERE.md` content requirements |
 | 6 | [0006-Planning-Maintenance.md](chapters/0006-Planning-Maintenance.md) | Maintenance and update procedures |
 | 7 | [0007-Planning-Example-Layout.md](chapters/0007-Planning-Example-Layout.md) | Complete `.plan/` layout examples |
-| 8 | [0008-Planning-Conventions.md](chapters/0008-Planning-Conventions.md) | ASCII diagrams, sysctl conventions |
+| 8 | [0008-Planning-Conventions.md](chapters/0008-Planning-Conventions.md) | Mermaid diagrams, SVG for UI, sysctl conventions |
 | 9 | [0009-Planning-References.md](chapters/0009-Planning-References.md) | External references |
 | 10 | [0010-Planning-ChangeLog.md](chapters/0010-Planning-ChangeLog.md) | Version history |
 

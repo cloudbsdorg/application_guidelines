@@ -44,12 +44,14 @@ For common development tasks, AI agents should load relevant skills from the `SK
 | `SKILLS/workflow/task-workflow.md` | Task claiming and completion |
 | `SKILLS/planning/plan-document-generator.md` | Create plan documents |
 | `SKILLS/planning/sysctl-documenter.md` | Document sysctl interfaces |
-| `SKILLS/diagramming/ascii-diagrammer.md` | Generate architecture diagrams |
+| `SKILLS/diagramming/mermaid-diagrammer.md` | Generate Mermaid diagrams; SVG for UI mockups |
 | `SKILLS/security/risk-assessor.md` | Risk register management |
 | `SKILLS/testing/test-planner.md` | Testing documentation |
 | `SKILLS/planning/toc-generator.md` | Table of contents creation |
 | `SKILLS/planning/agents-start-here-generator.md` | Agent entry point creation |
 | `SKILLS/workflow/build-status-updater.md` | CI/CD status updates |
+
+**Diagram Standard:** Mermaid (`` ```mermaid `` fences) is THE diagramming format for architecture, flowcharts, sequence, graphs, and docs. SVG is additionally allowed for UI design and prototyping (wireframes, mockups, screens) as in-repo `.svg` files. ASCII art diagrams are forbidden. DOT and PlantUML remain deprecated. See `SKILLS/diagramming/mermaid-diagrammer.md`.
 
 To load a skill, read the skill file and follow its specifications for your current task.
 

@@ -1,288 +1,76 @@
 ---
 name: ui-ux-analyzer-wireframing
-description: ASCII wireframing conventions and templates for UI-UX analysis.
+description: SVG wireframing conventions and templates for UI-UX analysis.
 ---
 
 # UI-UX Analyzer — Wireframing
 
-## Box Drawing Characters
+UI design and prototyping artifacts are **SVG**, kept in-repo as `.svg` files. Do not draw ASCII boxes. Do not use Mermaid for pixel-layout screens (Mermaid is for architecture, flow, sequence, and graphs).
 
-```
-┌ ─ ┐    Top corners and top border
-└ ─ ┘    Bottom corners and bottom border
-│       Vertical border
-─       Horizontal border
-├ ┤     Left/right T-junctions
-┼       Cross junction
-┬ ┴     Top/bottom T-junctions
-```
+The live CloudBSD web UI is the Angular + Tailwind application. SVG is for design and prototyping only.
 
-## Component Symbols
+## Law
 
-```
-┌─────┐           Simple box
-│ txt │           Content with vertical bars
-└─────┘
+- Produce or edit `.svg` files (for example `docs/ui/wireframes/<screen>.svg`).
+- Include `xmlns`, a `viewBox`, `role="img"`, and `aria-label` (and a `<title>`).
+- Use simple rectangles, lines, and text. This is a wireframe, not a visual design system.
+- Match CloudBSD Web UI rules: desktop and mobile. Prefer a desktop frame plus a stacked mobile frame, or note Tailwind breakpoints (`sm` / `md` / `lg`) in the SVG.
+- Never replace an architecture diagram with SVG — load `SKILLS/diagramming/mermaid-diagrammer.md` for those.
 
-┌───────────────┐
-│   [Button]    │   Button in box
-└───────────────┘
+## Loading Instructions
 
-┌─ Tab1 ─┐      Tabbed interface
+Load this sub-skill when you need to:
 
-╔═══════╗       Double-line box (modal)
-║ Modal ║
-╚═══════╝
+- Draw a wireframe, mockup, or screen
+- Document layout for UI-UX analysis
+- Produce prototyping artifacts for a CloudBSD web UI
 
-┌ ┐             Checkbox unchecked
-☑             Checkbox checked
+## Checked-in example
 
-▶             Collapsed tree node
-▼             Expanded tree node
+See `ui-analysis/ui-ux-analyzer/examples/layout-grid.svg` (header / content / footer).
 
-●             Filled circle (status indicator)
-○             Empty circle
-✓             Checkmark
-✗             X mark
+Minimal inline pattern:
+
+```svg
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 480" width="800" height="480" role="img" aria-label="Layout wireframe: header, content, footer">
+  <title>Layout grid wireframe</title>
+  <rect x="8" y="8" width="784" height="464" fill="#ffffff" stroke="#333333" stroke-width="2"/>
+  <rect x="8" y="8" width="784" height="56" fill="#eeeeee" stroke="#333333" stroke-width="2"/>
+  <text x="400" y="42" text-anchor="middle" font-family="sans-serif" font-size="18">HEADER</text>
+  <text x="400" y="250" text-anchor="middle" font-family="sans-serif" font-size="18">CONTENT</text>
+  <rect x="8" y="416" width="784" height="56" fill="#eeeeee" stroke="#333333" stroke-width="2"/>
+  <text x="400" y="450" text-anchor="middle" font-family="sans-serif" font-size="18">FOOTER</text>
+</svg>
 ```
 
-## Layout Grid
+## Screens to produce as SVG
 
-```
-┌─────────────────────────────────────────────────┐
-│                    HEADER                        │
-├─────────────────────────────────────────────────┤
-│                                                 │
-│                  CONTENT                         │
-│                                                 │
-├─────────────────────────────────────────────────┤
-│                    FOOTER                        │
-└─────────────────────────────────────────────────┘
-```
+Create one `.svg` file per view (or per breakpoint pair). Cover at least:
 
-## Form Layout
+| Screen | What to show |
+|--------|----------------|
+| Layout grid | Header, content, footer (or sidebar + main) |
+| Form | Labels, fields, primary/secondary actions, required markers |
+| Table / collection | Title, search, columns, row actions, pagination |
+| Modal / dialog | Overlay, title, body, confirm/cancel |
+| Sidebar app chrome | Nav items, main canvas, stats or list |
+| Wizard / stepper | Step indicators, current step body, back/continue |
+| Empty state | Message and a single primary action |
+| Loading state | Placeholder and “Loading…” |
+| Error state | Error copy and retry |
 
-```
-┌─────────────────────────────────────────────────────────────────────┐
-│                                                                     │
-│  ┌─ Personal Information ───────────────────────────────────────┐  │
-│  │                                                                 │  │
-│  │  First Name *                     Last Name *                   │  │
-│  │  ┌────────────────────────┐     ┌────────────────────────┐    │  │
-│  │  │ John                   │     │ Smith                  │    │  │
-│  │  └────────────────────────┘     └────────────────────────┘    │  │
-│  │                                                                 │  │
-│  │  Email Address *                                              │  │
-│  │  ┌─────────────────────────────────────────────────────────┐│  │
-│  │  │ john.smith@example.com                                   ││  │
-│  │  └─────────────────────────────────────────────────────────┘│  │
-│  │                                                                 │  │
-│  │  ┌─ Shipping Address ──────────────────────────────────────┐│  │
-│  │  │                                                                 ││  │
-│  │  │  Street Address *                                           ││  │
-│  │  │  ┌─────────────────────────────────────────────────────┐││  │
-│  │  │  │ 123 Main Street                                      │││  │
-│  │  │  └─────────────────────────────────────────────────────┘││  │
-│  │  │                                                                 ││  │
-│  │  │  City *                    State *           ZIP *        ││  │
-│  │  │  ┌──────────────────┐     ┌──────┐    ┌────────────┐    ││  │
-│  │  │  │ San Francisco    │     │ CA ▼  │    │ 94102      │    ││  │
-│  │  │  └──────────────────┘     └──────┘    └────────────┘    ││  │
-│  │  │                                                                 ││  │
-│  └─ ──────────────────────────────────────────────────────────────┘│  │
-│                                                                     │
-│                              [ Cancel ]      [ ✓ Save ]              │
-│                                                                     │
-└─────────────────────────────────────────────────────────────────────┘
-```
+## SVG conventions
 
-## Table Layout
+| Element | How to draw it |
+|---------|----------------|
+| Region / panel | `<rect>` with a 1–2px stroke |
+| Button | Labeled `<rect>` (or rounded rect) |
+| Field | `<rect>` plus a `<text>` label above |
+| Selected / focus | Heavier stroke or a second outline rect |
+| Disabled | Lower-contrast fill/text |
+| Status | Short `<text>` (`Pending`, `Done`, `Error`) — not ASCII status art |
 
-```
-┌─────────────────────────────────────────────────────────────────────────┐
-│  Orders                                           [+ New Order]         │
-├─────────────────────────────────────────────────────────────────────────┤
-│  ┌────────────────────────────────────────────────────────────────────┐ │
-│  │ 🔍 Search orders...                              [Status: All ▼]   │ │
-│  └────────────────────────────────────────────────────────────────────┘ │
-│                                                                         │
-│  ┌────┬────────┬──────────────────┬────────────┬──────────┬─────────┐ │
-│  │    │  ID    │ Customer          │ Date       │ Total    │ Status │ │
-│  ├────┼────────┼──────────────────┼────────────┼──────────┼─────────┤ │
-│  │ ☐  │ #1042  │ Alice M           │ 2026-05-01 │ $1,234.56│ ●Pendng │ │
-│  ├────┼────────┼──────────────────┼────────────┼──────────┼─────────┤ │
-│  │ ☑  │ #1041  │ Bob S             │ 2026-04-28 │   $89.00│ ✓Compl. │ │
-│  ├────┼────────┼──────────────────┼────────────┼──────────┼─────────┤ │
-│  │ ☐  │ #1040  │ Carol K           │ 2026-04-15 │   $45.00│ ✗Canceld│ │
-│  └────┴────────┴──────────────────┴────────────┴──────────┴─────────┘ │
-│                                                                         │
-│  Showing 1-3 of 47 orders                        < Prev │ 1 2 3 ... 16 │ │
-│                                                                         │
-│  ┌─────────────────────────────────────────────────────────────────────┐ │
-│  │  With selected:  [📧 Email]  [📄 Export]  [🗑️ Delete]            │ │
-│  └─────────────────────────────────────────────────────────────────────┘ │
-└─────────────────────────────────────────────────────────────────────────┘
-```
-
-## Modal/Dialog
-
-```
-╔═══════════════════════════════════════════════════════════════════════╗
-║                                                                              ║
-║   ╔═ Confirm Delete ═══════════════════════════════════════════════════╗   ║
-║   ║                                                                     ║   ║
-║   ║   Are you sure you want to delete these 3 orders?                    ║   ║
-║   ║                                                                     ║   ║
-║   ║   This action cannot be undone.                                       ║   ║
-║   ║                                                                     ║   ║
-║   ║   ┌─────────┬─────────┬──────────────┐                              ║   ║
-║   ║   │  ID     │Customer │   Total      │                              ║   ║
-║   ║   ├─────────┼─────────┼──────────────┤                              ║   ║
-║   ║   │ #1041   │ Bob S   │    $89.00    │                              ║   ║
-║   ║   │ #1038   │ David L │   $234.50    │                              ║   ║
-║   ║   │ #1035   │ Emma R  │    $67.00    │                              ║   ║
-║   ║   └─────────┴─────────┴──────────────┘                              ║   ║
-║   ║                                                                     ║   ║
-║   ║                           [ Cancel ]      [ 🗑️ Delete Orders ]       ║   ║
-║   ╚═══════════════════════════════════════════════════════════════════════╝   ║
-║                                                                              ║
-╚═══════════════════════════════════════════════════════════════════════════════╝
-```
-
-## Sidebar Layout
-
-```
-┌─────────────────────────────────────────────────────────────────────────────┐
-│ ┌─────────────┬───────────────────────────────────────────────────────────┐ │
-│ │             │  Dashboard                                              │ │
-│ │  ┌───────┐  ├───────────────────────────────────────────────────────────┤ │
-│ │  │ Logo  │  │                                                           │ │
-│ │  └───────┘  │  ┌─ Stats ──────────────────────────────────────────────┐│ │
-│ │             │  │                                                           ││ │
-│ │  Dashboard  │  │  ┌─────────┐  ┌─────────┐  ┌─────────┐  ┌─────────┐  ││ │
-│ │  ─────────  │  │  │ Orders  │  │ Revenue │  │Customers│  │Products │  ││ │
-│ │  📦 Orders  │  │  │   47    │  │ $12,845 │  │    23   │  │   156   │  ││ │
-│ │  👥 Customers│  │  └─────────┘  └─────────┘  └─────────┘  └─────────┘  ││ │
-│ │  📦 Products │  │                                                           ││ │
-│ │  📊 Reports  │  └─────────────────────────────────────────────────────────┘│ │
-│ │             │  │                                                           ││ │
-│ │  ─────────  │  │  ┌─ Recent Orders ─────────────────────────────────────┐│ │
-│ │  ⚙️ Settings │  │  │                                                           ││ │
-│ │  ❓ Help     │  │  │  #1042  Alice M      2026-05-01      $1,234.56  ●    ││ │
-│ │             │  │  │  #1041  Bob S        2026-04-28        $89.00    ✓    ││ │
-│ │             │  │  │  #1040  Carol K      2026-04-15        $45.00    ✗    ││ │
-│ │             │  │  └─────────────────────────────────────────────────────────┘│ │
-│ │             │  │                                                           │ │
-│ └─────────────┘  └───────────────────────────────────────────────────────────┘ │
-└─────────────────────────────────────────────────────────────────────────────┘
-```
-
-## Wizard/Stepper
-
-```
-     Complete Your Order
-     ─────────────────────
-        ●────────●────────○────────○
-      Review   Payment  Confirm   Done
-
-┌─────────────────────────────────────────────────────────────────────────────┐
-│  Step 2: Payment                                           Step 2 of 4      │
-├─────────────────────────────────────────────────────────────────────────────┤
-│                                                                             │
-│  ┌─ Payment Method ──────────────────────────────────────────────────────┐  │
-│  │                                                                           │  │
-│  │  ┌─────────────────┐  ┌─────────────────┐  ┌─────────────────┐        │  │
-│  │  │  💳 Credit Card │  │  🏦 Bank Transfer│  │   💵    PayPal  │        │  │
-│  │  │    (selected)   │  │                  │  │                 │        │  │
-│  │  └─────────────────┘  └─────────────────┘  └─────────────────┘        │  │
-│  │                                                                           │  │
-│  └─────────────────────────────────────────────────────────────────────────┘  │
-│                                                                             │
-│  ┌─ Card Details ────────────────────────────────────────────────────────┐  │
-│  │                                                                           │  │
-│  │  Card Number *                                                          │  │
-│  │  ┌─────────────────────────────────────────────────────────────────┐    │  │
-│  │  │ 4242 4242 4242 4242                                               │    │  │
-│  │  └─────────────────────────────────────────────────────────────────┘    │  │
-│  │                                                                           │  │
-│  │  Cardholder Name *                    Expiry *         CVC *          │  │
-│  │  ┌─────────────────────────────────┐ ┌─────────┐ ┌─────────┐          │  │
-│  │  │ John Smith                      │ │ 12/28 ▼ │ │  123    │          │  │
-│  │  └─────────────────────────────────┘ └─────────┘ └─────────┘          │  │
-│  │                                                                           │  │
-│  └─────────────────────────────────────────────────────────────────────────┘  │
-│                                                                             │
-│                        [ ← Back ]               [ Continue → ]              │
-│                                                                             │
-└─────────────────────────────────────────────────────────────────────────────┘
-```
-
-## Empty State
-
-```
-┌─────────────────────────────────────────────────────────────────────────────┐
-│                                                                             │
-│                                                                             │
-│                         ┌───────────────────────────┐                     │
-│                         │                           │                     │
-│                         │         📦               │                     │
-│                         │                           │                     │
-│                         └───────────────────────────┘                     │
-│                                                                             │
-│                              No orders yet                                  │
-│                                                                             │
-│                    You haven't created any orders.                          │
-│                  Get started by creating your first order.                  │
-│                                                                             │
-│                                                                             │
-│                        ┌─────────────────────┐                             │
-│                        │   + Create Order    │                             │
-│                        └─────────────────────┘                             │
-│                                                                             │
-│                                                                             │
-└─────────────────────────────────────────────────────────────────────────────┘
-```
-
-## Loading State
-
-```
-┌─────────────────────────────────────────────────────────────────────────────┐
-│                                                                             │
-│                                                                             │
-│                              ┌─────────────────┐                           │
-│                              │                 │                           │
-│                              │      ◌◌◌       │                           │
-│                              │                 │                           │
-│                              │    Loading...    │                           │
-│                              │                 │                           │
-│                              └─────────────────┘                           │
-│                                                                             │
-│                         Loading your dashboard                             │
-│                                                                             │
-└─────────────────────────────────────────────────────────────────────────────┘
-```
-
-## Error State
-
-```
-┌─────────────────────────────────────────────────────────────────────────────┐
-│                                                                             │
-│  ┌───────────────────────────────────────────────────────────────────────┐ │
-│  │                                                                       │ │
-│  │    ⚠️  Something went wrong                                           │ │
-│  │                                                                       │ │
-│  │    We couldn't load your orders. This might be a temporary issue.   │ │
-│  │                                                                       │ │
-│  │    ┌─────────────────┐                                                │ │
-│  │    │  🔄 Try Again   │                                                │ │
-│  │    └─────────────────┘                                                │ │
-│  │                                                                       │ │
-│  └───────────────────────────────────────────────────────────────────────┘ │
-│                                                                             │
-└─────────────────────────────────────────────────────────────────────────────┘
-```
-
-## Responsive Breakpoints
+## Responsive breakpoints
 
 | Breakpoint | Width | Devices |
 |-----------|-------|---------|
@@ -291,7 +79,7 @@ description: ASCII wireframing conventions and templates for UI-UX analysis.
 | Desktop | 1024-1440px | Standard monitors |
 | Wide | > 1440px | Large monitors, TVs |
 
-## Component State Indicators
+## Component state indicators
 
 | State | Indicator | When |
 |-------|-----------|------|
@@ -304,39 +92,22 @@ description: ASCII wireframing conventions and templates for UI-UX analysis.
 | Error | Red border, error icon | Validation failed |
 | Success | Green checkmark | Operation complete |
 
-## Full Page Wireframe Template
+## File template
 
 ```markdown
 ## Wireframe: [ViewName]
 
-```
-╔═══════════════════════════════════════════════════════════════════════════╗
-║  [Page Title]                                                [Actions]   ║
-╠═══════════════════════════════════════════════════════════════════════════╣
-║                                                                            ║
-║  ┌─ Section 1 ────────────────────────────────────────────────────────┐  ║
-║  │                                                                        ║  ║
-║  │  [Content]                                                            ║  ║
-║  │                                                                        ║  ║
-║  └────────────────────────────────────────────────────────────────────────╝  ║
-║                                                                            ║
-║  ┌─ Section 2 ────────────────────────────────────────────────────────┐  ║
-║  │                                                                        ║  ║
-║  │  [Content]                                                            ║  ║
-║  │                                                                        ║  ║
-║  └────────────────────────────────────────────────────────────────────────╝  ║
-║                                                                            ║
-╚═══════════════════════════════════════════════════════════════════════════╝
+File: `docs/ui/wireframes/[view-name].svg`
+
+- Breakpoints: mobile + desktop
+- Primary action:
+- Notes:
 ```
 
-**Legend:**
-- `┌─┐` Box borders
-- `─` Horizontal lines
-- `│` Vertical lines
-- `╔═╗` Double-line box for modals
-- `[Button]` Action buttons
-- `● ✓ ✗` Status indicators
-- `•••• 4242` Masked card numbers
-- `[Action]` = Icon button
-- Column headers = Sortable columns
-- Data cells = Clickable rows
+## Checklist
+
+- [ ] Each screen is an in-repo `.svg` file
+- [ ] No ASCII art boxes or `+---+` diagrams
+- [ ] Architecture/flow remains Mermaid, not SVG
+- [ ] Mobile and desktop layouts are represented
+- [ ] Interactive regions are labeled (buttons, fields, nav)

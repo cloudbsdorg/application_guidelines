@@ -61,7 +61,7 @@ AI agents should load relevant skills from the `SKILLS/` directory:
 | `SKILLS/workflow/task-workflow.md` | When claiming or completing tasks |
 | `SKILLS/planning/plan-document-generator.md` | When creating new plan documents |
 | `SKILLS/planning/sysctl-documenter.md` | When documenting sysctl interfaces |
-| `SKILLS/diagramming/ascii-diagrammer.md` | When creating architecture diagrams |
+| `SKILLS/diagramming/mermaid-diagrammer.md` | When creating Mermaid diagrams or SVG UI mockups |
 | `SKILLS/security/risk-assessor.md` | When creating risk registers |
 | `SKILLS/testing/test-planner.md` | When creating test plans |
 | `SKILLS/planning/toc-generator.md` | When creating TOC documents |
@@ -93,6 +93,7 @@ When creating or updating a project based on these guidelines:
 | Encoding | UTF-8 everywhere | Internationalization requirement |
 | Config location | XDG Base Directory | FreeBSD standards compliance |
 | Testing | bhyve VMs for kernel | Host safety requirement |
+| Diagrams | Mermaid; SVG for UI mockups | ASCII art diagrams are forbidden |
 | Languages | C, C++, Rust, Go, Python | Based on task requirements |
 
 ## Quick Reference
