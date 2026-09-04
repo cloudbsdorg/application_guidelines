@@ -93,7 +93,8 @@ pkg update && pkg upgrade
 
 Before every deploy, know how to rollback:
 - Git rollback: `git revert $commit`
-- Package rollback: `pkg rollback $package`
+- Package rollback: reinstall the previous version from the repository
+  (`pkg install -f <pkg>-<previous-version>`); there is no `pkg rollback`
 - Jail rollback: `jexec $jail zfs rollback tank/jails/$jail@pre-deploy`
 
 ## Hard Blocks (NEVER Ship With)
@@ -103,6 +104,13 @@ Before every deploy, know how to rollback:
 - Credentials or secrets in code
 - Hardcoded production endpoints
 - Unverified database migrations
+
+## Artifacts
+
+When the thing being shipped is a **binary artifact** - a package, a kernel or
+module, install media, a VM image - the change-level checklist above is not
+enough. See [artifact-release](../../release/artifact-release/SKILL.md) for
+what must be verified about the artifact itself before it is published.
 
 ## Post-Ship
 
