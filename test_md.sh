@@ -103,9 +103,9 @@ echo ""
 # Check 7: SKILLS/TOC.md is generated from, and agrees with, the skill tree
 echo "[Check 7] SKILLS/TOC.md is current..."
 if python3 tools/skills-index.py --check > /tmp/cloudbsd-toc.$$ 2>&1; then
-    echo "  PASS: $(cat /tmp/cloudbsd-toc.$$)"
+    echo "  $(cat /tmp/cloudbsd-toc.$$)"
 else
-    echo "  FAIL: $(cat /tmp/cloudbsd-toc.$$)"
+    echo "  $(cat /tmp/cloudbsd-toc.$$)"
     ERRORS=$((ERRORS + 1))
 fi
 rm -f /tmp/cloudbsd-toc.$$

@@ -91,4 +91,4 @@ Every project must include:
 ## See Also
 
 - [AGENTS.md](../AGENTS.md) — Canonical agent auto-load and entry point
-- [SKILLS/README.md](../SKILLS/README.md) — AI skills for planning tasks
+- [SKILLS/TOC.md](../SKILLS/TOC.md) — the skill index; scan it and load one skill

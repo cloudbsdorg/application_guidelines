@@ -15,7 +15,7 @@ The live CloudBSD web UI is the Angular + Tailwind application. SVG is for desig
 - Include `xmlns`, a `viewBox`, `role="img"`, and `aria-label` (and a `<title>`).
 - Use simple rectangles, lines, and text. This is a wireframe, not a visual design system.
 - Match CloudBSD Web UI rules: desktop and mobile. Prefer a desktop frame plus a stacked mobile frame, or note Tailwind breakpoints (`sm` / `md` / `lg`) in the SVG.
-- Never replace an architecture diagram with SVG — load `SKILLS/diagramming/mermaid-diagrammer.md` for those.
+- Never replace an architecture diagram with SVG — load `SKILLS/diagramming/mermaid-diagrammer/SKILL.md` for those.
 
 ## Loading Instructions
 

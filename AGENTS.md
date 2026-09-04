@@ -9,7 +9,7 @@
 >
 > | Consumer | Path in |
 > |---|---|
-> | opencode, Codex, Cursor, and anything else following the `AGENTS.md` convention | reads this file directly on project open |
+> | opencode, Codex, and anything else following the `AGENTS.md` convention | reads this file directly on project open |
 > | Claude Code | auto-loads `CLAUDE.md`, whose first line is `@AGENTS.md` |
 > | Cursor | `.cursor/rules/cloudbsd.mdc` points here |
 > | A model handed a prompt with no repository - Grok, grok-bot, MiniMax, Hermes, openclaw | is given `INIT_PROMPT.md`, which stands alone and carries absolute URLs |
@@ -128,7 +128,7 @@ If you cannot browse the filesystem, the index is at
 and any skill is at
 `https://raw.githubusercontent.com/cloudbsdorg/application_guidelines/main/SKILLS/<path>/SKILL.md`.
 
-**Diagrams:** Mermaid (` ```mermaid ` fences) is THE format for architecture, flowcharts, sequence, graphs, and docs. SVG is for UI design and prototyping (wireframes, mockups, screens) as in-repo `.svg` files. ASCII art diagrams are forbidden. DOT and PlantUML remain deprecated. See `SKILLS/diagramming/mermaid-diagrammer.md`.
+**Diagrams:** Mermaid (` ```mermaid ` fences) is THE format for architecture, flowcharts, sequence, graphs, and docs. SVG is for UI design and prototyping (wireframes, mockups, screens) as in-repo `.svg` files. ASCII art diagrams are forbidden. DOT and PlantUML remain deprecated. See `SKILLS/diagramming/mermaid-diagrammer/SKILL.md`.
 
 ---
 
