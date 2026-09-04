@@ -54,10 +54,10 @@ else
 fi
 echo ""
 
-# Check 4: Testing Infrastructure/TESTING_INFRASTRUCTURE.md starts with a Level 1 header
+# Check 4: Testing-Infrastructure/TESTING_INFRASTRUCTURE.md starts with a Level 1 header
 echo "[Check 4] TESTING_INFRASTRUCTURE.md Level 1 header..."
-if [ -f "Testing Infrastructure/TESTING_INFRASTRUCTURE.md" ]; then
-    FIRST_LINE=$(head -n 1 "Testing Infrastructure/TESTING_INFRASTRUCTURE.md")
+if [ -f "Testing-Infrastructure/TESTING_INFRASTRUCTURE.md" ]; then
+    FIRST_LINE=$(head -n 1 "Testing-Infrastructure/TESTING_INFRASTRUCTURE.md")
     if echo "$FIRST_LINE" | grep -qE '^# .+'; then
         echo "  PASS: TESTING_INFRASTRUCTURE.md starts with a Level 1 header."
     else

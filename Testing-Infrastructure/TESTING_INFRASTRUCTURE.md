@@ -521,9 +521,9 @@ This section is the master checklist for implementing the CloudBSD testing infra
 
 | # | Task | Status | Owner | Start | End | Dependencies | Files | Notes |
 |---|------|--------|-------|-------|-----|--------------|-------|-------|
-| 0.1 | Create `Testing Infrastructure/` directory and `TESTING_INFRASTRUCTURE.md` | COMPLETED | | 2026-04-23 | 2026-04-23 | | `Testing Infrastructure/TESTING_INFRASTRUCTURE.md` | This document |
-| 0.2 | Update `README.md` with Testing Infrastructure link | NOT STARTED | | | | 0.1 | `README.md` | Add to Documentation Index |
-| 0.3 | Update `AGENTS.md` with Testing Infrastructure reference | NOT STARTED | | | | 0.1 | `AGENTS.md` | Add to Repository File Tree and Decision Matrix |
+| 0.1 | Create `Testing-Infrastructure/` directory and `TESTING_INFRASTRUCTURE.md` | COMPLETED | | 2026-04-23 | 2026-04-23 | | `Testing-Infrastructure/TESTING_INFRASTRUCTURE.md` | This document |
+| 0.2 | Update `README.md` with a Testing Infrastructure link | NOT STARTED | | | | 0.1 | `README.md` | Add to Documentation Index |
+| 0.3 | Update `AGENTS.md` with a Testing Infrastructure reference | NOT STARTED | | | | 0.1 | `AGENTS.md` | Add to Repository File Tree and Decision Matrix |
 | 0.4 | Verify `test_md.sh` passes with new file | NOT STARTED | | | | 0.1 | `test_md.sh` | Ensure header check includes new file |
 | 0.5 | Set up CI runner with VMM support (FreeBSD host) | NOT STARTED | | | | | | Dedicated bare-metal or nested virtualization enabled |
 | 0.6 | Verify ZFS pool exists for VM and jail storage | NOT STARTED | | | | 0.5 | | `zroot/vm` and `zroot/jail` datasets |

@@ -38,5 +38,5 @@ When choosing a language for a new CloudBSD application, consider the following:
 
 ## 3. Documentation
 
-Every CloudBSD application that ships a binary or an rc.d service MUST include mandoc mdoc man pages: section 8 (or section 1 for user commands) for the program, section 5 for the configuration file. Document flags, JSON keys, signals (SIGHUP reload), files, rc.d names, and examples. Prefer man pages over README-only docs. See `Configuration Files/CONFIGURATION.md`.
+Every CloudBSD application that ships a binary or an rc.d service MUST include mandoc mdoc man pages: section 8 (or section 1 for user commands) for the program, section 5 for the configuration file. Document flags, JSON keys, signals (SIGHUP reload), files, rc.d names, and examples. Prefer man pages over README-only docs. See `Configuration-Files/CONFIGURATION.md`.
 

@@ -243,7 +243,7 @@ Coverage: as close to 100% as possible; critical paths 100%.
 - Coverage: as close to 100% as possible; critical paths 100%. Generated/vendored may be excluded; application code may not.
 - mandoc mdoc man pages: section 8 (or 1) for the program, section 5 for the config.
 
-Before generating code, read the CloudBSD application guidelines in full (`Architecture/MVC.md`, `Web User Interfaces/MARKDOWN.md`, `Planning/PLANNING.md`, and the rest of that tree).
+Before generating code, read the CloudBSD application guidelines in full (`Architecture/MVC.md`, `Web-User-Interfaces/MARKDOWN.md`, `Planning/PLANNING.md`, and the rest of that tree).
 
 ## What We're Building
 

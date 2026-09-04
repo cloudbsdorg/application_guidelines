@@ -158,7 +158,7 @@ graph TD
 ```mermaid
 graph TD
     S[Stress Testing] --> I[Integration Testing]
-    I --> U[Unit Testing<br/>per component]
+    I --> U[Unit tests<br/>per component]
     style S fill:#ff9999
     style I fill:#ffcc99
     style U fill:#99ff99
@@ -228,4 +228,4 @@ If you find leftover ASCII art, convert architecture/flow to Mermaid and UI mock
 - [Mermaid Official Docs](https://mermaid.js.org/)
 - [Mermaid Live Editor](https://mermaid.live/)
 - CloudBSD Planning/PLANNING.md Chapter 8 (Diagram Conventions)
-- CloudBSD Web User Interfaces/WEBUI.md (SVG for UI prototyping)
+- CloudBSD `Web-User-Interfaces/WEBUI.md` (SVG for UI prototyping)

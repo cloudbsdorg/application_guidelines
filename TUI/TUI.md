@@ -63,7 +63,7 @@ an unauthenticated web page.
 
 - Keyboard-first, as in Section 2. `?` for help. Destructive actions require confirmation.
 - Pair with `doctor`: the console should surface doctor findings (human form) and not hide JSON evidence.
-- See `Configuration Files/CONFIGURATION.md` (`doctor`, recovery, resource headroom).
+- See `Configuration-Files/CONFIGURATION.md` (`doctor`, recovery, resource headroom).
 
 ## 6. Extra UI refinement with agy (LAW)
 
@@ -75,4 +75,4 @@ When Mark has granted access to Google Antigravity (`agy` CLI, Gemini), typicall
 - **Not a substitute:** Keyboard-first behavior, help (`?`), SIGWINCH, and evidence remain required. agy is extra refinement, not a replacement for tests or evidence.
 - **Theme family:** CloudBSD/REVYTECH. Do not invent a competing palette.
 
-This is the same single law as in `AGENTS.md`, `Web User Interfaces/WEBUI.md`, and `Desktop/DESKTOP.md`.
+This is the same single law as in `AGENTS.md`, `Web-User-Interfaces/WEBUI.md`, and `Desktop/DESKTOP.md`.

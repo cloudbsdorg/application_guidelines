@@ -15,13 +15,13 @@ The fundamental building blocks of every CloudBSD application.
 
 - [**Programming Languages**](Languages/LANGUAGES.md)
   - Recommended languages and selection criteria for different use cases.
-- [**Configuration Files**](Configuration%20Files/CONFIGURATION.md)
+- [**Configuration-Files**](Configuration-Files/CONFIGURATION.md)
   - Best practices for settings, data storage, and administrator experience.
 - [**Internationalization (i18n)**](Internationalization/INTERNATIONALIZATION.md)
   - Ensuring global accessibility and localizability for all users.
-- [**Unit Testing**](Unit%20Testing/UNITTESTS.md)
+- [**Unit-Testing**](Unit-Testing/UNITTESTS.md)
   - Standards for code reliability, testing practices, and CI integration.
-- [**Testing Infrastructure**](Testing%20Infrastructure/TESTING_INFRASTRUCTURE.md)
+- [**Testing-Infrastructure**](Testing-Infrastructure/TESTING_INFRASTRUCTURE.md)
   - VMM/bhyve VMs and FreeBSD jails for safe, isolated kernel and userland testing.
 - [**Planning**](Planning/PLANNING.md)
   - Standards for `.plan/` directories, task tracking, and multi-agent coordination in all CloudBSD projects.
@@ -37,9 +37,9 @@ Guidelines for building interfaces that follow the CloudBSD aesthetic and usabil
   - Design and implementation of modern, responsive console-based applications.
 - [**Desktop and native UI**](Desktop/DESKTOP.md)
   - Short note for GTK/Qt/native GUIs; same agy polish law as all UIs.
-- [**Web User Interfaces (Web UI)**](Web%20User%20Interfaces/WEBUI.md)
+- [**Web-User-Interfaces (Web UI)**](Web-User-Interfaces/WEBUI.md)
   - Guidelines for modern, secure, and accessible web-based frontends. Login at `/`; username or email; show/hide; remember username; factory first-login wizard; REVYTECH product brand.
-- [**Markdown viewer and editor**](Web%20User%20Interfaces/MARKDOWN.md)
+- [**Markdown viewer and editor**](Web-User-Interfaces/MARKDOWN.md)
   - In-app GitHub-flavored markdown, sanitized, with a real editor.
 
 ---
@@ -49,10 +49,10 @@ Guidelines for building interfaces that follow the CloudBSD aesthetic and usabil
 If you are new to CloudBSD development, follow these steps:
 
 1.  **Read the Core Standards**: Start with [Programming Languages](Languages/LANGUAGES.md) to choose the right tool for your project.
-2.  **Understand Configuration**: Review the [Configuration Guidelines](Configuration%20Files/CONFIGURATION.md) to ensure your app integrates well with the system.
+2.  **Understand Configuration**: Review the [Configuration Guidelines](Configuration-Files/CONFIGURATION.md) to ensure your app integrates well with the system.
 3.  **Plan your Project**: Follow the [Planning Guidelines](Planning/PLANNING.md) to set up your `.plan/` directory and task tracking before writing code.
-4.  **Plan your UI**: Choose between [TUI](TUI/TUI.md) and [Web UI](Web%20User%20Interfaces/WEBUI.md) based on your application's needs.
-5.  **Implement Testing**: Ensure your project follows the [Unit Testing Standards](Unit%20Testing/UNITTESTS.md) from the start.
+4.  **Plan your UI**: Choose between [TUI](TUI/TUI.md) and [Web UI](Web-User-Interfaces/WEBUI.md) based on your application's needs.
+5.  **Implement Testing**: Ensure your project follows the [Unit Testing Standards](Unit-Testing/UNITTESTS.md) from the start.
 
 ## 🤖 AI-Assisted Development
 

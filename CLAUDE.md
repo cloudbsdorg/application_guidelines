@@ -73,7 +73,7 @@ Strong success criteria let you loop independently. Weak criteria ("make it work
 - **Store evidence** with the change. If a tool is missing, find or make one.
 - **License:** BSD 3-Clause (Copyright REVYTECH, Inc.), not MIT.
 
-See `Unit Testing/UNITTESTS.md` and `AGENTS.md`.
+See `Unit-Testing/UNITTESTS.md` and `AGENTS.md`.
 
 ---
 

@@ -69,7 +69,7 @@ Load this skill when the user asks you to:
 ```mermaid
 graph TD
     S[Stress Testing] --> I[Integration Testing]
-    I --> U[Unit Testing<br/>per component]
+    I --> U[Unit tests<br/>per component]
     style S fill:#ff9999
     style I fill:#ffcc99
     style U fill:#99ff99
