@@ -1,6 +1,10 @@
 ---
-name: linuxulator runner
-description: Run Linux binaries on FreeBSD using the Linux compatibility layer (Linuxulator), validate the execution environment, and execute commands in a purely FreeBSD context when needed.
+name: linuxulator-runner
+description: >-
+  Run Linux binaries on FreeBSD through the Linuxulator compatibility layer.
+  Use when a required tool ships only as a Linux binary, when validating that
+  /compat/linux is set up correctly, or when deciding whether to run something
+  natively instead.
 ---
 
 # Skill: linux-binary-runner

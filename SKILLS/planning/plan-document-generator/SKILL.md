@@ -1,6 +1,10 @@
 ---
-name: plan document generator
-description: Create new plan documents following the CloudBSD Planning Guidelines standard template.
+name: plan-document-generator
+description: >-
+  Create .plan/ documents from the CloudBSD Planning standard templates. Use
+  when initialising a project's .plan/ directory, when adding a numbered plan
+  document, or when existing planning documents need to be brought onto the
+  standard structure.
 ---
 
 # Skill: plan-document-generator

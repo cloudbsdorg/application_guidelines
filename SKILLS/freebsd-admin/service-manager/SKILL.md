@@ -1,6 +1,10 @@
 ---
-name: service manager
-description: Manage FreeBSD services using rc.d, service command, and sysrc. Also covers Linux systemd services for Linuxulator binaries.
+name: service-manager
+description: >-
+  Operate FreeBSD services with service(8), sysrc, and rc.conf, including the
+  SIGHUP validate-then-reload contract. Use when enabling, starting, stopping,
+  or reloading a service, when editing rc.conf, or when diagnosing a service
+  that will not start.
 ---
 
 # Skill: service-manager

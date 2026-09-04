@@ -1,6 +1,10 @@
 ---
-name: feature task generator
-description: Generate implementation tasks from actual feature discovery, avoiding over-generation by only capturing reachable, used functionality.
+name: feature-task-generator
+description: >-
+  Turn a feature inventory produced by analysis into concrete implementation
+  tasks. Use after reverse-engineering or source analysis, when planning a
+  port, and specifically to avoid inventing tasks for functionality that is
+  not actually reachable in the source.
 ---
 
 # Skill: feature-task-generator

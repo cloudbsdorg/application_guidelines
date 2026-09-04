@@ -1,12 +1,12 @@
 ---
-name: cloudflare
-description: Comprehensive Cloudflare platform skill covering Workers, Pages, storage (KV, D1, R2), AI (Workers AI, Vectorize, Agents SDK), networking (Tunnel, Spectrum), security (WAF, DDoS), and infrastructure-as-code (Terraform, Pulumi). Use for any Cloudflare development task.
-references:
-  - workers
-  - pages
-  - d1
-  - durable-objects
-  - workers-ai
+name: cloudflare-platform
+description: >-
+  Choose the right Cloudflare product and understand how it fits together -
+  Workers, Pages, KV, D1, R2, Queues, Workers AI, Vectorize, Tunnel, WAF, and
+  the Terraform/Pulumi providers. Use for any Cloudflare development or
+  deployment task, and to decide which product a requirement calls for. DNS
+  records for CloudBSD domains follow the rules in dns-records.md alongside
+  this file.
 ---
 
 # Cloudflare Platform Skill
@@ -16,7 +16,7 @@ right product, then read that product's upstream documentation at
 <https://developers.cloudflare.com/>. The `references/...` paths in the tables are
 upstream documentation topics, not files in this repository.
 
-Related skill: [agents-sdk](../agents-sdk/SKILL.md) for building stateful agents on Workers.
+Related skill: [agents-sdk](../cloudflare-agents-sdk/SKILL.md) for building stateful agents on Workers.
 
 ## Quick Decision Trees
 

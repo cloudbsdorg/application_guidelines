@@ -1,6 +1,10 @@
 ---
-name: source analysis orchestrator
-description: Coordinate pre-planning source code analysis by sequencing and invoking appropriate analysis skills, producing a consolidated report that feeds into task and document generation.
+name: source-analysis-orchestrator
+description: >-
+  Coordinate the whole pre-planning analysis pass by sequencing the individual
+  analysis skills into one consolidated report. Use when starting a new
+  project or a port, before any plan documents are generated, so the plan
+  reflects the real code rather than assumptions.
 ---
 
 # Skill: source-analysis-orchestrator

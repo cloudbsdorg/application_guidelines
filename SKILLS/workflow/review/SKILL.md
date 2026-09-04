@@ -1,19 +1,14 @@
+---
+name: review
+description: >-
+  Review code for correctness, security, and FreeBSD/CloudBSD conventions. Use
+  when reviewing a pull request or a diff, when asked to check work before it
+  lands, and before approving anything that touches configuration, privilege,
+  or persistence.
+---
+
 # Code Review Skill
 
-## Metadata
-```
-author: Mark LaPointe <mark@cloudbsd.org>
-version: 1.0.0
-platform: CloudBSD / FreeBSD
-triggers:
-  - "review"
-  - "code review"
-  - "review my code"
-  - "check my work"
-  - "feedback"
-  - "lgtm"
-  - "approve"
-```
 
 ## Review Protocol
 

@@ -1,6 +1,10 @@
 ---
-name: file system analyzer
-description: Systematically analyze application file system usage, paths, permissions, and operations for cross-platform porting.
+name: file-system-analyzer
+description: >-
+  Document how an application uses the filesystem - paths, permissions,
+  locking, extended attributes. Use when porting software across operating
+  systems, when hardcoded paths or permission assumptions need auditing, or
+  when file locking behaves differently on the target.
 ---
 
 # Skill: file-system-analyzer

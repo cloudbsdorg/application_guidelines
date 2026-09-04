@@ -1,6 +1,10 @@
 ---
-name: agents start here generator
-description: Generate AGENTS.md (canonical auto-load) and CLAUDE.md (@AGENTS.md) at the project root.
+name: agents-start-here-generator
+description: >-
+  Generate a project's agent entry point: AGENTS.md as the canonical auto-load
+  file plus a thin CLAUDE.md that imports it. Use when initialising a new
+  CloudBSD project or when an existing project has no agent entry point. Never
+  generate AGENTS_START_HERE.md - that filename does not auto-load anywhere.
 ---
 
 # Skill: agents-start-here-generator

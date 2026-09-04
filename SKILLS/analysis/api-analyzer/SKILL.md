@@ -1,6 +1,11 @@
 ---
-name: api analyzer
-description: Systematically analyze REST APIs and web services to understand endpoints, request/response formats, authentication, and data flow.
+name: api-analyzer
+description: >-
+  Document a REST or HTTP API - endpoints, request/response shapes,
+  authentication, pagination, rate limits, webhooks. Use when analysing an API
+  for porting, rewriting, or integration, when asked about REST, HTTP,
+  endpoints, OpenAPI, GraphQL, gRPC, WebSockets, or SSE, or before writing a
+  client against a service you did not build.
 ---
 
 # Skill: api-analyzer

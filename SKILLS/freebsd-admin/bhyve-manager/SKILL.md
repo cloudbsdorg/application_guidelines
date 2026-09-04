@@ -1,6 +1,10 @@
 ---
-name: bhyve manager
-description: Create, configure, start, stop, and manage bhyve virtual machines on FreeBSD.
+name: bhyve-manager
+description: >-
+  Create, configure, run, and troubleshoot bhyve virtual machines on FreeBSD,
+  with vm-bhyve or bhyve(8) directly. Use when setting up a VM, configuring
+  bridge/tap networking or virtio storage, or building the isolated VM that
+  kernel-level testing is required to run in.
 ---
 
 # Skill: bhyve-manager

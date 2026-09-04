@@ -1,20 +1,14 @@
+---
+name: plan-ceo-review
+description: >-
+  Challenge the scope of a plan before anything gets built - is this the right
+  problem, is it too big, is it too small, what would be cut. Use when a new
+  feature or project is being planned, or when asked whether a plan is right-
+  sized.
+---
+
 # Plan CEO Review Skill
 
-## Metadata
-```
-author: Mark LaPointe <mark@cloudbsd.org>
-version: 1.0.0
-platform: CloudBSD / FreeBSD
-triggers:
-  - "scope"
-  - "plan review"
-  - "challenge plan"
-  - "is this right"
-  - "too big"
-  - "too small"
-  - "effort estimate"
-  - "should we do this"
-```
 
 ## Purpose
 

@@ -1,6 +1,10 @@
 ---
-name: process model analyzer
-description: Systematically analyze application process models, threading, and inter-process communication patterns for cross-platform porting.
+name: process-model-analyzer
+description: >-
+  Document processes, threads, IPC, and synchronisation in an application. Use
+  when analysing concurrent or multi-process software, when porting fork/exec
+  or threading code between operating systems, or when reasoning about pipes,
+  shared memory, and locking.
 ---
 
 # Skill: process-model-analyzer

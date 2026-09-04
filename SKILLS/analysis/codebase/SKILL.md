@@ -1,20 +1,14 @@
+---
+name: codebase
+description: >-
+  Read-only exploration of an unfamiliar codebase. Use when asked to
+  understand, explore, or map a project, to find where something is
+  implemented, to trace a call path, or to answer "where is X" without
+  changing any code.
+---
+
 # Codebase Skill
 
-## Metadata
-```
-author: Mark LaPointe <mark@cloudbsd.org>
-version: 1.0.0
-platform: CloudBSD / FreeBSD
-triggers:
-  - "understand"
-  - "explore"
-  - "codebase"
-  - "find in code"
-  - "trace"
-  - "where is"
-  - "how does"
-  - "what does"
-```
 
 ## Purpose
 

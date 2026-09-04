@@ -1,6 +1,10 @@
 ---
 name: codebase-mapper
-description: Recursively map any codebase into exhaustive tree-view markdown documents in a .discovery/ directory. Modular sub-skills for each phase.
+description: >-
+  Recursively map a whole codebase into exhaustive tree-view documents under
+  .discovery/. Use when starting on an unfamiliar or large project, when asked
+  to map structure and dependencies, or when a port or migration needs a
+  complete inventory before planning.
 ---
 
 # Codebase Mapper (Modular)

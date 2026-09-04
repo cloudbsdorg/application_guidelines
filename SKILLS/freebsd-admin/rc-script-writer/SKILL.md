@@ -1,6 +1,10 @@
 ---
-name: rc script writer
-description: Write FreeBSD rc.d startup scripts for services, following FreeBSD conventions for service management.
+name: rc-script-writer
+description: >-
+  Write FreeBSD rc.d startup scripts that follow the conventions -
+  PROVIDE/REQUIRE/KEYWORD, rcvar, pidfiles, and a reload that honours the
+  SIGHUP contract. Use whenever a CloudBSD service needs to start at boot or
+  be controlled with service(8).
 ---
 
 # Skill: rc-script-writer

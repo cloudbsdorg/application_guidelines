@@ -1,6 +1,10 @@
 ---
-name: plan validator
-description: Validate that plan documents follow the CloudBSD Planning Guidelines standard.
+name: plan-validator
+description: >-
+  Check that .plan/ documents comply with the CloudBSD Planning standard -
+  naming, structure, task tables, cross-references. Use on pull-request
+  review, before committing planning changes, or when a project's plan
+  directory has drifted.
 ---
 
 # Skill: plan-validator

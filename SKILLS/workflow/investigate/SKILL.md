@@ -1,19 +1,14 @@
+---
+name: investigate
+description: >-
+  Find the root cause of a broken system using an evidence-based protocol
+  rather than guesswork. Use when debugging a failure, when asked why
+  something is broken, when tracing an error, and specifically when the
+  obvious explanation has already turned out to be wrong.
+---
+
 # Investigation Skill
 
-## Metadata
-```
-author: Mark LaPointe <mark@cloudbsd.org>
-version: 1.0.0
-platform: CloudBSD / FreeBSD
-triggers:
-  - "debug"
-  - "investigate"
-  - "root cause"
-  - "why is X broken"
-  - "find the bug"
-  - "trace error"
-  - "diagnose"
-```
 
 ## Iron Law (MANDATORY)
 

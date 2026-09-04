@@ -1,6 +1,10 @@
 ---
-name: privilege analyzer
-description: Systematically analyze application privilege requirements, user/group handling, and security mechanisms for cross-platform porting.
+name: privilege-analyzer
+description: >-
+  Document what privileges an application actually needs - UID/GID,
+  capabilities, ACLs, chroot, securelevel, Capsicum. Use when porting
+  privileged code, when applying least privilege to a service, or when
+  deciding what a daemon may drop after start-up.
 ---
 
 # Skill: privilege-analyzer

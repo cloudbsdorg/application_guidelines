@@ -1,6 +1,10 @@
 ---
 name: github-triage
-description: "Read-only GitHub triage for issues AND PRs. 1 item = 1 background task (category: quick). Analyzes all open items and writes evidence-backed reports to /tmp/{datetime}/. Every claim requires a GitHub permalink as proof. NEVER takes any action on GitHub - no comments, no merges, no closes, no labels. Reports only. Triggers: 'triage', 'triage issues', 'triage PRs', 'github triage'."
+description: >-
+  Read-only triage of open GitHub issues and pull requests, producing
+  evidence-backed reports where every claim carries a permalink. Use when
+  asked to triage issues or PRs. It never comments, labels, closes, or merges
+  - it only reports.
 ---
 
 # GitHub Triage - Read-Only Analyzer

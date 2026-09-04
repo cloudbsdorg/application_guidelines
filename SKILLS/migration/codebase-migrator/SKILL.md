@@ -1,6 +1,10 @@
 ---
-name: codebase migrator
-description: Migrate legacy applications to modern platforms and languages using automated mapping and structured conversion workflows.
+name: codebase-migrator
+description: >-
+  Migrate a legacy application to a modern platform and language - DOS,
+  Pascal, old Unix, retro codebases moving to FreeBSD, Rust, Go, or
+  TypeScript. Use when asked to port, convert, or modernise an old codebase,
+  after the analysis skills have produced an inventory.
 ---
 
 # Skill: codebase-migrator

@@ -1,6 +1,10 @@
 ---
 name: ui-ux-analyzer
-description: Systematically analyze user interfaces to understand objects, states, actions, and data flow - producing implementation-ready specifications. Modular sub-skills for each phase.
+description: >-
+  Turn an existing user interface into an implementation-ready specification -
+  objects, states, actions, forms, data flow, SVG wireframes. Use when
+  analysing an interface for reimplementation, when documenting screens and
+  their behaviour, or when producing wireframes before building a UI.
 ---
 
 # Skill: ui-ux-analyzer (Modular)

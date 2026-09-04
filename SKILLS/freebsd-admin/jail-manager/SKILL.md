@@ -1,6 +1,10 @@
 ---
-name: jail manager
-description: Create, configure, start, stop, and manage FreeBSD jails using common tools like `jail(8)`, `ezjail`, `iocage`, `bastille`, and `pot` (Prison on Trust).
+name: jail-manager
+description: >-
+  Create and operate FreeBSD jails with jail(8), ezjail, iocage, bastille, or
+  pot. Use when building an isolated userland environment, when a service
+  should be confined to a jail, or when setting up per-service isolation for
+  testing.
 ---
 
 # Skill: jail-manager

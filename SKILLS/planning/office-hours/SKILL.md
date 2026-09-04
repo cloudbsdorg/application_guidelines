@@ -1,20 +1,14 @@
+---
+name: office-hours
+description: >-
+  Give a direct consulting recommendation with the reasoning behind it, rather
+  than a list of options. Use when asked for advice, an opinion, a best
+  practice, or "what should I do here" - and when a decision, not a survey, is
+  what is wanted.
+---
+
 # Office Hours Skill
 
-## Metadata
-```
-author: Mark LaPointe <mark@cloudbsd.org>
-version: 1.0.0
-platform: CloudBSD / FreeBSD
-triggers:
-  - "consult"
-  - "office hours"
-  - "advice"
-  - "opinion"
-  - "recommend"
-  - "best practice"
-  - "should I"
-  - "thoughts on"
-```
 
 ## Purpose
 

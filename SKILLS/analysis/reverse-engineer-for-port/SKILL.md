@@ -1,6 +1,10 @@
 ---
-name: reverse engineer for port
-description: Systematically analyze source code to understand actual behavior before porting, avoiding assumptions based on names or structure.
+name: reverse-engineer-for-port
+description: >-
+  Establish what code actually does before porting it, instead of trusting
+  names and structure. Use at the start of any port or rewrite, when
+  documenting an application you did not write, or when you need to separate
+  live behaviour from dead code.
 ---
 
 # Skill: reverse-engineer-for-port

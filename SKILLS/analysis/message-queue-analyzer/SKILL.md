@@ -1,6 +1,10 @@
 ---
-name: message queue analyzer
-description: Systematically analyze message brokers, queues, and event-driven architectures to understand message flow, patterns, and integration points.
+name: message-queue-analyzer
+description: >-
+  Document message brokers and event-driven architecture - queues, topics,
+  pub/sub, delivery guarantees. Use when analysing RabbitMQ, Kafka, MQTT,
+  NATS, AWS SQS or SNS, when tracing how events flow between services, or when
+  planning an integration with a broker.
 ---
 
 # Skill: message-queue-analyzer

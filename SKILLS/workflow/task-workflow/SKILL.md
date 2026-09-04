@@ -1,6 +1,10 @@
 ---
-name: task workflow
-description: Enforce the claiming and completion protocols defined in the Planning Guidelines.
+name: task-workflow
+description: >-
+  Claim, work, and complete tasks under the CloudBSD Planning protocol,
+  keeping task tables truthful when several agents share a plan. Use when
+  picking up a task, marking one done, or resolving a task table that two
+  agents have edited.
 ---
 
 # Skill: task-workflow

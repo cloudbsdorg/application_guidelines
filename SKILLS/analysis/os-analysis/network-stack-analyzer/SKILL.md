@@ -1,6 +1,9 @@
 ---
-name: network stack analyzer
-description: Systematically analyze application networking code to understand socket usage, protocol handling, and network APIs for cross-platform porting.
+name: network-stack-analyzer
+description: >-
+  Document an application's networking - sockets, TCP/UDP, epoll/kqueue, TLS,
+  DNS. Use when porting network-heavy code to FreeBSD, when replacing epoll
+  with kqueue, or when auditing how a service binds, listens, and encrypts.
 ---
 
 # Skill: network-stack-analyzer

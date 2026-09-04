@@ -1,6 +1,10 @@
 ---
-name: code quality analyzer
-description: Identify code duplication, extract interfaces and abstractions, and plan refactoring during or after porting.
+name: code-quality-analyzer
+description: >-
+  Find duplication and plan the refactoring that removes it. Use when
+  reviewing freshly ported or generated code, when the same logic appears in
+  several places, or when asked to extract interfaces and abstractions before
+  a codebase grows further.
 ---
 
 # Skill: code-quality-analyzer

@@ -1,6 +1,10 @@
 ---
-name: security document generator
-description: Create security documentation following the CloudBSD security series standard (1.1-1.6).
+name: security-document-generator
+description: >-
+  Produce the CloudBSD security document series - threat model, access
+  control, data protection, and the rest of the 1.1-1.6 set. Use when a
+  project needs its security documentation created or brought up to the
+  standard.
 ---
 
 # Skill: security-document-generator

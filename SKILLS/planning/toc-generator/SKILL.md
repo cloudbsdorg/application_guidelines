@@ -1,6 +1,10 @@
 ---
-name: toc generator
-description: Create and maintain Table of Contents documents for project planning.
+name: toc-generator
+description: >-
+  Generate and maintain the table-of-contents document that indexes a
+  project's planning set. Use when creating the 000 TOC document or when
+  documents have been added or renumbered and the index no longer matches the
+  tree.
 ---
 
 # Skill: toc-generator

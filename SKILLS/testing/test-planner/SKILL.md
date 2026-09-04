@@ -1,6 +1,10 @@
 ---
-name: test planner
-description: Generate testing documentation including test case matrices, test plans, and testing scope documents.
+name: test-planner
+description: >-
+  Generate testing documentation - test case matrices, test plans, and testing
+  scope documents (the 401, 402, and 1101 series). Use when planning how a
+  feature will be proven, before implementation starts, so the evidence
+  requirement is defined up front.
 ---
 
 # Skill: test-planner

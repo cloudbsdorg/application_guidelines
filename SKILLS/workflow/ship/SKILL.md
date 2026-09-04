@@ -1,18 +1,14 @@
+---
+name: ship
+description: >-
+  Deploy only with the evidence CloudBSD law requires - tests, coverage, man
+  page lint, PR, then deploy. Use when asked to ship, release, publish, or
+  push to production, and to stop a release that has no captured evidence
+  behind it.
+---
+
 # Ship Skill
 
-## Metadata
-```
-author: Mark LaPointe <mark@cloudbsd.org>
-version: 1.0.0
-platform: CloudBSD / FreeBSD
-triggers:
-  - "ship"
-  - "deploy"
-  - "release"
-  - "publish"
-  - "push to prod"
-  - "cut a release"
-```
 
 ## Ship Protocol
 

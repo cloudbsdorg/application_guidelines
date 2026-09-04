@@ -1,6 +1,9 @@
 ---
-name: risk assessor
-description: Create and maintain risk registers following CloudBSD risk management conventions.
+name: risk-assessor
+description: >-
+  Create and maintain a project risk register in the CloudBSD format. Use when
+  writing the 700-series risk document, during a risk review, or when a design
+  decision introduces a risk that must be recorded and tracked.
 ---
 
 # Skill: risk-assessor

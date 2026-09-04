@@ -1,3 +1,12 @@
+---
+name: mermaid-diagrammer
+description: >-
+  Produce diagrams in the format CloudBSD law requires: Mermaid for
+  architecture, flowcharts, sequence, state, class and ER diagrams; in-repo
+  SVG for UI wireframes and mockups. Use whenever a diagram is being added or
+  edited, and whenever ASCII-art, DOT, or PlantUML must be converted away.
+---
+
 # Skill: mermaid-diagrammer
 
 **Purpose:** Generate architecture, flowchart, sequence, class, ER, and graph diagrams in Mermaid. For UI design and prototyping (wireframes, mockups, screens), produce or edit in-repo SVG files. Mermaid is THE diagramming format for CloudBSD architecture and documentation. SVG is additionally allowed for UI design only — never replace Mermaid with SVG for architecture.

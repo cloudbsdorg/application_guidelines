@@ -1,6 +1,9 @@
 ---
 name: work-with-pr
-description: "Full PR lifecycle: git worktree → implement → atomic commits → PR creation → verification loop (CI + review-work + Cubic approval) → merge. Keeps iterating until ALL gates pass and PR is merged. Worktree auto-cleanup after merge. Use whenever implementation work needs to land as a PR. Triggers: 'create a PR', 'implement and PR', 'work on this and make a PR', 'implement issue', 'land this as a PR', 'work-with-pr', 'PR workflow', 'implement end to end', even when user just says 'implement X' if the context implies PR delivery."
+description: >-
+  Carry implementation work through the full pull-request lifecycle: worktree,
+  atomic commits, PR, CI and review gates, merge, cleanup. Use when asked to
+  create a PR, implement an issue end to end, or land a change as a PR.
 ---
 
 # Work With PR — Full PR Lifecycle

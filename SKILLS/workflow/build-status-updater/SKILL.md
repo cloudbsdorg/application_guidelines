@@ -1,6 +1,9 @@
 ---
-name: build status updater
-description: Maintain the build-status.md file for CI/CD tracking and status reporting.
+name: build-status-updater
+description: >-
+  Maintain a project's build status document for CI/CD tracking. Use when a
+  build result changes, when CI is added or reconfigured, or when the recorded
+  status no longer matches reality.
 ---
 
 # Skill: build-status-updater

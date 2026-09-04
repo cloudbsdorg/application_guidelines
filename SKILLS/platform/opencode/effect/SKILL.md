@@ -1,6 +1,9 @@
 ---
 name: effect
-description: Work with Effect v4 / effect-smol TypeScript code in this repo
+description: >-
+  Work with Effect v4 / effect-smol TypeScript code - services, layers,
+  schemas, and the Effect idioms. Use when editing or reviewing TypeScript
+  that imports Effect, or when asked how to model an operation as an Effect.
 ---
 
 # Effect

@@ -1,6 +1,10 @@
 ---
-name: system call analyzer
-description: Systematically analyze application system calls to understand OS-level dependencies and enable cross-platform porting.
+name: system-call-analyzer
+description: >-
+  Document the system calls an application depends on and how they map across
+  operating systems. Use when porting low-level code to FreeBSD, when a Linux-
+  only syscall must be replaced, or when analysing file I/O, memory, signals,
+  or process syscalls.
 ---
 
 # Skill: system-call-analyzer

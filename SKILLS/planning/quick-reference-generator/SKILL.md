@@ -1,6 +1,9 @@
 ---
-name: quick reference generator
-description: Create and maintain Quick Reference sections for agent entry point documents.
+name: quick-reference-generator
+description: >-
+  Write the Quick Reference section that sits at the top of an agent entry
+  point document. Use when creating or refreshing AGENTS.md for a project, so
+  an agent gets the critical commands and paths without reading everything.
 ---
 
 # Skill: quick-reference-generator

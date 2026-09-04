@@ -1,21 +1,14 @@
+---
+name: security-audit
+description: >-
+  Audit code or a design for vulnerabilities using OWASP Top 10 and STRIDE.
+  Use when asked for a security audit or threat model, before shipping
+  anything that handles authentication, secrets, or untrusted input, and when
+  reviewing code that crosses a trust boundary.
+---
+
 # Security Audit Skill
 
-## Metadata
-```
-author: Mark LaPointe <mark@cloudbsd.org>
-version: 1.0.0
-platform: CloudBSD / FreeBSD
-triggers:
-  - "security"
-  - "audit"
-  - "vulnerability"
-  - "threat model"
-  - "pen test"
-  - "owasp"
-  - "stride"
-  - "CVE"
-  - "exploit"
-```
 
 ## Security Review Frameworks
 
