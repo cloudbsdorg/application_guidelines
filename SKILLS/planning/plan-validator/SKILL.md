@@ -252,4 +252,4 @@ echo "Validation passed"
 
 ## Reference
 
-See [Planning/PLANNING.md](../Planning/PLANNING.md) for the complete planning standard against which to validate.
+See [Planning/PLANNING.md](../../../Planning/PLANNING.md) for the complete planning standard against which to validate.

@@ -141,12 +141,21 @@ function App() {
 }
 ```
 
-## References
+## Further reading
 
-- **[references/workflows.md](references/workflows.md)** - Durable Workflows integration
-- **[references/callable.md](references/callable.md)** - RPC methods, streaming, timeouts
-- **[references/state-scheduling.md](references/state-scheduling.md)** - State persistence, scheduling
-- **[references/streaming-chat.md](references/streaming-chat.md)** - AIChatAgent, resumable streams
-- **[references/mcp.md](references/mcp.md)** - MCP server integration
-- **[references/email.md](references/email.md)** - Email routing and handling
-- **[references/codemode.md](references/codemode.md)** - Code Mode (experimental)
+These topics are documented upstream at <https://developers.cloudflare.com/agents/>;
+this repository does not vendor a copy, so look them up there rather than expecting
+local files.
+
+| Topic | What it covers |
+|-------|----------------|
+| Workflows | Durable Workflows integration |
+| Callable methods | RPC methods, streaming, timeouts |
+| State and scheduling | State persistence, scheduled tasks |
+| Streaming chat | `AIChatAgent`, resumable streams |
+| MCP | MCP server integration |
+| Email | Email routing and handling |
+| Code Mode | Experimental code-execution mode |
+
+Related skill: [cloudflare-platform](../cloudflare-platform/SKILL.md) for the wider
+Cloudflare product map.

@@ -270,6 +270,6 @@ When creating a validation report, verify:
 
 ## Reference Documents
 
-- [Planning/PLANNING.md](../Planning/PLANNING.md) Section 3.13 — Validation specification
+- [Planning/PLANNING.md](../../../Planning/PLANNING.md) Section 3.13 — Validation specification
 - [PPPoE Validation Report](https://github.com/cloudbsdorg/freebsd-src-pppoe/tree/main/.plan) — Example implementation
 - [Emulation Validation Report](https://github.com/cloudbsdorg/freebsd-src-build-emulation/tree/main/.plan) — Comprehensive example

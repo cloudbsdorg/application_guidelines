@@ -569,6 +569,6 @@ procctl(PROC_OOMADJ_CTL, PROC_OOMADJ_MIN); // Least likely to be killed
 
 ## Reference
 
-See [Planning/PLANNING.md](../Planning/PLANNING.md) Section 3.4 for the full security documentation specification.
+See [Planning/PLANNING.md](../../../Planning/PLANNING.md) Section 3.4 for the full security documentation specification.
 
 See [Kernel Emulation Framework Security Docs](https://github.com/cloudbsdorg/freebsd-src-build-emulation/tree/main/.plan) for complete examples.

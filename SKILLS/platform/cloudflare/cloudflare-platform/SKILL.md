@@ -11,7 +11,12 @@ references:
 
 # Cloudflare Platform Skill
 
-Consolidated skill for building on the Cloudflare platform. Use decision trees below to find the right product, then load detailed references.
+Consolidated map of the Cloudflare platform. Use the decision trees below to pick the
+right product, then read that product's upstream documentation at
+<https://developers.cloudflare.com/>. The `references/...` paths in the tables are
+upstream documentation topics, not files in this repository.
+
+Related skill: [agents-sdk](../agents-sdk/SKILL.md) for building stateful agents on Workers.
 
 ## Quick Decision Trees
 
