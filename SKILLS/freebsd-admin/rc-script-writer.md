@@ -103,7 +103,7 @@ Dependencies that must start before this service.
 | mysql | MySQL must be running |
 | postgresql | PostgreSQL must be running |
 | DAEMON | Generic daemon (used with respawn) |
-|干净 | Clean shutdown (runs at shutdown) |
+| shutdown | Clean shutdown (runs at shutdown) |
 
 ## KEYWORD
 When this script should run.

@@ -68,8 +68,8 @@ Document discrepancies between implementation plan and validation report.
 
 | # | Task | Status | Assigned To | Validation Status | Validated By | Validation Date | Validation Comments |
 |---|------|--------|------------|-------------------|--------------|-----------------|---------------------|
-| S0.1 | Implement module entry point | ✅ DONE | freedev002 | ✅ Valid | freedev003 | 2026-04-27 | Verified... [Task Link](path/to/task.md#anchor) |
-| S0.2 | Implement sysctl interface | ✅ DONE | freedev002 | ✅ Valid | freedev003 | 2026-04-27 | Verified... |
+| S0.1 | Implement module entry point | ✅ DONE | agent-alpha | ✅ Valid | agent-beta | 2026-04-27 | Verified... [Task Link](path/to/task.md#anchor) |
+| S0.2 | Implement sysctl interface | ✅ DONE | agent-alpha | ✅ Valid | agent-beta | 2026-04-27 | Verified... |
 ```
 
 ### Columns:

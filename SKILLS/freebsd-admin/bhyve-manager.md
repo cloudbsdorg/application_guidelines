@@ -30,20 +30,21 @@ Load this skill when the user asks you to:
 | Aspect | Description |
 |--------|-------------|
 | Type | Type-2 hypervisor (hardware-assisted virtualization) |
-| License | BSD License (子弟 kernel module) |
+| License | BSD 2-Clause (`vmm.ko` kernel module) |
 | Guest Support | FreeBSD, Linux, Windows, OpenBSD, NetBSD |
 | Hardware | Requires CPU with VT-x/AMD-V |
 | Kernel Module | vmm.ko |
 
 ## Bhyve vs Other Hypervisors
 
-| Feature | bhyve | bhyve+ | VirtualBox | VMware |
-|---------|--------|---------|------------|--------|
-| License | BSD | BSD | GPL | Proprietary |
-| Performance | Near-native | Near-native | Medium | High |
-| Windows Support | Limited | Limited | Yes | Yes |
-| Mature | Yes | Yes | Very | Very |
-| Live Migration | No | Yes (bhyve+patch) | Yes | Yes |
+| Feature | bhyve | VirtualBox | VMware |
+|---------|-------|------------|--------|
+| License | BSD | GPL | Proprietary |
+| Performance | Near-native | Medium | High |
+| Windows Support | Yes (UEFI + virtio drivers) | Yes | Yes |
+| Maturity | Mature | Very | Very |
+| Live migration | Not supported | Yes | Yes |
+| Runs on FreeBSD as host | Native | Port | No |
 ```
 
 ### 1.2 Check Hardware Support
@@ -64,6 +65,11 @@ sudo kldload vmm
 
 # Make permanent
 echo 'vmm_load="YES"' >> /boot/loader.conf
+
+# CloudBSD law: NEVER kldload an unproven/development vmm.ko on a development or
+# CI host (AGENTS.md host safety). Test kernel-module changes inside an isolated
+# bhyve VM, and install unproven kernels through a one-shot boot environment -
+# see SKILLS/freebsd-admin/safe-kernel-deploy/.
 ```
 
 ---
@@ -104,12 +110,12 @@ echo 'vmm_load="YES"' >> /boot/loader.conf
 ```bash
 # 1. Load required modules
 sudo kldload if_bridge
-sudo kldload if_tap
+sudo kldload if_tuntap
 sudo kldload bridgestp
 
 # Make permanent
 echo 'if_bridge_load="YES"' >> /boot/loader.conf
-echo 'if_tap_load="YES"' >> /boot/loader.conf
+echo 'if_tuntap_load="YES"' >> /boot/loader.conf
 echo 'bridgestp_load="YES"' >> /boot/loader.conf
 
 # 2. Create bridge and add interface
@@ -125,8 +131,8 @@ sudo sysctl net.inet.ip.forwarding=1
 # (See pf.conf example below)
 
 # 5. Make permanent in /etc/rc.conf
-echo 'cloned_interfaces="bridge0 tap0"' >> /etc/rc.conf
-echo 'ifconfig_bridge0="addm em0 addm tap0 up"' >> /etc/rc.conf
+sysrc cloned_interfaces="bridge0 tap0"
+sysrc ifconfig_bridge0="addm em0 addm tap0 up"
 ```
 
 ### 2.3 TAP Device Setup
@@ -134,12 +140,13 @@ echo 'ifconfig_bridge0="addm em0 addm tap0 up"' >> /etc/rc.conf
 ```bash
 # Create tap device with permissions for non-root user
 sudo ifconfig tap0 create
-sudo ifconfig tap0 group operator
-sudo chown operator:operator /dev/tap0
+sudo ifconfig tap0 create
+# Non-root use requires the vmm device permission, not chown on /dev/tapN:
+sudo sysctl net.link.tap.user_open=1
 
 # Or for persistent tap devices
-echo 'autobridge_tap="tap0 tap1 tap2 tap3"' >> /etc/rc.conf
-echo ' cloned_interfaces="bridge0 tap0"' >> /etc/rc.conf
+sysrc autobridge_tap="tap0 tap1 tap2 tap3"
+sysrc cloned_interfaces+="tap1 tap2 tap3"
 ```
 
 ---
@@ -254,7 +261,8 @@ vm start vm1
 # Inside VM: shutdown -p now
 
 # Force kill
-bhyvectl --force --vm=vm1
+bhyvectl --destroy --vm=vm1        # tear down a stopped VM
+bhyvectl --force-poweroff --vm=vm1 # forcibly power off a running VM
 
 # Or via kill
 pkill -f "bhyve.*vm1"
@@ -275,7 +283,7 @@ vm destroy vm1
 # REQUIRE: NETWORKING
 # KEYWORD: shutdown
 
-. /etc/subr.subr
+. /etc/rc.subr
 
 name="bhyveVM"
 rcvar="bhyveVM_enable"
@@ -391,7 +399,7 @@ disk0_dev="zvol:tank/vm/vm1/disk0"
 -s 2,virtio-blk,/dev/zvol/tank/vm/vm1
 
 # With discard support (TRIM)
--s 2,virtio-blk,/var/vm/vm1.img,detect-zone append
+-s 2,virtio-blk,/var/vm/vm1.img,nocache,direct
 ```
 
 ### 6.2 AHCI (SATA Compatible)
@@ -410,8 +418,8 @@ disk0_dev="zvol:tank/vm/vm1/disk0"
 # Best performance
 -s 2,nvme,/dev/nvme0n1
 
-# Or via PCIe passthrough
--s 2,pci-ahci,/dev/ada0
+# Raw disk (AHCI) - for guests without virtio/nvme drivers
+-s 2,ahci-hd,/dev/ada0
 ```
 
 ---
@@ -422,8 +430,7 @@ disk0_dev="zvol:tank/vm/vm1/disk0"
 
 ```bash
 # Enable in /boot/loader.conf
-hw.pci.pjbook_probed=1
-ppt=1
+pptdevs="1/0/0"          # reserve 01:00.0 for passthrough at boot
 
 # Or for specific devices
 # Find device

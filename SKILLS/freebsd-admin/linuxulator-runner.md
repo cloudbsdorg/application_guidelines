@@ -59,7 +59,7 @@ stripping Linux compatibility layer environment variables.
 │  ┌────────────────────────────────────────────┐ │
 │  │           Linuxulator Layer                 │ │
 │  │                                              │ │
-│  │   /compat/linux (Linux userspace模拟)        │ │
+│  │   /compat/linux (Linux userspace emulation)        │ │
 │  │   /etc/os-release (Rocky Linux)             │ │
 │  │   /lib, /usr/lib (Linux libraries)          │ │
 │  │                                              │ │
