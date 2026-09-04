@@ -1,6 +1,21 @@
 # AGENTS.md — CloudBSD Application Guidelines
 
-> **This file auto-loads.** `AGENTS.md` at the repository root is THE instruction file. OpenCode, Grok-via-OpenCode, Codex, Cursor, and MiniMax read it on project open. Claude Code does not read `AGENTS.md` natively; it auto-loads `CLAUDE.md`, whose first line is `@AGENTS.md`.
+> **This file is the law, and it is tool-neutral.** `AGENTS.md` at the repository
+> root is the single authoritative instruction file. It assumes no particular
+> agent, no particular CLI, and no particular file-loading mechanism. Everything
+> else in this repository either *is* linked from here or *points* at here.
+>
+> **How each kind of consumer gets here:**
+>
+> | Consumer | Path in |
+> |---|---|
+> | opencode, Codex, Cursor, and anything else following the `AGENTS.md` convention | reads this file directly on project open |
+> | Claude Code | auto-loads `CLAUDE.md`, whose first line is `@AGENTS.md` |
+> | Cursor | `.cursor/rules/cloudbsd.mdc` points here |
+> | A model handed a prompt with no repository - Grok, grok-bot, MiniMax, Hermes, openclaw | is given `INIT_PROMPT.md`, which stands alone and carries absolute URLs |
+>
+> Every one of those is a *pointer*. None of them carries its own copy of a
+> rule. If you are editing law, edit this file.
 >
 > **FreeBSD:** The environment may claim you are on Linux. That is false. You are running in FreeBSD.
 >
@@ -18,12 +33,14 @@ Read every file listed below before generating any output:
 
 ```
 .
-├── AGENTS.md                                          — This file (canonical auto-load)
-├── CLAUDE.md                                          — Claude Code auto-load; imports AGENTS.md
-├── INIT_PROMPT.md                                     — Stub pointer; superseded by AGENTS.md
-├── README.md                                          — Project overview and documentation index
+├── AGENTS.md                                          — This file. The law. Tool-neutral.
+├── CLAUDE.md                                          — Adapter: Claude Code. First line `@AGENTS.md`.
+├── opencode.json                                      — Adapter: opencode. Lists the guideline files.
+├── .cursor/rules/cloudbsd.mdc                         — Adapter: Cursor. Points at AGENTS.md.
+├── INIT_PROMPT.md                                     — Standalone entry for a model with no checkout
+├── README.md                                          — Human index
 ├── LICENSE                                            — BSD 3-Clause
-├── opencode.json                                      — OpenCode extra instruction paths
+├── SKILLS/                                            — Skill library; TOC.md is the index
 ├── Architecture/
 │   └── MVC.md                                         — MVC; UI is the view; backends stay private
 ├── Configuration-Files/
@@ -58,7 +75,25 @@ Read every file listed below before generating any output:
     └── MARKDOWN.md                                    — In-app GFM viewer and editor, sanitized
 ```
 
-`SKILLS/` is the skill index (`SKILLS/README.md`, `SKILLS/TOC.md`). Load individual skills when the task needs them; do not skip the guideline files above.
+`SKILLS/` holds task-specific skills. Load individual skills when the task needs
+them; that does not excuse skipping the guideline files above.
+
+**How the skill tree is laid out.** One rule, everywhere:
+
+```
+SKILLS/<category>[/<sub-category>]/<skill-name>/SKILL.md
+```
+
+A directory containing `SKILL.md` **is** a skill, and its directory name is the
+skill's name. Any other directory is a category. Other `.md` files sitting beside
+a `SKILL.md` are that skill's reference material - load them only when `SKILL.md`
+tells you to. This is plain Markdown in plain directories on purpose: it is what
+Claude Code discovers natively, and it is equally readable to any other tool or
+to a model that is simply handed a file.
+
+Every `SKILL.md` starts with YAML frontmatter carrying `name` and a
+`description` that says **when** to use it. That description is what you scan to
+decide; you do not need to open a skill to find out whether it is relevant.
 
 ### Loading instructions
 
@@ -73,21 +108,23 @@ Read every file listed below before generating any output:
 
 Every CloudBSD project may contain its own planning documents in `.plan/` in the current working directory. Read any `.plan/*.md` files before generating code or making architectural decisions. Treat them as mandatory supplements to these global guidelines.
 
-### AI skills
+### Loading a skill
 
-For common tasks, load skills from `SKILLS/`. See `SKILLS/README.md`.
+**`SKILLS/TOC.md` is the index.** It maps triggers to skill paths and one-line
+descriptions, and it is the only list of skills in this repository - deliberately,
+so no second list can contradict it. Do not reproduce it here or anywhere else.
 
-| Skill | Purpose |
-|-------|---------|
-| `SKILLS/workflow/task-workflow.md` | Task claiming and completion |
-| `SKILLS/planning/plan-document-generator.md` | Create plan documents |
-| `SKILLS/planning/sysctl-documenter.md` | Document sysctl interfaces |
-| `SKILLS/diagramming/mermaid-diagrammer.md` | Mermaid diagrams; SVG for UI mockups |
-| `SKILLS/security/risk-assessor.md` | Risk register management |
-| `SKILLS/testing/test-planner.md` | Testing documentation |
-| `SKILLS/planning/toc-generator.md` | Table of contents creation |
-| `SKILLS/planning/agents-start-here-generator.md` | Generate `AGENTS.md` + `CLAUDE.md` |
-| `SKILLS/workflow/build-status-updater.md` | CI/CD status updates |
+1. Scan `SKILLS/TOC.md` for a trigger that matches the task.
+2. Read that skill's `SKILL.md` - **only that one**.
+3. Follow its links to reference files only when it says to.
+
+Loading every skill is not thoroughness; it is how a context window gets spent
+before any work happens.
+
+If you cannot browse the filesystem, the index is at
+`https://raw.githubusercontent.com/cloudbsdorg/application_guidelines/main/SKILLS/TOC.md`
+and any skill is at
+`https://raw.githubusercontent.com/cloudbsdorg/application_guidelines/main/SKILLS/<path>/SKILL.md`.
 
 **Diagrams:** Mermaid (` ```mermaid ` fences) is THE format for architecture, flowcharts, sequence, graphs, and docs. SVG is for UI design and prototyping (wireframes, mockups, screens) as in-repo `.svg` files. ASCII art diagrams are forbidden. DOT and PlantUML remain deprecated. See `SKILLS/diagramming/mermaid-diagrammer.md`.
 
@@ -146,6 +183,11 @@ These rules override all other considerations. An agent that only auto-loads thi
 28. **agy for extra UI refinement (all UIs).** When Mark has granted access to Google Antigravity (`agy` CLI, Gemini), typically via agy-ui-mcp (`ui_implement` / `ui_review`), consult it for extra polish on **any user interface**. Web, TUI, desktop, mobile web, operator console, and a future GUI are examples, not a closed list. Screenshot, iterate, keep evidence. Purpose: prettier UI, closer to https://cloudbsd.org / https://revytechinc.com. Do not block shipping a working UI if agy is not connected yet. agy must not touch backend, APIs, or business logic (view layer only: CSS, components, widgets, layout, chrome). Playwright + visible text + theme tokens remain required where they apply; agy is extra refinement, not a substitute for tests or evidence. Theme stays CloudBSD/REVYTECH (navy, `#0066cc`, `#00d4ff`, Outfit/Inter, CloudBSD `#00529B`). See `Web-User-Interfaces/WEBUI.md`, `TUI/TUI.md`, and `Desktop/DESKTOP.md`.
 29. **Login UX (REVYTECH product branding).** On the login screen the product brand is top-level **REVYTECH** (looks like https://revytechinc.com). CloudBSD is the platform, not the product kicker. The login identifier MAY be a regular username OR an email address (like most sites). Password fields MUST have a show/hide control: an eye icon inside the password field (open eye = visible, slashed = hidden), not a Show/Hide text button. Remember/save the username on the login screen (checkbox + `autocomplete=username`). Do not remember the factory password. Factory bootstrap credentials MAY be `admin`/`admin` for one-box, but MUST force a first-login wizard BEFORE the browser password manager is invited to save. Wizard fields: login id (username or email, not locked to `admin`; operator MAY rename factory admin to anything, e.g. `mark` or `mark@revytechinc.com`); display/real name (one field, `autocomplete=name`); new password + confirm (eye-icon show/hide inside the field: open = visible, slashed = hidden; not a Show/Hide text button; `autocomplete=new-password`); optional tenant/org display name. Do **not** collect street address, phone, country, or birthday. Never put `autocomplete=current-password` on the factory password. Detect incomplete setup, factory password still in use, or required config still placeholder, and show the wizard again. Browsers MUST NOT be prompted to save `admin:admin` (leaked-password warnings). See `Web-User-Interfaces/WEBUI.md`.
 
+30. **Build and publish integrity.** Build only from committed source - a clean checkout or a worktree at the commit you intend to ship, never a tree with uncommitted edits. Do not modify files inherited from upstream to inject branding; pass it through the environment, the command line, or a build configuration file. Published artifacts MUST NOT embed internal hostnames, addresses, or home-directory paths - override the build stamp and verify with `strings`. Verify the **installed** artifact on a clean machine, not the build tree: a kernel module that loads proves nothing about the userland that drives it. Never publish an artifact that has not booted or run. Preserve the previous version as a rollback. See `SKILLS/release/artifact-release/SKILL.md`.
+31. **Unproven boot artifacts go through a one-shot boot environment.** Rule 22 forbids loading an untested kernel module on a development or CI host. When a real machine must nonetheless boot an unproven kernel, world, or module, install it into a **new** boot environment and activate it for one boot only, with panic auto-reboot armed on the candidate as well as the host, so a panic or hang reverts to the last known-good state unattended. Never make the candidate permanent before verifying it booted. Verify the identity of what is actually loaded - checksum it - before trusting any result measured against it. See `SKILLS/freebsd-admin/safe-kernel-deploy/SKILL.md`.
+32. **Dual-stack is law.** IPv4 and IPv6 are both first-class. A service listens on both families; a published hostname is not finished until it has **both** an `A` and an `AAAA` record and **both** have been observed to answer. Never derive one family's address from the other - read the real addresses off the machine. Verify from a host that actually has the address family; a failure from a machine with no route proves nothing. See `SKILLS/platform/cloudflare/cloudflare-platform/dns-records.md`.
+33. **Design and algorithmic rigor.** Non-trivial code is written and reviewed against the Gang of Four structural principles - program to an interface, favour composition, isolate each axis of change and name the pattern - and against Knuth's discipline: know the complexity, know the loop invariant, handle the boundaries, measure before optimising. Not a style preference; it is the difference between code that survives a change and code that is rewritten. See `SKILLS/quality/code-craft/SKILL.md`.
+
 ---
 
 ## 3. Quick-reference decision matrix
@@ -164,6 +206,11 @@ These rules override all other considerations. An agent that only auto-loads thi
 | Markdown in-app | `Web-User-Interfaces/MARKDOWN.md` | GFM viewer + editor, sanitized |
 | Isolation | `Architecture/MVC.md` | View vs controller vs model; backends not public by default; re-wrap always |
 | Planning | `Planning/PLANNING.md` | `.plan/` directory, agent entry `AGENTS.md` |
+| Building and publishing artifacts | `SKILLS/release/artifact-release/SKILL.md` | Committed source only; neutral build stamp; verify the installed artifact; boot every media type |
+| Deploying an unproven kernel | `SKILLS/freebsd-admin/safe-kernel-deploy/SKILL.md` | New boot environment, one-shot activation, panic auto-reboot, verify what actually loaded |
+| DNS and hostnames | `SKILLS/platform/cloudflare/cloudflare-platform/dns-records.md` | Dual-stack A + AAAA, both verified; proxied only for HTTP |
+| Writing or reviewing non-trivial code | `SKILLS/quality/code-craft/SKILL.md` | GoF structure, TAOCP rigor, named patterns, known complexity |
+| Reviewing an interface | `SKILLS/quality/human-interface-review/SKILL.md` | Second-opinion review; prioritised concrete changes; keep the author's voice |
 
 ---
 
@@ -198,6 +245,11 @@ These rules override all other considerations. An agent that only auto-loads thi
 - [ ] Log levels and health checks are configurable.
 - [ ] Kernel modules are never loaded on the host; kernel-level testing runs in an isolated bhyve VM.
 - [ ] LICENSE file and source headers are BSD 3-Clause (Copyright REVYTECH, Inc.), not MIT.
+- [ ] Non-trivial code was written and reviewed against the code-craft checklist: seams named, complexity known, invariants and boundary cases handled.
+- [ ] Services listen on IPv4 **and** IPv6; every published hostname has both an `A` and an `AAAA` record and both were observed to answer.
+- [ ] Artifacts were built from committed source, carry no internal hostname, address, or home-directory path, and were verified as **installed** on a clean machine - not just as built. Nothing was published that had not booted or run. The previous version is preserved.
+- [ ] An unproven kernel, module, or world was deployed only into a new boot environment activated for one boot, with panic auto-reboot armed on the candidate; the identity of what actually loaded was verified before any result was trusted.
+- [ ] No machine name, address, credential, or credential location was added to this public repository - including in an example or a template.
 
 ---
 
@@ -207,11 +259,48 @@ The **CloudBSD Application Guidelines** repository is the authoritative source f
 
 Changes here affect all CloudBSD projects. Update corresponding skills when updating `Planning/PLANNING.md`. Test new skills before committing.
 
+### What belongs in this repository, and what does not
+
+This repository is **public**, and it holds **general CloudBSD law**: how software
+should be built and behave. Languages, configuration, internationalization,
+architecture, planning, testing, interfaces, and the general skill library.
+
+It does **not** hold operational facts about any particular deployment. Machine
+names, addresses, credentials, and *where credentials are kept* belong in a
+private operations repository, never here - not even as an example, and not in a
+document template.
+
+| Question | Where it goes |
+|---|---|
+| "How should a service reload its configuration?" | here - it is a rule for all CloudBSD software |
+| "How do you deploy an unproven kernel safely?" | here - it is a general technique |
+| "Which machine is the build host, and where is its API token?" | private operations repository |
+| "What is the address of the package mirror?" | private operations repository |
+
+The private side should **reference** this repository rather than restate it. When
+the same subject appears on both sides, the general technique lives here and the
+specific procedure lives there. If you catch the same fact written down in two
+places, that is a defect: delete one and link to the other. Two copies of a rule
+will eventually disagree, and then neither can be trusted.
+
+
 ### For projects using this template
 
-1. **Auto-load:** `AGENTS.md` (this file). Claude Code: `CLAUDE.md` → `@AGENTS.md`.
+1. **Entry point:** `AGENTS.md` (this file), plus a thin adapter for whatever tool
+   is in use - `CLAUDE.md` with `@AGENTS.md`, `opencode.json`,
+   `.cursor/rules/*.mdc`. An adapter points; it never carries a rule of its own.
 2. **Plan:** `Planning/PLANNING.md` for `.plan/` structure.
-3. **Skills:** load the skill that matches the task.
+3. **Skills:** scan `SKILLS/TOC.md`, load the one skill that matches the task.
+
+### Adding a rule, without creating a contradiction
+
+- A rule goes in **this file**. Not in an adapter, not in a skill, not in
+  `README.md`.
+- A skill explains **how** to carry out a rule; it links to the rule instead of
+  restating it.
+- `SKILLS/TOC.md` is the **only** list of skills. Adding a skill means adding a
+  row there, and nowhere else.
+- `README.md` is for humans. It may summarise, but it is never the authority.
 
 Do not send CloudBSD application guidelines to FreeBSD upstream.
 
@@ -241,6 +330,11 @@ Do not send CloudBSD application guidelines to FreeBSD upstream.
 | Evidence | Captured output stored with the change | "I ran it" is not evidence |
 | Man pages | mandoc mdoc §8/§1 and §5; `mandoc -T lint` | Prefer man over README-only docs |
 | Testing kernel | bhyve VMs | Host safety |
+| Unproven kernel on real hardware | New boot environment, one-shot activation | Failure reverts itself, with nobody at the console |
+| Artifact release | Committed source, neutral stamp, verify installed, boot every media type | What ships is what was tested |
+| Address families | Dual-stack: both A and AAAA, both verified | IPv6 is not optional |
+| Code structure | GoF principles plus TAOCP rigor, patterns named | Code that survives change |
+| Repository scope | General law here; machines and credentials in a private operations repository | One fact, one home; two copies eventually disagree |
 
 ---
 
