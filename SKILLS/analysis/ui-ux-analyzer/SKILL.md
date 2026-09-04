@@ -5,6 +5,15 @@ description: >-
   objects, states, actions, forms, data flow, SVG wireframes. Use when
   analysing an interface for reimplementation, when documenting screens and
   their behaviour, or when producing wireframes before building a UI.
+keywords:
+  - UI
+  - UX
+  - interface
+  - wireframe
+  - mockup
+  - screen
+  - form
+  - data binding
 ---
 
 # Skill: ui-ux-analyzer (Modular)

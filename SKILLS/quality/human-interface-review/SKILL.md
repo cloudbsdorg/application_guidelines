@@ -5,6 +5,13 @@ description: >-
   TUI, a desktop window, navigation, user-facing copy, visual design - before
   shipping it. Use when a deliverable is an interface rather than internals,
   and pair it with code-craft, which covers the code behind the interface.
+keywords:
+  - UI review
+  - design review
+  - agy
+  - polish
+  - copy review
+  - accessibility review
 ---
 
 # Human-interface review

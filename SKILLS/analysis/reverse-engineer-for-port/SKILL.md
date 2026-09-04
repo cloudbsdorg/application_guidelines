@@ -5,6 +5,12 @@ description: >-
   names and structure. Use at the start of any port or rewrite, when
   documenting an application you did not write, or when you need to separate
   live behaviour from dead code.
+keywords:
+  - reverse engineer
+  - analyze source
+  - dead code
+  - actual behavior
+  - before porting
 ---
 
 # Skill: reverse-engineer-for-port

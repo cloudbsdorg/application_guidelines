@@ -5,6 +5,12 @@ description: >-
   evidence-backed reports where every claim carries a permalink. Use when
   asked to triage issues or PRs. It never comments, labels, closes, or merges
   - it only reports.
+keywords:
+  - triage
+  - GitHub issue
+  - GitHub PR
+  - issue triage
+  - read-only report
 ---
 
 # GitHub Triage - Read-Only Analyzer

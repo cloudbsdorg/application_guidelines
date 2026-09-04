@@ -5,6 +5,12 @@ description: >-
   keeping task tables truthful when several agents share a plan. Use when
   picking up a task, marking one done, or resolving a task table that two
   agents have edited.
+keywords:
+  - task
+  - claim
+  - complete
+  - task table
+  - status
 ---
 
 # Skill: task-workflow

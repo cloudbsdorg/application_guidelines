@@ -5,6 +5,13 @@ description: >-
   PROVIDE/REQUIRE/KEYWORD, rcvar, pidfiles, and a reload that honours the
   SIGHUP contract. Use whenever a CloudBSD service needs to start at boot or
   be controlled with service(8).
+keywords:
+  - rc.d
+  - rc script
+  - startup script
+  - PROVIDE
+  - REQUIRE
+  - rcvar
 ---
 
 # Skill: rc-script-writer

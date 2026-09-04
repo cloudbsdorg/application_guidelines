@@ -5,6 +5,14 @@ description: >-
   when analysing concurrent or multi-process software, when porting fork/exec
   or threading code between operating systems, or when reasoning about pipes,
   shared memory, and locking.
+keywords:
+  - thread
+  - process
+  - IPC
+  - synchronization
+  - mutex
+  - fork
+  - concurrency
 ---
 
 # Skill: process-model-analyzer

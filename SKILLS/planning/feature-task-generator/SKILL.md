@@ -5,6 +5,11 @@ description: >-
   tasks. Use after reverse-engineering or source analysis, when planning a
   port, and specifically to avoid inventing tasks for functionality that is
   not actually reachable in the source.
+keywords:
+  - feature
+  - task generation
+  - task table
+  - from inventory
 ---
 
 # Skill: feature-task-generator

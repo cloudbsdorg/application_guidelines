@@ -5,6 +5,11 @@ description: >-
   control, data protection, and the rest of the 1.1-1.6 set. Use when a
   project needs its security documentation created or brought up to the
   standard.
+keywords:
+  - security document
+  - access control
+  - data protection
+  - 1.1-1.6
 ---
 
 # Skill: security-document-generator

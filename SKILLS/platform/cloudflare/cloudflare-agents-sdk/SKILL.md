@@ -5,6 +5,13 @@ description: >-
   persistent state, callable RPC, scheduling, Workflows, MCP servers, and
   React hooks. Use when creating stateful agents, durable workflows, real-time
   WebSocket applications, or scheduled tasks on Workers.
+keywords:
+  - Cloudflare Agents
+  - Agents SDK
+  - stateful agent
+  - Durable Object agent
+  - Workflows
+  - MCP server
 ---
 
 # Cloudflare Agents SDK

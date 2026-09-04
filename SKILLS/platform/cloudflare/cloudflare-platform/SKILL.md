@@ -7,6 +7,20 @@ description: >-
   deployment task, and to decide which product a requirement calls for. DNS
   records for CloudBSD domains follow the rules in dns-records.md alongside
   this file.
+keywords:
+  - Cloudflare
+  - Worker
+  - Pages
+  - KV
+  - D1
+  - R2
+  - Queues
+  - Workers AI
+  - Tunnel
+  - WAF
+  - DNS
+  - AAAA
+  - proxied
 ---
 
 # Cloudflare Platform Skill

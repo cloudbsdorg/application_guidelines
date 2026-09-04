@@ -5,6 +5,12 @@ description: >-
   .discovery/. Use when starting on an unfamiliar or large project, when asked
   to map structure and dependencies, or when a port or migration needs a
   complete inventory before planning.
+keywords:
+  - map codebase
+  - discovery
+  - .discovery/
+  - project structure
+  - dependency map
 ---
 
 # Codebase Mapper (Modular)

@@ -5,6 +5,15 @@ description: >-
   "The Art of Computer Programming" to code you write, refactor, or review. Use
   at the start of any non-trivial code change and again as a checklist before
   finishing, and in every code review. Not for one-line edits or config tweaks.
+keywords:
+  - design pattern
+  - GoF
+  - Knuth
+  - TAOCP
+  - complexity
+  - invariant
+  - refactor
+  - code review
 ---
 
 # Code craft - GoF patterns and TAOCP rigor

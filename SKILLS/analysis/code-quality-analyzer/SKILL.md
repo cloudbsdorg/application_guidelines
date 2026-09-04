@@ -5,6 +5,12 @@ description: >-
   reviewing freshly ported or generated code, when the same logic appears in
   several places, or when asked to extract interfaces and abstractions before
   a codebase grows further.
+keywords:
+  - code quality
+  - duplication
+  - refactor
+  - extract interface
+  - DRY
 ---
 
 # Skill: code-quality-analyzer

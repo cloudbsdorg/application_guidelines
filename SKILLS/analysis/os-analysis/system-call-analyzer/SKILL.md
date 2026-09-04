@@ -5,6 +5,15 @@ description: >-
   operating systems. Use when porting low-level code to FreeBSD, when a Linux-
   only syscall must be replaced, or when analysing file I/O, memory, signals,
   or process syscalls.
+keywords:
+  - syscall
+  - system call
+  - file I/O
+  - memory
+  - signal
+  - strace
+  - truss
+  - porting
 ---
 
 # Skill: system-call-analyzer

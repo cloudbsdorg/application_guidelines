@@ -5,6 +5,13 @@ description: >-
   Use when asked for a security audit or threat model, before shipping
   anything that handles authentication, secrets, or untrusted input, and when
   reviewing code that crosses a trust boundary.
+keywords:
+  - security audit
+  - vulnerability
+  - OWASP
+  - STRIDE
+  - threat model
+  - pen test
 ---
 
 # Security Audit Skill

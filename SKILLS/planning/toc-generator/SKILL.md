@@ -5,6 +5,11 @@ description: >-
   project's planning set. Use when creating the 000 TOC document or when
   documents have been added or renumbered and the index no longer matches the
   tree.
+keywords:
+  - TOC
+  - table of contents
+  - 000 document
+  - index
 ---
 
 # Skill: toc-generator

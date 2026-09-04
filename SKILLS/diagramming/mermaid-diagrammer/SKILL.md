@@ -5,6 +5,15 @@ description: >-
   architecture, flowcharts, sequence, state, class and ER diagrams; in-repo
   SVG for UI wireframes and mockups. Use whenever a diagram is being added or
   edited, and whenever ASCII-art, DOT, or PlantUML must be converted away.
+keywords:
+  - diagram
+  - architecture
+  - flowchart
+  - sequence
+  - mermaid
+  - SVG
+  - wireframe
+  - ASCII art
 ---
 
 # Skill: mermaid-diagrammer

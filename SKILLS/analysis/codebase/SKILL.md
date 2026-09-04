@@ -5,6 +5,13 @@ description: >-
   understand, explore, or map a project, to find where something is
   implemented, to trace a call path, or to answer "where is X" without
   changing any code.
+keywords:
+  - codebase
+  - explore
+  - understand
+  - find in code
+  - where is
+  - read-only
 ---
 
 # Codebase Skill

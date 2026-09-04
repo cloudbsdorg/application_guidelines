@@ -5,6 +5,13 @@ description: >-
   SIGHUP validate-then-reload contract. Use when enabling, starting, stopping,
   or reloading a service, when editing rc.conf, or when diagnosing a service
   that will not start.
+keywords:
+  - service
+  - sysrc
+  - rc.conf
+  - enable at boot
+  - reload
+  - SIGHUP
 ---
 
 # Skill: service-manager

@@ -5,6 +5,13 @@ description: >-
   rather than guesswork. Use when debugging a failure, when asked why
   something is broken, when tracing an error, and specifically when the
   obvious explanation has already turned out to be wrong.
+keywords:
+  - debug
+  - investigate
+  - root cause
+  - trace error
+  - why is X broken
+  - diagnose
 ---
 
 # Investigation Skill

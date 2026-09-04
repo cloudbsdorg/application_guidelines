@@ -4,6 +4,12 @@ description: >-
   Multi-agent release gate that reviews everything changed since the last npm
   release before publishing. Use before every npm publish, and whenever asked
   "is this safe to publish", "ready to release", or for a pre-release review.
+keywords:
+  - pre-publish
+  - release gate
+  - npm publish
+  - safe to publish
+  - release review
 ---
 
 # Pre-Publish Review — 16-Agent Release Gate

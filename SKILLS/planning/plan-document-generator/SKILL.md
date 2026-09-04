@@ -5,6 +5,12 @@ description: >-
   when initialising a project's .plan/ directory, when adding a numbered plan
   document, or when existing planning documents need to be brought onto the
   standard structure.
+keywords:
+  - plan
+  - plan document
+  - .plan/
+  - initialize project
+  - template
 ---
 
 # Skill: plan-document-generator

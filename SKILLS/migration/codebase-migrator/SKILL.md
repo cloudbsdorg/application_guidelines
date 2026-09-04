@@ -5,6 +5,15 @@ description: >-
   Pascal, old Unix, retro codebases moving to FreeBSD, Rust, Go, or
   TypeScript. Use when asked to port, convert, or modernise an old codebase,
   after the analysis skills have produced an inventory.
+keywords:
+  - migrate
+  - port
+  - convert
+  - legacy
+  - DOS
+  - Pascal
+  - retro
+  - modernise
 ---
 
 # Skill: codebase-migrator

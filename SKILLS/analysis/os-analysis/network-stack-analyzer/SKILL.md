@@ -4,6 +4,14 @@ description: >-
   Document an application's networking - sockets, TCP/UDP, epoll/kqueue, TLS,
   DNS. Use when porting network-heavy code to FreeBSD, when replacing epoll
   with kqueue, or when auditing how a service binds, listens, and encrypts.
+keywords:
+  - socket
+  - TCP
+  - UDP
+  - epoll
+  - kqueue
+  - TLS
+  - network stack
 ---
 
 # Skill: network-stack-analyzer

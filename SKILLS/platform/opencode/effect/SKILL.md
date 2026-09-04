@@ -4,6 +4,13 @@ description: >-
   Work with Effect v4 / effect-smol TypeScript code - services, layers,
   schemas, and the Effect idioms. Use when editing or reviewing TypeScript
   that imports Effect, or when asked how to model an operation as an Effect.
+keywords:
+  - Effect
+  - Effect v4
+  - effect-smol
+  - TypeScript service
+  - Layer
+  - Schema
 ---
 
 # Effect

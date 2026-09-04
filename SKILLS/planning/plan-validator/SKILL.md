@@ -5,6 +5,11 @@ description: >-
   naming, structure, task tables, cross-references. Use on pull-request
   review, before committing planning changes, or when a project's plan
   directory has drifted.
+keywords:
+  - validate plan
+  - plan compliance
+  - PR review
+  - planning standard
 ---
 
 # Skill: plan-validator

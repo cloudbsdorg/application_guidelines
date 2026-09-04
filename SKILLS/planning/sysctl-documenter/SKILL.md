@@ -4,6 +4,12 @@ description: >-
   Document a sysctl MIB hierarchy in the standard CloudBSD format. Use when
   defining or describing kernel tunables and configuration interfaces exposed
   through sysctl, including the 501 series planning document.
+keywords:
+  - sysctl
+  - MIB
+  - kernel parameter
+  - tunable
+  - 501 document
 ---
 
 # Skill: sysctl-documenter

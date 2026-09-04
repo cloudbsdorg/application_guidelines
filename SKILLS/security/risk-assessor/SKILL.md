@@ -4,6 +4,11 @@ description: >-
   Create and maintain a project risk register in the CloudBSD format. Use when
   writing the 700-series risk document, during a risk review, or when a design
   decision introduces a risk that must be recorded and tracked.
+keywords:
+  - risk
+  - risk register
+  - 700 document
+  - threat
 ---
 
 # Skill: risk-assessor

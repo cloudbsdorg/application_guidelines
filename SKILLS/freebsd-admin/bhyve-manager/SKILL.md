@@ -5,6 +5,14 @@ description: >-
   with vm-bhyve or bhyve(8) directly. Use when setting up a VM, configuring
   bridge/tap networking or virtio storage, or building the isolated VM that
   kernel-level testing is required to run in.
+keywords:
+  - bhyve
+  - VM
+  - virtual machine
+  - vm-bhyve
+  - virtio
+  - tap
+  - bridge
 ---
 
 # Skill: bhyve-manager

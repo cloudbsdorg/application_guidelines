@@ -5,6 +5,17 @@ description: >-
   pub/sub, delivery guarantees. Use when analysing RabbitMQ, Kafka, MQTT,
   NATS, AWS SQS or SNS, when tracing how events flow between services, or when
   planning an integration with a broker.
+keywords:
+  - message queue
+  - broker
+  - pub/sub
+  - RabbitMQ
+  - Kafka
+  - MQTT
+  - NATS
+  - SQS
+  - SNS
+  - event stream
 ---
 
 # Skill: message-queue-analyzer

@@ -5,6 +5,11 @@ description: >-
   Use when a required tool ships only as a Linux binary, when validating that
   /compat/linux is set up correctly, or when deciding whether to run something
   natively instead.
+keywords:
+  - Linuxulator
+  - Linux binary
+  - /compat/linux
+  - linux compat
 ---
 
 # Skill: linux-binary-runner

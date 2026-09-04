@@ -6,6 +6,16 @@ description: >-
   cutting a release, producing installable media, publishing a package
   repository, or deciding whether an artifact is fit to publish. Complements
   the ship skill, which gates the change; this gates the artifact.
+keywords:
+  - release
+  - package
+  - pkgbase
+  - install media
+  - ISO
+  - VM image
+  - publish
+  - repository catalog
+  - build stamp
 ---
 
 # Building and publishing artifacts

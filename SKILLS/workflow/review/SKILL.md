@@ -5,6 +5,12 @@ description: >-
   when reviewing a pull request or a diff, when asked to check work before it
   lands, and before approving anything that touches configuration, privilege,
   or persistence.
+keywords:
+  - review
+  - code review
+  - check my work
+  - lgtm
+  - approve
 ---
 
 # Code Review Skill

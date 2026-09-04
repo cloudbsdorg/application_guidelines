@@ -5,6 +5,16 @@ description: >-
   capabilities, ACLs, chroot, securelevel, Capsicum. Use when porting
   privileged code, when applying least privilege to a service, or when
   deciding what a daemon may drop after start-up.
+keywords:
+  - privilege
+  - UID
+  - GID
+  - capability
+  - ACL
+  - chroot
+  - securelevel
+  - Capsicum
+  - least privilege
 ---
 
 # Skill: privilege-analyzer

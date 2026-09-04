@@ -5,6 +5,13 @@ description: >-
   problem, is it too big, is it too small, what would be cut. Use when a new
   feature or project is being planned, or when asked whether a plan is right-
   sized.
+keywords:
+  - scope
+  - challenge plan
+  - plan review
+  - is this right
+  - too big
+  - effort estimate
 ---
 
 # Plan CEO Review Skill

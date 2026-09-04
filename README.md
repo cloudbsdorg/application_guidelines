@@ -54,44 +54,63 @@ If you are new to CloudBSD development, follow these steps:
 4.  **Plan your UI**: Choose between [TUI](TUI/TUI.md) and [Web UI](Web-User-Interfaces/WEBUI.md) based on your application's needs.
 5.  **Implement Testing**: Ensure your project follows the [Unit Testing Standards](Unit-Testing/UNITTESTS.md) from the start.
 
-## 🤖 AI-Assisted Development
+## 🤖 Agents and AI-assisted development
 
-Agents auto-load **`AGENTS.md`** at the repository root. That file is CloudBSD law. Do not inject `INIT_PROMPT.md` (it is a stub pointer).
+This repository is written to be consumed by **any** agent tool, not one in
+particular. There is a single tool-neutral source of truth and a thin adapter
+per tool; adapters point at the shared content and never carry a rule of their
+own.
 
-- [**AGENTS.md**](AGENTS.md)
-  - Canonical auto-load file. OpenCode, Grok-via-OpenCode, Codex, Cursor, and MiniMax read it on project open.
-- [**CLAUDE.md**](CLAUDE.md)
-  - Claude Code auto-load. First line is `@AGENTS.md`; then short behavioral rules (think before coding, surgical changes, red-green TDD).
+| Consumer | What it reads | Notes |
+|---|---|---|
+| Any tool following the `AGENTS.md` convention (opencode, Codex, …) | [`AGENTS.md`](AGENTS.md) | Read directly on project open |
+| Claude Code | [`CLAUDE.md`](CLAUDE.md) | Two `@` imports: `AGENTS.md` and `Agent-Behavior/AGENT_BEHAVIOR.md` |
+| opencode | [`opencode.json`](opencode.json) | Lists the same documents in the same order |
+| Cursor | `.cursor/rules/cloudbsd.mdc` | Points at `AGENTS.md` |
+| A model with no checkout (pasted context, or a bot with a fixed prompt) | [`INIT_PROMPT.md`](INIT_PROMPT.md) | Self-contained; absolute URLs throughout |
 
-### AI Skills
+- [**AGENTS.md**](AGENTS.md) — **the law.** Tool-neutral and authoritative. If a
+  rule needs to change, it changes here.
+- [**Agent-Behavior/AGENT_BEHAVIOR.md**](Agent-Behavior/AGENT_BEHAVIOR.md) — how to
+  work: think before coding, minimum solution, surgical diffs, verifiable goals.
+- [**INIT_PROMPT.md**](INIT_PROMPT.md) — a standalone condensation of the law for a
+  model that cannot browse the repository.
 
-**🎨 Diagram Standard**: Mermaid (`` ```mermaid `` fences) is THE diagramming format for architecture, flowcharts, sequence diagrams, graphs, and docs. SVG is additionally allowed for UI design and prototyping (wireframes, mockups, screens) as in-repo `.svg` files — do not replace Mermaid with SVG for architecture. ASCII art diagrams are forbidden. DOT and PlantUML remain deprecated.
+### Skills
 
-AI agents can load specialized skills from the `SKILLS/` directory for common development tasks:
+[`SKILLS/`](SKILLS/README.md) holds task-specific skills — one directory per
+skill, each containing `SKILL.md` with `name`, `description`, and `keywords`
+frontmatter. Categories cover analysis and porting, planning documents, FreeBSD
+administration, diagramming, security, testing, releases, quality disciplines,
+and platform work.
 
-| Skill | Purpose |
-|-------|---------|
-| [SKILLS/workflow/task-workflow.md](SKILLS/workflow/task-workflow.md) | Task claiming, completion, and status management |
-| [SKILLS/planning/plan-document-generator.md](SKILLS/planning/plan-document-generator.md) | Create new plan documents and `.plan/` structure |
-| [SKILLS/planning/plan-validator.md](SKILLS/planning/plan-validator.md) | Validate plan document compliance |
-| [SKILLS/planning/toc-generator.md](SKILLS/planning/toc-generator.md) | Generate table of contents documents |
-| [SKILLS/planning/agents-start-here-generator.md](SKILLS/planning/agents-start-here-generator.md) | Create agent entry point documents |
-| [SKILLS/planning/sysctl-documenter.md](SKILLS/planning/sysctl-documenter.md) | Document sysctl MIB hierarchies |
-| [SKILLS/diagramming/mermaid-diagrammer.md](SKILLS/diagramming/mermaid-diagrammer.md) | Generate Mermaid diagrams; SVG for UI mockups |
-| [SKILLS/security/risk-assessor.md](SKILLS/security/risk-assessor.md) | Create and maintain risk registers |
-| [SKILLS/testing/test-planner.md](SKILLS/testing/test-planner.md) | Generate testing documentation |
-| [SKILLS/workflow/build-status-updater.md](SKILLS/workflow/build-status-updater.md) | Maintain CI/CD build status |
-| [SKILLS/testing/validation-document-generator.md](SKILLS/testing/validation-document-generator.md) | Create validation reports and corrections |
-| [SKILLS/security/security-document-generator.md](SKILLS/security/security-document-generator.md) | Create security documents (threat model, access control, etc.) |
-| [SKILLS/analysis/codebase-mapper.md](SKILLS/analysis/codebase-mapper.md) | Map any codebase into exhaustive tree-view markdown documents |
-| [SKILLS/platform/opencode/effect.md](SKILLS/platform/opencode/effect.md) | Work with Effect v4 / effect-smol TypeScript code |
-| [SKILLS/platform/opencode/github-triage.md](SKILLS/platform/opencode/github-triage.md) | Read-only GitHub triage for issues and PRs |
-| [SKILLS/platform/opencode/pre-publish-review.md](SKILLS/platform/opencode/pre-publish-review.md) | Nuclear-grade 16-agent pre-publish release gate |
-| [SKILLS/platform/opencode/work-with-pr.md](SKILLS/platform/opencode/work-with-pr.md) | Full PR lifecycle: worktree → implement → PR → merge |
-| [SKILLS/platform/cloudflare/agents-sdk.md](SKILLS/platform/cloudflare/agents-sdk.md) | Build AI agents on Cloudflare Workers using Agents SDK |
-| [SKILLS/platform/cloudflare/cloudflare.md](SKILLS/platform/cloudflare/cloudflare.md) | Comprehensive Cloudflare platform skill (Workers, Pages, storage, AI, networking) |
+**[`SKILLS/TOC.md`](SKILLS/TOC.md) is the index** — trigger keywords mapped to
+skill paths. It is generated from the tree by `tools/skills-index.py`, so it
+cannot drift away from what is actually there, and it is the only list of skills
+in the repository. Scan it, load the one skill you need; do not load the tree.
 
-See [AGENTS.md](AGENTS.md) for CloudBSD law and the agent entry point, and [SKILLS/README.md](SKILLS/README.md) for the complete skill index.
+**🎨 Diagram standard.** Mermaid (```` ```mermaid ```` fences) is the format for
+architecture, flowcharts, sequence diagrams, graphs, and docs. SVG is
+additionally allowed for UI design and prototyping (wireframes, mockups,
+screens) as in-repo `.svg` files — do not replace Mermaid with SVG for
+architecture. ASCII-art diagrams are forbidden. DOT and PlantUML remain
+deprecated.
+
+### Scope: what belongs here
+
+This repository is public and holds **general CloudBSD law** — how software
+should be built and behave. It does not hold operational facts about any
+particular deployment: machine names, addresses, credentials, and where
+credentials are kept belong in a private operations repository, never here, not
+even as an example. See "What belongs in this repository" in
+[`AGENTS.md`](AGENTS.md).
+
+### Checking your changes
+
+```sh
+bash test_md.sh                 # markdown sanity checks
+tools/skills-index.py --check   # SKILLS/TOC.md matches the tree
+```
 
 ## 🎯 Purpose
 

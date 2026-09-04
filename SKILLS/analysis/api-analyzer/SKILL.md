@@ -6,6 +6,18 @@ description: >-
   for porting, rewriting, or integration, when asked about REST, HTTP,
   endpoints, OpenAPI, GraphQL, gRPC, WebSockets, or SSE, or before writing a
   client against a service you did not build.
+keywords:
+  - API
+  - REST
+  - endpoint
+  - HTTP
+  - OpenAPI
+  - Swagger
+  - GraphQL
+  - gRPC
+  - WebSocket
+  - SSE
+  - webhook
 ---
 
 # Skill: api-analyzer

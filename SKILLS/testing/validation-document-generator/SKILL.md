@@ -5,6 +5,10 @@ description: >-
   format. Use when an implementation task has been checked and the result must
   be recorded as evidence, or when a previous validation was wrong and needs
   correcting.
+keywords:
+  - validation report
+  - corrections
+  - evidence record
 ---
 
 # Skill: validation-document-generator

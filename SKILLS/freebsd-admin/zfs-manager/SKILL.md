@@ -5,6 +5,13 @@ description: >-
   that keep destructive commands from running by accident. Use when creating
   storage for VMs or jails, taking or rolling back snapshots, or before
   running any zfs destroy or zpool destroy.
+keywords:
+  - ZFS
+  - zpool
+  - dataset
+  - snapshot
+  - zvol
+  - destroy
 ---
 
 # Skill: zfs-manager

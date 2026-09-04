@@ -5,6 +5,13 @@ description: >-
   pot. Use when building an isolated userland environment, when a service
   should be confined to a jail, or when setting up per-service isolation for
   testing.
+keywords:
+  - jail
+  - iocage
+  - bastille
+  - pot
+  - ezjail
+  - isolation
 ---
 
 # Skill: jail-manager

@@ -4,6 +4,10 @@ description: >-
   Write the Quick Reference section that sits at the top of an agent entry
   point document. Use when creating or refreshing AGENTS.md for a project, so
   an agent gets the critical commands and paths without reading everything.
+keywords:
+  - quick reference
+  - AGENTS.md section
+  - cheat sheet
 ---
 
 # Skill: quick-reference-generator

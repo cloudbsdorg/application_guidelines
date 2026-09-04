@@ -5,6 +5,13 @@ description: >-
   page lint, PR, then deploy. Use when asked to ship, release, publish, or
   push to production, and to stop a release that has no captured evidence
   behind it.
+keywords:
+  - ship
+  - deploy
+  - release
+  - publish
+  - push to prod
+  - cut a release
 ---
 
 # Ship Skill

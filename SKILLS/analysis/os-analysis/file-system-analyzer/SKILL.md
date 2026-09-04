@@ -5,6 +5,13 @@ description: >-
   locking, extended attributes. Use when porting software across operating
   systems, when hardcoded paths or permission assumptions need auditing, or
   when file locking behaves differently on the target.
+keywords:
+  - file system
+  - path
+  - permission
+  - file locking
+  - extended attribute
+  - xattr
 ---
 
 # Skill: file-system-analyzer

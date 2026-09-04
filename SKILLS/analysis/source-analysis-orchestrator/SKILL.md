@@ -5,6 +5,11 @@ description: >-
   analysis skills into one consolidated report. Use when starting a new
   project or a port, before any plan documents are generated, so the plan
   reflects the real code rather than assumptions.
+keywords:
+  - orchestrate
+  - pre-planning
+  - coordinate analysis
+  - full analysis pass
 ---
 
 # Skill: source-analysis-orchestrator

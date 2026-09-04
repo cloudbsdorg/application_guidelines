@@ -6,6 +6,16 @@ description: >-
   known-good state on its own. Use whenever booting a build that has not been
   proven on that machine, or when asked to deploy with automatic rollback, a
   one-shot boot environment, or a bectl-based upgrade.
+keywords:
+  - bectl
+  - boot environment
+  - one-shot
+  - rollback
+  - unproven kernel
+  - kldload
+  - panic
+  - watchdogd
+  - META_MODE
 ---
 
 # Safe FreeBSD deploy with a one-shot boot environment

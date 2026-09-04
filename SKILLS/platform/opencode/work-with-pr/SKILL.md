@@ -4,6 +4,13 @@ description: >-
   Carry implementation work through the full pull-request lifecycle: worktree,
   atomic commits, PR, CI and review gates, merge, cleanup. Use when asked to
   create a PR, implement an issue end to end, or land a change as a PR.
+keywords:
+  - PR
+  - pull request
+  - worktree
+  - implement and PR
+  - land this
+  - merge
 ---
 
 # Work With PR — Full PR Lifecycle

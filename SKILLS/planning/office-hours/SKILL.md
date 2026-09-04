@@ -5,6 +5,13 @@ description: >-
   than a list of options. Use when asked for advice, an opinion, a best
   practice, or "what should I do here" - and when a decision, not a survey, is
   what is wanted.
+keywords:
+  - consult
+  - advice
+  - opinion
+  - recommend
+  - best practice
+  - should I
 ---
 
 # Office Hours Skill

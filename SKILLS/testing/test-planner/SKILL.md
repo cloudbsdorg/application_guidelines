@@ -5,6 +5,13 @@ description: >-
   scope documents (the 401, 402, and 1101 series). Use when planning how a
   feature will be proven, before implementation starts, so the evidence
   requirement is defined up front.
+keywords:
+  - test plan
+  - test case matrix
+  - 401
+  - 402
+  - 1101
+  - testing scope
 ---
 
 # Skill: test-planner

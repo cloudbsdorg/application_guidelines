@@ -5,6 +5,11 @@ description: >-
   across a project's plan. Use when tasks change state, when a phase
   completes, or when the tracker has drifted from the task tables it
   summarises.
+keywords:
+  - progress
+  - tracker
+  - TODO
+  - phase progress
 ---
 
 # Skill: progress-tracker-updater

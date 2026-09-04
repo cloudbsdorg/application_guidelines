@@ -4,6 +4,11 @@ description: >-
   Maintain a project's build status document for CI/CD tracking. Use when a
   build result changes, when CI is added or reconfigured, or when the recorded
   status no longer matches reality.
+keywords:
+  - build status
+  - CI
+  - CD
+  - 0002 document
 ---
 
 # Skill: build-status-updater
