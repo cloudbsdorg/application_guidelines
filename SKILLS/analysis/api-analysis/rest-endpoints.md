@@ -168,6 +168,33 @@ X-API-Key: your-api-key-here
 }
 ```
 
+### Rate Limit Strategies
+
+| Strategy | Description | Example |
+|----------|-------------|---------|
+| Per-user | Each authenticated user has a limit | 100 req/user/min |
+| Per-IP | Each source address has a limit | 1000 req/IP/hour |
+| Per-endpoint | Expensive endpoints limited separately | 10 req/sec on `/search` |
+| Global | Whole API has a ceiling | 10,000 req/min total |
+
+Record which strategy applies: a per-user limit and a per-IP limit behave very
+differently behind a shared NAT or a proxy, and porting the wrong one produces a
+service that throttles the wrong callers.
+
+### Idempotency Keys
+
+Any endpoint that can be safely retried should accept an idempotency key
+(commonly an `Idempotency-Key` request header) and de-duplicate on it. This is
+also the receiving side of the webhook contract: store the processed event id
+and return success without re-applying the effect if it is seen again.
+
+```go
+// Reject a replay before doing any work.
+if store.Seen(eventID) {
+    return http.StatusOK // already processed; do not apply twice
+}
+```
+
 ## 7. Common REST Conventions
 
 ### Resource Naming
