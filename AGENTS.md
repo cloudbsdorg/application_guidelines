@@ -41,6 +41,8 @@ Read every file listed below before generating any output:
 ├── README.md                                          — Human index
 ├── LICENSE                                            — BSD 3-Clause
 ├── SKILLS/                                            — Skill library; TOC.md is the index
+├── Agent-Behavior/
+│   └── AGENT_BEHAVIOR.md                              — How to work: think first, keep it simple, surgical changes
 ├── Architecture/
 │   └── MVC.md                                         — MVC; UI is the view; backends stay private
 ├── Configuration-Files/
@@ -98,7 +100,7 @@ decide; you do not need to open a skill to find out whether it is relevant.
 ### Loading instructions
 
 1. **Read `README.md` first** for structure and the documentation index.
-2. **Read all guideline documents in the tree above in full**, including `Architecture/MVC.md`, `Web-User-Interfaces/MARKDOWN.md`, `Desktop/DESKTOP.md`, and `Planning/PLANNING.md` (plus its chapters).
+2. **Read all guideline documents in the tree above in full**, including `Agent-Behavior/AGENT_BEHAVIOR.md`, `Architecture/MVC.md`, `Web-User-Interfaces/MARKDOWN.md`, `Desktop/DESKTOP.md`, and `Planning/PLANNING.md` (plus its chapters).
 3. **Treat their contents as mandatory rules**, not optional best practices.
 4. **Before generating any code, configuration, or documentation**, verify compliance against the loaded guidelines.
 5. **When the Decision Matrix (Section 3) references a guideline**, consult that document in full before proceeding.
@@ -205,6 +207,7 @@ These rules override all other considerations. An agent that only auto-loads thi
 | Web frontend (the view) | `Web-User-Interfaces/WEBUI.md` | Angular, TypeScript, Tailwind CSS; login at `/` (username or email; eye-icon show/hide inside password field; remember username; factory wizard before save); Playwright evidence; CloudBSD/REVYTECH tokens; agy polish (all UIs) |
 | Markdown in-app | `Web-User-Interfaces/MARKDOWN.md` | GFM viewer + editor, sanitized |
 | Isolation | `Architecture/MVC.md` | View vs controller vs model; backends not public by default; re-wrap always |
+| How to work as an agent | `Agent-Behavior/AGENT_BEHAVIOR.md` | Think before coding; minimum solution; surgical diffs; verifiable goals |
 | Planning | `Planning/PLANNING.md` | `.plan/` directory, agent entry `AGENTS.md` |
 | Building and publishing artifacts | `SKILLS/release/artifact-release/SKILL.md` | Committed source only; neutral build stamp; verify the installed artifact; boot every media type |
 | Deploying an unproven kernel | `SKILLS/freebsd-admin/safe-kernel-deploy/SKILL.md` | New boot environment, one-shot activation, panic auto-reboot, verify what actually loaded |

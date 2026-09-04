@@ -1,6 +1,8 @@
 {
   "$schema": "https://opencode.ai/config.json",
   "instructions": [
+    "AGENTS.md",
+    "Agent-Behavior/AGENT_BEHAVIOR.md",
     "Architecture/MVC.md",
     "Configuration-Files/CONFIGURATION.md",
     "Internationalization/INTERNATIONALIZATION.md",
@@ -12,6 +14,7 @@
     "Testing-Infrastructure/TESTING_INFRASTRUCTURE.md",
     "Unit-Testing/UNITTESTS.md",
     "Web-User-Interfaces/WEBUI.md",
-    "Web-User-Interfaces/MARKDOWN.md"
+    "Web-User-Interfaces/MARKDOWN.md",
+    "SKILLS/TOC.md"
   ]
 }
