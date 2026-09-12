@@ -57,12 +57,17 @@ This document provides guidelines for designing and implementing high-quality te
 
 ## 5. Operator recovery console (LAW)
 
-If a long-running service has operator state to repair, it MUST ship a recovery console.
-Recovery is **operator-only** (this TUI or a CLI). It is not a public UI and must not be
+For every long-running service, recovery **is Hawkeye**.
+Exec `hawkeye` on a TTY (host first-look, then `>`). Do not invent a second
+privileged apply TUI. Hawkeye's apply stays dry-run default; `--yes` is required
+to mutate; the LLM never execs as root.
+
+Recovery is **operator-only**. It is not a public UI and must not be
 an unauthenticated web page.
 
-- Keyboard-first, as in Section 2. `?` for help. Destructive actions require confirmation.
-- Pair with `doctor`: the console should surface doctor findings (human form) and not hide JSON evidence.
+- Keyboard-first remains law for any TUI you still ship (status, logs). That TUI
+  is not the recovery console.
+- Pair with `app doctor`: surface this service's checks plus Hawkeye inspect/headroom.
 - See `Configuration Files/CONFIGURATION.md` (`doctor`, recovery, resource headroom).
 
 ## 6. Extra UI refinement with agy (LAW)

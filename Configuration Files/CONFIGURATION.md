@@ -103,17 +103,21 @@ See also `Languages/LANGUAGES.md` (Documentation).
 Every long-running CloudBSD service MUST ship a `doctor` command (or equivalent subcommand).
 
 Doctor MUST:
-- Check config (same rules as `--check-config` / `--dry-run`).
+- Check **this service's** config (same rules as `--check-config` / `--dry-run`).
 - Check permissions (config files, pidfile directory, data dirs, `0600` where secrets live).
 - Check pidfiles (present when running, owned by the service user, not empty, not negative).
-- Check dependencies (required binaries, sockets, stores).
-- Check resource headroom (see Section 6). Doctor **reports all** finite resources even when a given job will not consume them.
+- Check **this service's** dependencies (required binaries, sockets, stores). On FreeBSD, `hawkeye` on `PATH` is a required dependency.
+- Call **Hawkeye** for host diagnosis and headroom: `hawkeye --json inspect` and `hawkeye --json headroom`. Parse into named structs. If Hawkeye is missing, not executable, times out, exits non-zero, or returns invalid JSON, doctor is unhealthy. Do not treat empty Hawkeye output as a clean host. Do not reimplement zpool, fstab, GPU, or RAM probes.
+- Do **not** use `hawkeye doctor` as host health. That command is Hawkeye's own pidfile/config/knowledge.
+- Check resource headroom (see Section 6) using Hawkeye's snapshot plus this service's JSON thresholds. Doctor **reports all** finite resources even when a given job will not consume them.
 - Print evidence in **human-readable form and JSON**.
 - Exit **non-zero if unhealthy**.
 
-If the service has operator state to repair, it MUST also ship a **recovery console**.
-Recovery is operator-only (CLI or TUI). It is **not a public UI** and must not be reachable as an unauthenticated web page.
+**Recovery is Hawkeye.** If the service has operator state to repair, recovery is `hawkeye` on a TTY (panic path: host first-look, then `>` consult, apply dry-run default). Do not invent a second privileged apply TUI. Do not wrap Hawkeye in a way that skips first-look or lands apply without `--yes`. Recovery is operator-only. It is **not a public UI**.
+Hawkeye itself is the exception: `hawkeye doctor` is self-health; `hawkeye` with no command is recovery.
 See `TUI/TUI.md`.
+
+**Vector store.** Hawkeye's FTS recovery kit (`knowledge.paths`) is not the product RAG database. Product embeddings are an isolated sqlite file, selected at runtime (`HAWKEYE_VECTOR_STORE`, `--vector-store`, or `knowledge.vector_paths`). Switching vectors must not replace the FTS kit. Missing vector store → FTS-only consult, not a failed recovery.
 
 Document `doctor` and recovery in the section 8 (or 1) man page. Capture doctor JSON/human output as evidence for the change.
 ## 6. Resource headroom (LAW)

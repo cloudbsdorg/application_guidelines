@@ -17,6 +17,8 @@ For **new work** (features, bug fixes, new modules):
 3. **Refactor**: Clean up while tests stay green.
 
 Do not write production code before a failing test exists.
+Confirm the new test **fails** (red) before writing the implementation.
+A commit that adds production code with no new or updated test is a defect unless the change is strictly non-behavioral (comments, mandoc wording).
 
 For **existing code that shipped without tests**: missing tests are a **defect**. You MUST still add tests. Characterization / post-facto tests are allowed: lock current behavior with tests before changing it, then apply red-green for the change. Shipping or modifying untested application code without adding tests is a violation.
 
