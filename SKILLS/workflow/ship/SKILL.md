@@ -1,18 +1,21 @@
+---
+name: ship
+description: >-
+  Deploy only with the evidence CloudBSD law requires - tests, coverage, man
+  page lint, PR, then deploy. Use when asked to ship, release, publish, or
+  push to production, and to stop a release that has no captured evidence
+  behind it.
+keywords:
+  - ship
+  - deploy
+  - release
+  - publish
+  - push to prod
+  - cut a release
+---
+
 # Ship Skill
 
-## Metadata
-```
-author: Mark LaPointe <mark@cloudbsd.org>
-version: 1.0.0
-platform: CloudBSD / FreeBSD
-triggers:
-  - "ship"
-  - "deploy"
-  - "release"
-  - "publish"
-  - "push to prod"
-  - "cut a release"
-```
 
 ## Ship Protocol
 
@@ -97,7 +100,8 @@ pkg update && pkg upgrade
 
 Before every deploy, know how to rollback:
 - Git rollback: `git revert $commit`
-- Package rollback: `pkg rollback $package`
+- Package rollback: reinstall the previous version from the repository
+  (`pkg install -f <pkg>-<previous-version>`); there is no `pkg rollback`
 - Jail rollback: `jexec $jail zfs rollback tank/jails/$jail@pre-deploy`
 
 ## Hard Blocks (NEVER Ship With)
@@ -107,6 +111,13 @@ Before every deploy, know how to rollback:
 - Credentials or secrets in code
 - Hardcoded production endpoints
 - Unverified database migrations
+
+## Artifacts
+
+When the thing being shipped is a **binary artifact** - a package, a kernel or
+module, install media, a VM image - the change-level checklist above is not
+enough. See [artifact-release](../../release/artifact-release/SKILL.md) for
+what must be verified about the artifact itself before it is published.
 
 ## Post-Ship
 

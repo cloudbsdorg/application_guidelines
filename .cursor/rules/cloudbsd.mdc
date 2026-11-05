@@ -1,0 +1,22 @@
+---
+description: CloudBSD Application Guidelines - the law for all CloudBSD projects
+globs:
+  - "**/*"
+alwaysApply: true
+---
+
+# CloudBSD Application Guidelines
+
+Read `AGENTS.md` at the repository root. It is the authoritative, tool-neutral
+statement of CloudBSD law, and it links to every guideline document you must
+read before generating code, configuration, or documentation.
+
+Then read `Agent-Behavior/AGENT_BEHAVIOR.md` for how to work: think before
+coding, keep it simple, keep changes surgical, define verifiable success
+criteria.
+
+For a task-specific skill, scan `SKILLS/TOC.md` and load the single `SKILL.md`
+that matches. Do not load the whole tree.
+
+This file carries no rules of its own. If a rule needs to change, change
+`AGENTS.md`.

@@ -54,10 +54,10 @@ else
 fi
 echo ""
 
-# Check 4: Testing Infrastructure/TESTING_INFRASTRUCTURE.md starts with a Level 1 header
+# Check 4: Testing-Infrastructure/TESTING_INFRASTRUCTURE.md starts with a Level 1 header
 echo "[Check 4] TESTING_INFRASTRUCTURE.md Level 1 header..."
-if [ -f "Testing Infrastructure/TESTING_INFRASTRUCTURE.md" ]; then
-    FIRST_LINE=$(head -n 1 "Testing Infrastructure/TESTING_INFRASTRUCTURE.md")
+if [ -f "Testing-Infrastructure/TESTING_INFRASTRUCTURE.md" ]; then
+    FIRST_LINE=$(head -n 1 "Testing-Infrastructure/TESTING_INFRASTRUCTURE.md")
     if echo "$FIRST_LINE" | grep -qE '^# .+'; then
         echo "  PASS: TESTING_INFRASTRUCTURE.md starts with a Level 1 header."
     else
@@ -86,6 +86,29 @@ else
     echo "  FAIL: PLANNING.md not found."
     ERRORS=$((ERRORS + 1))
 fi
+echo ""
+
+# Check 6: every relative Markdown link resolves
+echo "[Check 6] Markdown link targets..."
+if python3 tools/check-links.py > /tmp/cloudbsd-links.$$ 2>&1; then
+    echo "  PASS: every relative Markdown link resolves."
+else
+    echo "  FAIL: broken Markdown links:"
+    sed 's/^/    /' /tmp/cloudbsd-links.$$
+    ERRORS=$((ERRORS + 1))
+fi
+rm -f /tmp/cloudbsd-links.$$
+echo ""
+
+# Check 7: SKILLS/TOC.md is generated from, and agrees with, the skill tree
+echo "[Check 7] SKILLS/TOC.md is current..."
+if python3 tools/skills-index.py --check > /tmp/cloudbsd-toc.$$ 2>&1; then
+    echo "  $(cat /tmp/cloudbsd-toc.$$)"
+else
+    echo "  $(cat /tmp/cloudbsd-toc.$$)"
+    ERRORS=$((ERRORS + 1))
+fi
+rm -f /tmp/cloudbsd-toc.$$
 echo ""
 
 # Summary

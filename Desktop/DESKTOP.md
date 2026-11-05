@@ -12,4 +12,4 @@ When Mark has granted access to Google Antigravity (`agy` CLI, Gemini), typicall
 - **Not a substitute:** Tests, visible text, keyboard access, and evidence remain required.
 - **Theme family:** CloudBSD/REVYTECH tokens (navy, `#0066cc`, `#00d4ff`, Outfit/Inter, CloudBSD `#00529B`). Do not invent a competing palette.
 
-This is the same single law as in `AGENTS.md`, `Web User Interfaces/WEBUI.md`, and `TUI/TUI.md`.
+This is the same single law as in `AGENTS.md`, `Web-User-Interfaces/WEBUI.md`, and `TUI/TUI.md`.

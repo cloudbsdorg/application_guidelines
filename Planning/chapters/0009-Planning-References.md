@@ -17,6 +17,6 @@
 |----------|----------|---------|
 | AGENTS.md | Project Root | Canonical auto-load and agent entry point |
 | CLAUDE.md | Project Root | Claude Code auto-load; `@AGENTS.md` |
-| INIT_PROMPT.md | Project Root | Stub pointer; superseded by AGENTS.md |
-| SKILLS/README.md | SKILLS/ | AI skills index |
+| INIT_PROMPT.md | Project Root | Standalone briefing for a model with no checkout; condensation of AGENTS.md |
+| SKILLS/TOC.md | SKILLS/ | The skill index (generated); SKILLS/README.md documents the layout |
 | PLANNING.md | Planning/ | This document (overview) |
