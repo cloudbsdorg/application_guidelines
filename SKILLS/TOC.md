@@ -18,7 +18,7 @@ If you cannot browse a filesystem, every path below resolves as:
 https://raw.githubusercontent.com/cloudbsdorg/application_guidelines/main/SKILLS/<path>/SKILL.md
 ```
 
-There are **51 skills**.
+There are **53 skills**.
 
 ---
 
@@ -31,13 +31,14 @@ There are **51 skills**.
 | `bectl`, `boot environment`, `one-shot`, `rollback`, `unproven kernel`, `kldload`, `panic`, `watchdogd`, `META_MODE` | `freebsd-admin/safe-kernel-deploy/SKILL.md` | Install an unproven kernel, kernel module, or world onto a FreeBSD machine so that a panic, a hang, or a kernel that will not boot reverts to the last known-good state on its own |
 | `bhyve`, `VM`, `virtual machine`, `vm-bhyve`, `virtio`, `tap`, `bridge` | `freebsd-admin/bhyve-manager/SKILL.md` | Create, configure, run, and troubleshoot bhyve virtual machines on FreeBSD, with vm-bhyve or bhyve(8) directly |
 | `build status`, `CI`, `CD`, `0002 document` | `workflow/build-status-updater/SKILL.md` | Maintain a project's build status document for CI/CD tracking |
+| `C integer overflow`, `Java PriorityQueue comparator`, `Python heapq deque`, `TypeScript sort comparator`, `Go slices maps`, `x86-64 arm64 assembly`, `language idioms`, `porting an algorithm` | `quality/language-idioms/SKILL.md` | Per-language traps that turn a correct algorithm into a wrong or slow program, for C, Java, Python, TypeScript, Go, and x86-64 / arm64 assembly |
 | `Cloudflare`, `Worker`, `Pages`, `KV`, `D1`, `R2`, `Queues`, `Workers AI`, `Tunnel`, `WAF`, `DNS`, `AAAA`, `proxied` | `platform/cloudflare/cloudflare-platform/SKILL.md` | Choose the right Cloudflare product and understand how it fits together - Workers, Pages, KV, D1, R2, Queues, Workers AI, Vectorize, Tunnel, WAF, and the Terraform/Pulumi providers |
 | `Cloudflare Agents`, `Agents SDK`, `stateful agent`, `Durable Object agent`, `Workflows`, `MCP server` | `platform/cloudflare/cloudflare-agents-sdk/SKILL.md` | Build agents on Cloudflare Workers with the Agents SDK - the Agent class, persistent state, callable RPC, scheduling, Workflows, MCP servers, and React hooks |
 | `code quality`, `duplication`, `refactor`, `extract interface`, `DRY` | `analysis/code-quality-analyzer/SKILL.md` | Find duplication and plan the refactoring that removes it |
 | `codebase`, `explore`, `understand`, `find in code`, `where is`, `read-only` | `analysis/codebase/SKILL.md` | Read-only exploration of an unfamiliar codebase |
 | `consult`, `advice`, `opinion`, `recommend`, `best practice`, `should I` | `planning/office-hours/SKILL.md` | Give a direct consulting recommendation with the reasoning behind it, rather than a list of options |
 | `debug`, `investigate`, `root cause`, `trace error`, `why is X broken`, `diagnose` | `workflow/investigate/SKILL.md` | Find the root cause of a broken system using an evidence-based protocol rather than guesswork |
-| `design pattern`, `GoF`, `Knuth`, `TAOCP`, `complexity`, `invariant`, `refactor`, `code review` | `quality/code-craft/SKILL.md` | Apply the enduring lessons of the Gang of Four "Design Patterns" and Knuth's "The Art of Computer Programming" to code you write, refactor, or review |
+| `design pattern`, `GoF`, `Knuth`, `TAOCP`, `complexity`, `invariant`, `data structure`, `algorithm`, `technique map`, `leetcode`, `refactor`, `code review` | `quality/code-craft/SKILL.md` | Apply the enduring lessons of the Gang of Four "Design Patterns" and Knuth's "The Art of Computer Programming" to code you write, refactor, or review, including the technique map (problem shape -> technique -> target bound) and the Time/Space complexity header |
 | `diagram`, `architecture`, `flowchart`, `sequence`, `mermaid`, `SVG`, `wireframe`, `ASCII art` | `diagramming/mermaid-diagrammer/SKILL.md` | Produce diagrams in the format CloudBSD law requires: Mermaid for architecture, flowcharts, sequence, state, class and ER diagrams; in-repo SVG for UI wireframes and mockups |
 | `Effect`, `Effect v4`, `effect-smol`, `TypeScript service`, `Layer`, `Schema` | `platform/opencode/effect/SKILL.md` | Work with Effect v4 / effect-smol TypeScript code - services, layers, schemas, and the Effect idioms |
 | `feature`, `task generation`, `task table`, `from inventory` | `planning/feature-task-generator/SKILL.md` | Turn a feature inventory produced by analysis into concrete implementation tasks |
@@ -47,6 +48,7 @@ There are **51 skills**.
 | `map codebase`, `discovery`, `.discovery/`, `project structure`, `dependency map` | `analysis/codebase-mapper/SKILL.md` | Recursively map a whole codebase into exhaustive tree-view documents under .discovery/ |
 | `message queue`, `broker`, `pub/sub`, `RabbitMQ`, `Kafka`, `MQTT`, `NATS`, `SQS`, `SNS`, `event stream` | `analysis/message-queue-analyzer/SKILL.md` | Document message brokers and event-driven architecture - queues, topics, pub/sub, delivery guarantees |
 | `migrate`, `port`, `convert`, `legacy`, `DOS`, `Pascal`, `retro`, `modernise` | `migration/codebase-migrator/SKILL.md` | Migrate a legacy application to a modern platform and language - DOS, Pascal, old Unix, retro codebases moving to FreeBSD, Rust, Go, or TypeScript |
+| `oracle test`, `differential test`, `property-based test`, `fuzzing`, `reference implementation`, `brute force`, `red-green`, `Hypothesis`, `fast-check`, `jqwik` | `testing/oracle-and-property-tests/SKILL.md` | Prove that an algorithm gives the right answer on inputs nobody thought to write down |
 | `orchestrate`, `pre-planning`, `coordinate analysis`, `full analysis pass` | `analysis/source-analysis-orchestrator/SKILL.md` | Coordinate the whole pre-planning analysis pass by sequencing the individual analysis skills into one consolidated report |
 | `plan`, `plan document`, `.plan/`, `initialize project`, `template` | `planning/plan-document-generator/SKILL.md` | Create .plan/ documents from the CloudBSD Planning standard templates |
 | `PR`, `pull request`, `worktree`, `implement and PR`, `land this`, `merge` | `platform/opencode/work-with-pr/SKILL.md` | Carry implementation work through the full pull-request lifecycle: worktree, atomic commits, PR, CI and review gates, merge, cleanup |
@@ -203,8 +205,9 @@ Standing review disciplines, for code and for interfaces.
 
 | Skill | Path | Use it when |
 |---|---|---|
-| **code-craft** | `quality/code-craft/SKILL.md` | Apply the enduring lessons of the Gang of Four "Design Patterns" and Knuth's "The Art of Computer Programming" to code you write, refactor, or review. Use at the start of any non-trivial code change and again as a checklist before finishing, and in every code review. Not for one-line edits or config tweaks. |
+| **code-craft** | `quality/code-craft/SKILL.md` | Apply the enduring lessons of the Gang of Four "Design Patterns" and Knuth's "The Art of Computer Programming" to code you write, refactor, or review, including the technique map (problem shape -> technique -> target bound) and the Time/Space complexity header. Use at the start of any non-trivial code change, before writing a loop, lookup or data-structure choice, again as a checklist before finishing, and in every code review. Not for one-line edits or config tweaks. |
 | **human-interface-review** | `quality/human-interface-review/SKILL.md` | Use when a deliverable is an interface rather than internals, and pair it with code-craft, which covers the code behind the interface. |
+| **language-idioms** | `quality/language-idioms/SKILL.md` | Per-language traps that turn a correct algorithm into a wrong or slow program, for C, Java, Python, TypeScript, Go, and x86-64 / arm64 assembly. Use while implementing anything from the code-craft technique map in a specific language (binary search, heaps, hashing, bit manipulation, sorting, recursion, ring buffers), when porting an algorithm between languages, and when reviewing such code. |
 
 ### `release/`
 
@@ -230,6 +233,7 @@ Planning tests and recording the evidence they produce.
 
 | Skill | Path | Use it when |
 |---|---|---|
+| **oracle-and-property-tests** | `testing/oracle-and-property-tests/SKILL.md` | Use whenever you replace a simple algorithm with a faster one, write a parser, encoder, lookup table, page-table walker, scheduler, or any function with a large input space, and in the red step of red-green when one example-based test cannot cover the space. Covers brute-force oracles, differential tests, property-based tests, fuzzing, and complexity checks, in C, Java, Python, TypeScript, Go, and assembly. |
 | **test-planner** | `testing/test-planner/SKILL.md` | Use when planning how a feature will be proven, before implementation starts, so the evidence requirement is defined up front. |
 | **validation-document-generator** | `testing/validation-document-generator/SKILL.md` | Use when an implementation task has been checked and the result must be recorded as evidence, or when a previous validation was wrong and needs correcting. |
 

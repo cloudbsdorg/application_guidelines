@@ -188,7 +188,7 @@ These rules override all other considerations. An agent that only auto-loads thi
 30. **Build and publish integrity.** Build only from committed source - a clean checkout or a worktree at the commit you intend to ship, never a tree with uncommitted edits. Do not modify files inherited from upstream to inject branding; pass it through the environment, the command line, or a build configuration file. Published artifacts MUST NOT embed internal hostnames, addresses, or home-directory paths - override the build stamp and verify with `strings`. Verify the **installed** artifact on a clean machine, not the build tree: a kernel module that loads proves nothing about the userland that drives it. Never publish an artifact that has not booted or run. Preserve the previous version as a rollback. See `SKILLS/release/artifact-release/SKILL.md`.
 31. **Unproven boot artifacts go through a one-shot boot environment.** Rule 22 forbids loading an untested kernel module on a development or CI host. When a real machine must nonetheless boot an unproven kernel, world, or module, install it into a **new** boot environment and activate it for one boot only, with panic auto-reboot armed on the candidate as well as the host, so a panic or hang reverts to the last known-good state unattended. Never make the candidate permanent before verifying it booted. Verify the identity of what is actually loaded - checksum it - before trusting any result measured against it. See `SKILLS/freebsd-admin/safe-kernel-deploy/SKILL.md`.
 32. **Dual-stack is law.** IPv4 and IPv6 are both first-class. A service listens on both families; a published hostname is not finished until it has **both** an `A` and an `AAAA` record and **both** have been observed to answer. Never derive one family's address from the other - read the real addresses off the machine. Verify from a host that actually has the address family; a failure from a machine with no route proves nothing. See `SKILLS/platform/cloudflare/cloudflare-platform/dns-records.md`.
-33. **Design and algorithmic rigor.** Non-trivial code is written and reviewed against the Gang of Four structural principles - program to an interface, favour composition, isolate each axis of change and name the pattern - and against Knuth's discipline: know the complexity, know the loop invariant, handle the boundaries, measure before optimising. Not a style preference; it is the difference between code that survives a change and code that is rewritten. See `SKILLS/quality/code-craft/SKILL.md`.
+33. **Design and algorithmic rigor.** Non-trivial code is written and reviewed against the Gang of Four structural principles - program to an interface, favour composition, isolate each axis of change and name the pattern - and against Knuth's discipline: know the complexity, know the loop invariant, handle the boundaries, measure before optimising. Recognise the problem shape and reach for the known technique (the technique map) instead of hand-rolling a slower loop. Every function that loops over input, chooses a data structure, or sits on a hot path carries a `Time:` / `Space:` complexity header; review flags a missing one. When a faster algorithm replaces a simple one, the simple one stays in the tests as the oracle. Not a style preference; it is the difference between code that survives a change and code that is rewritten. See `SKILLS/quality/code-craft/SKILL.md`, `SKILLS/quality/language-idioms/SKILL.md`, and `SKILLS/testing/oracle-and-property-tests/SKILL.md`.
 
 ---
 
@@ -213,6 +213,8 @@ These rules override all other considerations. An agent that only auto-loads thi
 | Deploying an unproven kernel | `SKILLS/freebsd-admin/safe-kernel-deploy/SKILL.md` | New boot environment, one-shot activation, panic auto-reboot, verify what actually loaded |
 | DNS and hostnames | `SKILLS/platform/cloudflare/cloudflare-platform/dns-records.md` | Dual-stack A + AAAA, both verified; proxied only for HTTP |
 | Writing or reviewing non-trivial code | `SKILLS/quality/code-craft/SKILL.md` | GoF structure, TAOCP rigor, named patterns, known complexity |
+| Implementing an algorithm in a specific language | `SKILLS/quality/language-idioms/SKILL.md` | C, Java, Python, TypeScript, Go, x86-64/arm64 asm traps |
+| Testing an algorithm, parser, or lookup table | `SKILLS/testing/oracle-and-property-tests/SKILL.md` | Slow reference as oracle, seeded random and exhaustive sweeps, properties, fuzzing, growth-ratio checks |
 | Reviewing an interface | `SKILLS/quality/human-interface-review/SKILL.md` | Second-opinion review; prioritised concrete changes; keep the author's voice |
 
 ---
@@ -249,6 +251,8 @@ These rules override all other considerations. An agent that only auto-loads thi
 - [ ] Kernel modules are never loaded on the host; kernel-level testing runs in an isolated bhyve VM.
 - [ ] LICENSE file and source headers are BSD 3-Clause (Copyright REVYTECH, Inc.), not MIT.
 - [ ] Non-trivial code was written and reviewed against the code-craft checklist: seams named, complexity known, invariants and boundary cases handled.
+- [ ] Functions that loop over input, choose a data structure, or sit on a hot path carry a `Time:` / `Space:` header, checked against the technique map (`SKILLS/quality/code-craft/SKILL.md`).
+- [ ] Algorithm, parser and lookup changes have an oracle test that meets the checklist in `SKILLS/testing/oracle-and-property-tests/SKILL.md`.
 - [ ] Services listen on IPv4 **and** IPv6; every published hostname has both an `A` and an `AAAA` record and both were observed to answer.
 - [ ] Artifacts were built from committed source, carry no internal hostname, address, or home-directory path, and were verified as **installed** on a clean machine - not just as built. Nothing was published that had not booted or run. The previous version is preserved.
 - [ ] An unproven kernel, module, or world was deployed only into a new boot environment activated for one boot, with panic auto-reboot armed on the candidate; the identity of what actually loaded was verified before any result was trusted.
@@ -337,6 +341,7 @@ Do not send CloudBSD application guidelines to FreeBSD upstream.
 | Artifact release | Committed source, neutral stamp, verify installed, boot every media type | What ships is what was tested |
 | Address families | Dual-stack: both A and AAAA, both verified | IPv6 is not optional |
 | Code structure | GoF principles plus TAOCP rigor, patterns named | Code that survives change |
+| Algorithm choice | Technique map; complexity header where it matters; slow version kept as oracle | Known shapes get known bounds; faster code is proven against the obvious code |
 | Repository scope | General law here; machines and credentials in a private operations repository | One fact, one home; two copies eventually disagree |
 
 ---
