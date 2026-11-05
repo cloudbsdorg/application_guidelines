@@ -20,6 +20,13 @@ Do not write production code before a failing test exists.
 
 For **existing code that shipped without tests**: missing tests are a **defect**. You MUST still add tests. Characterization / post-facto tests are allowed: lock current behavior with tests before changing it, then apply red-green for the change. Shipping or modifying untested application code without adding tests is a violation.
 
+When a few examples cannot cover the input space (an algorithm, a parser, a
+lookup table, anything with a large domain), the red test compares the code
+with a **slow reference implementation**, the oracle. How to write it, and
+what counts as its red, is in `SKILLS/testing/oracle-and-property-tests/SKILL.md`.
+Those oracle and growth-ratio sweeps are allowed to be slower than the "Fast"
+rule below; run them in their own job.
+
 ### Scope of Unit Tests
 - **Isolated**: Unit tests should test a single unit of work (e.g., a function or a method) in isolation.
 - **Fast**: Unit tests must be fast to encourage frequent execution during development.
@@ -49,6 +56,8 @@ For **existing code that shipped without tests**: missing tests are a **defect**
 - **Python**: `pytest` is the preferred choice for its power and simplicity.
 - **Java**: Use JUnit for testing. Consider Mockito for mocking.
 - **TypeScript**: `Jest` is a popular choice for unit testing.
+- **Oracle, property-based and fuzz testing**: the per-language tool table is
+  in `SKILLS/testing/oracle-and-property-tests/SKILL.md`.
 
 ## 4. Continuous Integration (CI)
 
