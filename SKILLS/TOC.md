@@ -18,7 +18,7 @@ If you cannot browse a filesystem, every path below resolves as:
 https://raw.githubusercontent.com/cloudbsdorg/application_guidelines/main/SKILLS/<path>/SKILL.md
 ```
 
-There are **53 skills**.
+There are **54 skills**.
 
 ---
 
@@ -62,6 +62,7 @@ There are **53 skills**.
 | `review`, `code review`, `check my work`, `lgtm`, `approve` | `workflow/review/SKILL.md` | Review code for correctness, security, and FreeBSD/CloudBSD conventions |
 | `risk`, `risk register`, `700 document`, `threat` | `security/risk-assessor/SKILL.md` | Create and maintain a project risk register in the CloudBSD format |
 | `scope`, `challenge plan`, `plan review`, `is this right`, `too big`, `effort estimate` | `planning/plan-ceo-review/SKILL.md` | Challenge the scope of a plan before anything gets built - is this the right problem, is it too big, is it too small, what would be cut |
+| `secure coding`, `CWE`, `path traversal`, `command injection`, `integer overflow`, `out-of-bounds read`, `archive extraction`, `secrets in logs`, `SQL injection`, `SSRF`, `deserialization`, `format string`, `temporary file`, `random token`, `timing attack`, `Capsicum`, `pledge`, `unveil` | `security/secure-coding/SKILL.md` | Code-level defences against the bug classes that turn untrusted input into a vulnerability, with the safe pattern and the trap in C, Java, Python, TypeScript and Go, and the FreeBSD and OpenBSD hardening APIs we adopt |
 | `security audit`, `vulnerability`, `OWASP`, `STRIDE`, `threat model`, `pen test` | `security/security-audit/SKILL.md` | Audit code or a design for vulnerabilities using OWASP Top 10 and STRIDE |
 | `security document`, `access control`, `data protection`, `1.1-1.6` | `security/security-document-generator/SKILL.md` | Produce the CloudBSD security document series - threat model, access control, data protection, and the rest of the 1.1-1.6 set |
 | `service`, `sysrc`, `rc.conf`, `enable at boot`, `reload`, `SIGHUP` | `freebsd-admin/service-manager/SKILL.md` | Operate FreeBSD services with service(8), sysrc, and rc.conf, including the SIGHUP validate-then-reload contract |
@@ -224,6 +225,7 @@ Risk, audit, and the security document series.
 | Skill | Path | Use it when |
 |---|---|---|
 | **risk-assessor** | `security/risk-assessor/SKILL.md` | Use when writing the 700-series risk document, during a risk review, or when a design decision introduces a risk that must be recorded and tracked. |
+| **secure-coding** | `security/secure-coding/SKILL.md` | Code-level defences against the bug classes that turn untrusted input into a vulnerability, with the safe pattern and the trap in C, Java, Python, TypeScript and Go, and the FreeBSD and OpenBSD hardening APIs we adopt. Use while writing or reviewing code that parses input, builds paths or commands, allocates from a size it was given, extracts archives, compares secrets, logs, handles credentials, runs SQL, fetches URLs, deserializes, creates temporary files or generates tokens. |
 | **security-audit** | `security/security-audit/SKILL.md` | Use when asked for a security audit or threat model, before shipping anything that handles authentication, secrets, or untrusted input, and when reviewing code that crosses a trust boundary. |
 | **security-document-generator** | `security/security-document-generator/SKILL.md` | Use when a project needs its security documentation created or brought up to the standard. |
 
