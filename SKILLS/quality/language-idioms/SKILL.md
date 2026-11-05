@@ -169,3 +169,4 @@ should cover.
 
 - [code-craft](../code-craft/SKILL.md) - the technique map these traps apply to
 - [oracle-and-property-tests](../../testing/oracle-and-property-tests/SKILL.md) - turn each trap into a test case
+- [secure-coding](../../security/secure-coding/SKILL.md) - bug classes from untrusted input (paths, commands, sizes, archives, secrets)

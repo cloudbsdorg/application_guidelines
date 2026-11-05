@@ -215,6 +215,7 @@ These rules override all other considerations. An agent that only auto-loads thi
 | Writing or reviewing non-trivial code | `SKILLS/quality/code-craft/SKILL.md` | GoF structure, TAOCP rigor, named patterns, known complexity |
 | Implementing an algorithm in a specific language | `SKILLS/quality/language-idioms/SKILL.md` | C, Java, Python, TypeScript, Go, x86-64/arm64 asm traps |
 | Testing an algorithm, parser, or lookup table | `SKILLS/testing/oracle-and-property-tests/SKILL.md` | Slow reference as oracle, seeded random and exhaustive sweeps, properties, fuzzing, growth-ratio checks |
+| Code that handles untrusted input of any kind: parsing, paths, commands, sizes, archives, SQL, URLs, deserialization, logs, secrets or tokens | `SKILLS/security/secure-coding/SKILL.md` | Bug classes with CWE links, the safe pattern and the trap per language; FreeBSD and OpenBSD hardening APIs |
 | Reviewing an interface | `SKILLS/quality/human-interface-review/SKILL.md` | Second-opinion review; prioritised concrete changes; keep the author's voice |
 
 ---
@@ -253,6 +254,7 @@ These rules override all other considerations. An agent that only auto-loads thi
 - [ ] Non-trivial code was written and reviewed against the code-craft checklist: seams named, complexity known, invariants and boundary cases handled.
 - [ ] Functions that loop over input, choose a data structure, or sit on a hot path carry a `Time:` / `Space:` header, checked against the technique map (`SKILLS/quality/code-craft/SKILL.md`).
 - [ ] Algorithm, parser and lookup changes have an oracle test that meets the checklist in `SKILLS/testing/oracle-and-property-tests/SKILL.md`.
+- [ ] Code that handles untrusted input of any kind meets the checklist in `SKILLS/security/secure-coding/SKILL.md`.
 - [ ] Services listen on IPv4 **and** IPv6; every published hostname has both an `A` and an `AAAA` record and both were observed to answer.
 - [ ] Artifacts were built from committed source, carry no internal hostname, address, or home-directory path, and were verified as **installed** on a clean machine - not just as built. Nothing was published that had not booted or run. The previous version is preserved.
 - [ ] An unproven kernel, module, or world was deployed only into a new boot environment activated for one boot, with panic auto-reboot armed on the candidate; the identity of what actually loaded was verified before any result was trusted.

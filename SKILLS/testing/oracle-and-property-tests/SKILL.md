@@ -152,6 +152,19 @@ assert t2 / t1 < 8        # linear allows about 4; quadratic gives about 16
 - **Assembly:** the C reference is the specification. Test every input class
   that touches a flag, a carry or a sign extension, in particular 0, all ones,
   the high bit set, and the high bit clear.
+- **Sanitizers and resource limits:** AddressSanitizer reserves terabytes of
+  virtual address space at start-up, so it aborts under `RLIMIT_AS`
+  (`ulimit -v`) on both FreeBSD and Linux. `RLIMIT_DATA` is no fix either. On
+  Linux since 4.7 it aborts ASan too. On FreeBSD ASan runs under it, but there
+  `RLIMIT_DATA` counts only the break segment, not mmap, so it caps neither
+  the plain build's malloc (jemalloc uses mmap) nor ASan's allocator. Measured
+  2026-11-05 on FreeBSD 16-CURRENT and Linux 7.0. Test memory limits on the
+  plain build with `RLIMIT_AS`, and run the sanitized build under the time
+  limit only. A memory cap on a sanitized build needs `rctl` on FreeBSD
+  (boot tunable `kern.racct.enable=1`) or a cgroup on Linux. A sanitizer
+  report is its own failure class; never count it as a wrong answer. A
+  sanitizer that could not start is a third outcome ("unavailable"), not a
+  clean run.
 - **Kernel code:** factor the pure part (table lookup, bit math, the walker
   over a page-table image) out of the part that touches hardware. Only then can
   it be oracle-tested in userland.
