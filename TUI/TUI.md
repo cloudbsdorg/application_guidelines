@@ -65,14 +65,15 @@ an unauthenticated web page.
 - Pair with `doctor`: the console should surface doctor findings (human form) and not hide JSON evidence.
 - See `Configuration-Files/CONFIGURATION.md` (`doctor`, recovery, resource headroom).
 
-## 6. Extra UI refinement with agy (LAW)
+## 6. Extra UI refinement through a gateway model (LAW)
 
-When Mark has granted access to Google Antigravity (`agy` CLI, Gemini), typically via **agy-ui-mcp** (`ui_implement` / `ui_review`), consult it for extra polish on **any user interface** — including this TUI (Bubble Tea, ratatui, ncurses, operator recovery console) and every other surface. Examples include web, TUI, desktop, mobile web, operator console, and a future GUI; those examples are not a closed list. Screenshot, iterate, keep evidence.
+**Never use agy (Antigravity CLI) for anything: not as a review voice, not as a fallback, not as a coding agent (owner order, repeated many times; restated 2026-11-10 2:51 AM CT).** The ordered chain is: a gateway model at `https://llm.cloudbsd.org/v1` (for example `dgx/minimax` or `dgx/default`); if that model or the gateway is unavailable, another live gateway model; then Ollama Cloud; then free models through the `opencode-free-model-shim`. Never agy.
 
-- **When access exists:** consult agy for UI polish. Screenshot, iterate, store evidence with the change.
-- **When agy is not connected yet:** do not block shipping a working UI.
-- **Scope:** agy must not touch backend, APIs, or business logic. View layer only (widgets, layout, chrome). TUI view code is in scope; Go/Rust/C services, APIs, and domain logic are not.
-- **Not a substitute:** Keyboard-first behavior, help (`?`), SIGWINCH, and evidence remain required. agy is extra refinement, not a replacement for tests or evidence.
+Consult that independent interface review for extra polish on **any user interface** — including this TUI (Bubble Tea, ratatui, ncurses, operator recovery console) and every other surface. Examples include web, TUI, desktop, mobile web, operator console, and a future GUI; those examples are not a closed list. Screenshot, iterate, keep evidence.
+
+- **How:** run the review through the ordered chain above. A panel that counted agy as a member must be rebuilt without it, not reported as degraded because agy failed.
+- **Scope:** the reviewer must not touch backend, APIs, or business logic. View layer only (widgets, layout, chrome). TUI view code is in scope; Go/Rust/C services, APIs, and domain logic are not.
+- **Not a substitute:** Keyboard-first behavior, help (`?`), SIGWINCH, and evidence remain required. The model review is extra refinement, not a replacement for tests or evidence.
 - **Theme family:** CloudBSD/REVYTECH. Do not invent a competing palette.
 
-This is the same single law as in `AGENTS.md`, `Web-User-Interfaces/WEBUI.md`, and `Desktop/DESKTOP.md`.
+This is the same single law as in `AGENTS.md` rule 28, `Web-User-Interfaces/WEBUI.md`, and `Desktop/DESKTOP.md`.

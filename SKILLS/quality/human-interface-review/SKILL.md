@@ -3,12 +3,14 @@ name: human-interface-review
 description: >-
   Get a second opinion on anything a person looks at and uses - a web page, a
   TUI, a desktop window, navigation, user-facing copy, visual design - before
-  shipping it. Use when a deliverable is an interface rather than internals,
-  and pair it with code-craft, which covers the code behind the interface.
+  shipping it. Run the review through a gateway model, never agy. Use when a
+  deliverable is an interface rather than internals, and pair it with
+  code-craft, which covers the code behind the interface.
 keywords:
   - UI review
   - design review
-  - agy
+  - gateway model
+  - agy (banned)
   - polish
   - copy review
   - accessibility review
@@ -16,10 +18,19 @@ keywords:
 
 # Human-interface review
 
-CloudBSD law (`AGENTS.md`, "agy for extra UI refinement") requires consulting
-the `agy` reviewer for extra polish on **any** user interface, whenever access
-to it has been granted. This skill is how to do that well; the rule itself
-lives in `AGENTS.md` and is not restated here.
+CloudBSD law (`AGENTS.md` rule 28, "Interface review through a gateway model
+(all UIs), never agy") requires an independent interface review for extra
+polish on **any** user interface. **Never use agy (Antigravity CLI) for
+anything: not as a review voice, not as a fallback, not as a coding agent
+(owner order, repeated many times; restated 2026-11-10 2:51 AM CT).** This
+skill is how to do that well; the rule itself lives in `AGENTS.md`.
+
+The ordered chain is: a gateway model at `https://llm.cloudbsd.org/v1` (for
+example `dgx/minimax` or `dgx/default`); if that model or the gateway is
+unavailable, another live gateway model; then Ollama Cloud; then free models
+through the `opencode-free-model-shim`. Never agy. A panel that counted agy as
+a member must be rebuilt without it, not reported as degraded because agy
+failed.
 
 ## When to invoke
 
@@ -35,18 +46,22 @@ Not for backend, kernel, or CLI-internals work, and not for a one-line tweak.
 
 ## How to consult
 
-Single-shot print mode, with the effort turned up:
+Prefer a gateway model, for example:
 
 ```sh
-agy -p "<self-contained prompt>" --effort high
+review-opencode --model dgx/minimax
 ```
+
+or the commit-review gate's interface voice. If that model or the gateway is
+unavailable, try another live gateway model, then Ollama Cloud, then free
+models through the `opencode-free-model-shim`. Never invoke `agy`.
 
 Three things decide whether the answer is useful:
 
 - **Make the prompt self-contained.** Inline the page's structure, its content,
   and the design context, and tell the reviewer *not* to read files or use
-  tools. It is agentic; left alone it will go exploring and time out. A long
-  prompt belongs in a file: `agy -p "$(cat prompt.txt)"`.
+  tools. A long prompt belongs in a file passed to the reviewer, not in argv
+  of a banned CLI.
 - **Ask for a short, prioritised list of concrete changes**, not general
   praise. "What are the five things most worth fixing, in order" beats "what do
   you think".
@@ -64,12 +79,13 @@ and keep the before and after as evidence.
 
 This is extra refinement, not a substitute for evidence. Playwright coverage,
 asserted visible text, and the theme tokens are still required where they
-apply, and a working interface does not get blocked because the reviewer is
-unavailable. It reviews the view layer only - never backend, APIs, or business
-logic.
+apply, and a working interface does not get blocked because every allowed
+reviewer is unavailable; record that unavailability. It reviews the view
+layer only - never backend, APIs, or business logic.
 
 ## Related
 
 - [code-craft](../code-craft/SKILL.md) - the same discipline for the code behind the interface
 - [ui-ux-analyzer](../../analysis/ui-ux-analyzer/SKILL.md) - specifying an interface before building it
 - `Web-User-Interfaces/WEBUI.md`, `TUI/TUI.md`, `Desktop/DESKTOP.md` - the interface law itself
+- `AGENTS.md` rule 28 - the law this skill carries out
