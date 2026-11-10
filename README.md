@@ -36,7 +36,7 @@ Guidelines for building interfaces that follow the CloudBSD aesthetic and usabil
 - [**Text-based User Interfaces (TUI)**](TUI/TUI.md)
   - Design and implementation of modern, responsive console-based applications.
 - [**Desktop and native UI**](Desktop/DESKTOP.md)
-  - Short note for GTK/Qt/native GUIs; same agy polish law as all UIs.
+  - Short note for GTK/Qt/native GUIs; same gateway interface-review law as all UIs (never agy).
 - [**Web-User-Interfaces (Web UI)**](Web-User-Interfaces/WEBUI.md)
   - Guidelines for modern, secure, and accessible web-based frontends. Login at `/`; username or email; show/hide; remember username; factory first-login wizard; REVYTECH product brand.
 - [**Markdown viewer and editor**](Web-User-Interfaces/MARKDOWN.md)
